@@ -42,10 +42,20 @@ public class Login {
                             JOptionPane.showMessageDialog(null, "Username or Password is incorrect",
                                     "Incorrect Login Info", JOptionPane.ERROR_MESSAGE);
                         } else {
+
+
+                            // This is where you access the Customer Options
                             String[] info = line.split(";");
                             JOptionPane.showMessageDialog(null, "Welcome " + info[2],
                                     "Welcome!", JOptionPane.INFORMATION_MESSAGE);
+                            User user2 = getUser(line);
+                            frame.dispose();
+                            CustomerOptions.options(user2);
+
+
+
                         }
+
                     } catch (IOException error) {
                         error.printStackTrace();
                         JOptionPane.showMessageDialog(null, "There was an error",
@@ -117,9 +127,9 @@ public class Login {
                         JOptionPane.showMessageDialog(null, "Welcome " + name,
                                 "Welcome!", JOptionPane.INFORMATION_MESSAGE);
                         if (user instanceof Customer) {
-                            // TODO Guides to the Customer menu
+                            CustomerOptions.options(user);
                         } else {
-                            // TODO Guides to the Seller menu
+                            SellerOptions.options(user);
                         }
                     });
                     panel2.add(createAccount2);
@@ -213,6 +223,36 @@ public class Login {
             line = br.readLine();
         }
         return toReturn;
+
+    }
+
+
+    public static User getUser(String info) throws IOException {
+        String[] contents = info.split(";");
+        ArrayList<Product> products = new ArrayList<>();
+        String user = "Customer";
+
+        String fileName = contents[2] + "'s File.txt";
+        ArrayList<String> lines = getTextInfo(new File(fileName));
+
+        for (String productInfo : lines) {
+            if (!productInfo.contains("Name:") && !productInfo.contains("User:") && productInfo.contains("User: Seller")) {
+                products.add(getProduct(productInfo));
+            } else if (productInfo.contains("User: Seller")) {
+                user = "Seller";
+            }
+        }
+
+
+        ShoppingCart shoppingCart = new ShoppingCart(products);
+
+        if (user.equals("Customer")) {
+            return new Customer(contents[2], contents[0], contents[1], shoppingCart.getCartItems());
+        } else {
+            return new Seller(contents[2], contents[0], contents[1]);
+        }
+
+
 
     }
 
