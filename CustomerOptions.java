@@ -18,7 +18,7 @@ public class CustomerOptions {
 
         panel.setLayout(null);
 
-        JLabel userLabel = new JLabel(user.getCustomerName() + " FUCK YOU");
+        JLabel userLabel = new JLabel("Welcome " + user.getCustomerName());
         userLabel.setBounds(10, 20, 200, 25);
         panel.add(userLabel);
         frame.add(panel);
