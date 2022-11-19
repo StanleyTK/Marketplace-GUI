@@ -1,4 +1,2 @@
 
-johndoe;testing;John Doe
-
-ariqsucks123;testing;Ariq
+stanley;stanley;Stanley
