@@ -32,10 +32,25 @@ public class Login {
         loginButton.setBounds(10, 80, 80, 25);
         loginButton.addActionListener(e -> {
 
-                    //TODO implement the login function and the txt file here
+
                     String user = userText.getText();
+                    // Ignore the getText getting crossed out, it still works
                     String password = passwordText.getText();
-                    System.out.println(user + ", " + password);
+                    try {
+                        String line = verifyLogin(user, password);
+                        if (line == null) {
+                            JOptionPane.showMessageDialog(null, "Username or Password is incorrect",
+                                    "Incorrect Login Info", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            String[] info = line.split(";");
+                            JOptionPane.showMessageDialog(null, "Welcome " + info[2],
+                                    "Welcome!", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    } catch (IOException error) {
+                        error.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "There was an error",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
         );
         panel.add(loginButton);
@@ -82,15 +97,36 @@ public class Login {
                     nameLabel.setBounds(10, 120, 80, 25);
                     panel2.add(nameLabel);
 
-                    JPasswordField nameText = new JPasswordField();
+                    JTextField nameText = new JTextField();
                     nameText.setBounds(100, 120, 165, 25);
                     panel2.add(nameText);
 
+                    JButton createAccount2 = new JButton("Create New Account");
+                    createAccount2.setBounds(100, 150, 150, 25);
+                    createAccount2.addActionListener(ev -> {
+                        String username = userText2.getText();
+                        // Ignore the getText getting crossed out, it still works
+                        String password = passwordText2.getText();
+                        String name = nameText.getText();
+                        String option = (String) cb.getSelectedItem();
+                        System.out.println(option);
+                        assert option != null;
+                        User user = createAccount(username, password, name, option);
+                        JOptionPane.showMessageDialog(null, "You have created a new " + option + " account!",
+                                "Welcome!", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Welcome " + name,
+                                "Welcome!", JOptionPane.INFORMATION_MESSAGE);
+                        if (user instanceof Customer) {
+                            // TODO Guides to the Customer menu
+                        } else {
+                            // TODO Guides to the Seller menu
+                        }
+                    });
+                    panel2.add(createAccount2);
                     frame.add(panel2);
                     frame.setVisible(true);
 
-                }
-        );
+                });
         panel.add(createAccount);
         JLabel success = new JLabel("");
         success.setBounds(10, 110, 300, 25);
@@ -102,7 +138,9 @@ public class Login {
 
     }
 
-    public static String verifyLogin(String username, String password) {
+
+    // Checks the login information, and checks if the info matches the login
+    public static String verifyLogin(String username, String password) throws IOException {
         ArrayList<String> lines = getTextInfo(new File("login.txt"));
         for (String line : lines) {
             String[] contents = line.split(";");
@@ -111,12 +149,47 @@ public class Login {
             }
         }
         return null;
-
     }
 
+    // Creates a new account based on the information given on the create account page
+    public static User createAccount(String username, String password, String name, String option) {
+        try {
 
-    public static boolean createAccount() {
-        return false;
+            PrintWriter pw = new PrintWriter(new FileOutputStream("login.txt", true));
+            pw.println("");
+            pw.println(username + ";" + password + ";" + name);
+            pw.close();
+
+            File f = new File(name + "'s File.txt");
+            pw = new PrintWriter(new FileOutputStream(f, true));
+            pw.println(("Name: " + name));
+            pw.println("User: " + option);
+            pw.close();
+
+            // Sellers have access to all Customer information
+            if (option.equals("Customer")) {
+                f = new File("Customers.txt");
+                pw = new PrintWriter(new FileOutputStream(f, false));
+                if (f.createNewFile()) {
+                    ArrayList<String> lines = getTextInfo(f);
+                    for (String x : lines) {
+                        pw.println(x);
+                    }
+                }
+
+                pw.println(name);
+                pw.close();
+                return new Customer(name, username, password);
+
+            } else {
+                return new Seller(name, username, password);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
 
@@ -130,21 +203,14 @@ public class Login {
 
 
     // Easier implementation to access a txt file
-    public static ArrayList<String> getTextInfo(File f) {
+    public static ArrayList<String> getTextInfo(File f) throws IOException {
         ArrayList<String> toReturn = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(f));
-            String line = br.readLine();
-            while (line != null) {
-                toReturn.add(line);
-                line = br.readLine();
-            }
 
-            return toReturn;
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "There was an error",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        String line = br.readLine();
+        while (line != null) {
+            toReturn.add(line);
+            line = br.readLine();
         }
         return toReturn;
 

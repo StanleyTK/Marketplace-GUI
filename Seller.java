@@ -5,18 +5,7 @@ public class Seller extends User {
 
     public Seller(String customerName, String username, String password) {
         super(customerName, username, password);
-        File f = new File("Customers.txt");
-        String line;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(f));
-            while ((line = br.readLine()) != null) { //iterates through lines of files and adds them to string
-                customerNames.add(line);
-            }
 
-
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
     }
     public void setProducts(ArrayList<Product> products) throws IOException {
         for (Product product : products) {
