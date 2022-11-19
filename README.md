@@ -7,11 +7,6 @@ To run the program, simply navigate to the GUI class and run it.
 Authors: Stanley, Richard, Vid, (Michael??)
 
 
-11/19 - Stanley's edit
-Created the GUI for login and create account. 
-Set some starter code so it's easier for us
-Now need to navigate to the Seller menu and Customer menu, start coding from there
-
 
 ## Assignment:
 
