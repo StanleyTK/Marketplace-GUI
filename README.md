@@ -1,3 +1,10 @@
-Hello,
+# Marketplace GUI
 
-This is the Marketplace for CS 180, Project 5.
+
+Hello, this is the Project 5, Option 3!!
+To run the program, simply navigate to the GUI class and run it.
+
+Authors: Stanley, Richard, Vid, (Michael??)
+
+
+## TODO STUFF
