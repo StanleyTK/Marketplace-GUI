@@ -1,2 +1,3 @@
-# Marketplace-GUI
-Purdue CS 180. Project 5
+Hello,
+
+This is the Marketplace for CS 180, Project 5.
