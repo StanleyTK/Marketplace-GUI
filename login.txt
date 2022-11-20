@@ -1,4 +1,4 @@
+username;password;John Doe
+stanley;stanley;stanley
 
-stanley;stanley;Stanley
-
-richard;richard;RICH
+stanleykim;stanley;Stan
