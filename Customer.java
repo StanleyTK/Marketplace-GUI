@@ -21,8 +21,6 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "shoppingCart=" + shoppingCart +
-                '}';
+        return String.format("Customer;%s;%s;%s;%s", getCustomerName(), getUsername(), getPassword(), shoppingCart);
     }
 }

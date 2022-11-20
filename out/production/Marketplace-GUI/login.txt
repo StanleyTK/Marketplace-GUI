@@ -1,2 +1,2 @@
-
-stanley;stanley;Stanley
+username;password;John Doe
+stanley;stanley;stanley

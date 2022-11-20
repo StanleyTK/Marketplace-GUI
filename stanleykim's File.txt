@@ -1,2 +1,2 @@
-Name: stanley
+Name: Stan
 User: Customer
