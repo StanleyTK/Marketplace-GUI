@@ -22,6 +22,8 @@ public class SearchServer {
 
     public static void main(String[] args) {
         boolean createNewAccount = false;
+
+
         try {
             ServerSocket serverSocket = new ServerSocket(1234);
             System.out.println("Waiting for the client to connect...");
@@ -32,6 +34,8 @@ public class SearchServer {
             PrintWriter writer = new
                     PrintWriter(socket.getOutputStream());
             String line;
+
+            // Receives the Login Credentials, and returns the information
             while (true) {
                 line = br.readLine();
                 if (line.contains("Break out of the loop")) {
@@ -70,9 +74,63 @@ public class SearchServer {
             }
 
 
-        } catch(IOException e) {
+
+            // Options for Customer or Seller
+
+            String option = br.readLine();
+
+            if (option.equals("Customer")) {
+                // Customer Options
+                while (true) {
+                    option = br.readLine();
+
+                    if (option.equals("1")) {
+                        // TODO View MarketPlace
+
+                    } else if (option.equals("2")) {
+                        //TODO Search for Products
+                    } else if (option.equals("3")) {
+                        //TODO Sort by price least to greatest
+                    } else if (option.equals("4")) {
+                        //TODO Sort by quantity least to greatest
+                    } else if (option.equals("5")) {
+                        //TODO View Dashboard
+                    } else if (option.equals("6")) {
+                        //TODO Export File with Purchase History
+                    } else if (option.equals("7")) {
+                        //TODO Add Items to the Shopping Cart
+                    } else if (option.equals("8")) {
+                        //TODO Remove Items to the Shopping Cart
+                    } else if (option.equals("9")) {
+                        //TODO Purchase All Items in the Shopping Cart
+                    } else if (option.equals("10")) {
+                        //TODO View Shopping Cart
+                    } else if (option.equals("11")) {
+                        //TODO More Information
+                    } else {
+                        break;
+                    }
+                }
+
+
+            } else {
+                // Seller Options
+                option = br.readLine();
+                if (option.equals("1")) {
+
+                } else if (option.equals("2")) {
+
+                }
+
+            }
+
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
 
 
 

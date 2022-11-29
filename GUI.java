@@ -13,11 +13,6 @@ public class GUI {
 
 
     public static void main(String[] args) {
-        int WIDTH = 490;
-        int HEIGHT = 500;
-        Font header = new Font("Calibri", Font.BOLD, 25);
-        Font font = new Font("Calibri", Font.PLAIN, 18);
-
         try {
             Socket socket = new Socket("localhost", 1234);
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));

@@ -47,18 +47,15 @@ public class Login {
                             JOptionPane.showMessageDialog(null, line,
                                     "Incorrect Login!", JOptionPane.ERROR_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, info[1],
-                                    "Welcome!", JOptionPane.INFORMATION_MESSAGE);
                             User user = convertUser(line);
                             System.out.println(user.toString());
 
                             if (user instanceof Customer) {
-                                System.out.println("asdfasf");
                                 frame.dispose();
                                 writer.println("Break out of the loop");
                                 writer.flush();
                                 System.out.println("Did it work here?");
-                                CustomerOptions.options(user);
+                                CustomerOptions.options(user, br, writer);
                             }
                             if (user instanceof Seller) {
                                 frame.dispose();
@@ -155,7 +152,7 @@ public class Login {
                         user = new Seller(name, username, password);
                     }
                     if (user instanceof Customer) {
-                        CustomerOptions.options(user);
+                        CustomerOptions.options(user, br, writer);
                     } else {
                         SellerOptions.options(user);
                     }

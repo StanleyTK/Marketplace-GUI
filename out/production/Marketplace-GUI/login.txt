@@ -1,2 +1,6 @@
 username;password;John Doe
 stanley;stanley;stanley
+
+stanleykim;stanley;Stan
+
+stanleykim902;stanley;Stan
