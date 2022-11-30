@@ -181,7 +181,7 @@ public class Login {
                 ArrayList<String> fileInfo = getTextInfo(new File(info[2] + "'s File.txt")); //ArrayList of customer info
                 ArrayList<Product> products = new ArrayList<>();
                 for (String x : fileInfo) { //for each string in customers info
-                    if (x.contains(";")) {
+                    if (x.contains(",")) {
                         products.add(new Product(x));
                     }
 

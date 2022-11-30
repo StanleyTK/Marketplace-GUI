@@ -24,7 +24,7 @@ public class CustomerOptions {
         writer.flush();
 
         //View the MarketPlace
-        JButton option1 = new JButton("Option 1");
+        JButton option1 = new JButton("View the Marketplace");
         option1.setBounds(10, 50, 100, 100);
         option1.addActionListener(ev -> {
             writer.println("1");
@@ -54,7 +54,7 @@ public class CustomerOptions {
         });
         panel.add(option2);
 
-        JButton option3 = new JButton("Option 3");
+        JButton option3 = new JButton("Sort by Price");
         option3.setBounds(250, 50, 100, 100);
         option3.addActionListener(ev -> {
             writer.println("3");
@@ -64,7 +64,7 @@ public class CustomerOptions {
         });
         panel.add(option3);
 
-        JButton option4 = new JButton("Option 4");
+        JButton option4 = new JButton("Sort by Quantity");
         option4.setBounds(370, 50, 100, 100);
         option4.addActionListener(ev -> {
             writer.println("4");
@@ -124,7 +124,7 @@ public class CustomerOptions {
         });
         panel.add(option9);
 
-        JButton option10 = new JButton("Option 10");
+        JButton option10 = new JButton("View your Shopping Cart");
         option10.setBounds(130, 290, 100, 100);
         option10.addActionListener(ev -> {
             writer.println("10");
