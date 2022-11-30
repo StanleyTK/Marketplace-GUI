@@ -24,6 +24,7 @@ public class SearchServer {
         boolean createNewAccount = false;
         BufferedReader br;
         PrintWriter writer;
+        User user = null;
 
         try {
             ServerSocket serverSocket = new ServerSocket(1234);
@@ -55,7 +56,7 @@ public class SearchServer {
                     String[] info = line.split(";");
                     JOptionPane.showMessageDialog(null, "Welcome " + info[2],
                             "Welcome!", JOptionPane.INFORMATION_MESSAGE);
-                    User user = getUser(line);
+                    user = getUser(line);
                     writer.println(user.toString());
                     writer.flush();
                 }
@@ -64,7 +65,7 @@ public class SearchServer {
             if (createNewAccount) {
                 line = br.readLine();
                 String[] info = line.split(";");
-                User user = createAccount(info[0], info[1], info[2], info[3]);
+                user = createAccount(info[0], info[1], info[2], info[3]);
                 if (user == null) {
                     line = "ERROR";
                 }
@@ -109,7 +110,9 @@ public class SearchServer {
                     } else if (option.equals("9")) {
                         //TODO Purchase All Items in the Shopping Cart
                     } else if (option.equals("10")) {
-                        //TODO View Shopping Cart
+                        String toReturn = viewShoppingCart((Customer) user);
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("11")) {
                         //TODO More Information
                     } else {
@@ -303,6 +306,36 @@ public class SearchServer {
         return null;
     }
 
+    // Customer Option 10
+    private static String viewShoppingCart(Customer user) {
+        String returnable = "";
+
+        try {
+            ArrayList<Product> lines = new ArrayList<>();
+            BufferedReader bfr = new BufferedReader(new FileReader(user.getCustomerName() + "'s File.txt"));
+            String line = bfr.readLine();
+
+            while (line != null) {
+                if (!line.contains("User: ") && !line.contains("Name: ")) {
+                    Product product = SearchServer.getProduct(line);
+                    returnable = returnable + "Product: %s, Description: %s, " +
+                            "Price: %.2f, Quantity: %d\n";
+                    String.format(returnable, product.getName(),
+                            product.getDescription(), product.getPrice(), product.getQuantity());
+                    lines.add(product);
+                }
+                line = bfr.readLine();
+            }
+            if (lines.size() == 0) {
+                return "You do not have any products in your shopping cart.";
+            }
+
+        } catch (IOException e) {
+            return "There are no stores/products found. Sorry";
+        }
+        return returnable;
+    }
+
 
     // Checks the login information, and checks if the info matches the login
     public static String verifyLogin(String username, String password) throws IOException {
@@ -380,6 +413,7 @@ public class SearchServer {
         return toReturn;
 
     }
+
 
 
     public static User getUser(String info) throws IOException {

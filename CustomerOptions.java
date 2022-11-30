@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -11,9 +12,9 @@ public class CustomerOptions {
     public static void options(User user, BufferedReader br, PrintWriter writer) {
 
         JFrame frame = new JFrame("Customer Options");
-        frame.setSize(490, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
+        frame.setSize(490, 500);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         panel.setLayout(null);
 
         JLabel userLabel = new JLabel("Welcome " + user.getCustomerName());
@@ -21,7 +22,6 @@ public class CustomerOptions {
         panel.add(userLabel);
         writer.println("Customer");
         writer.flush();
-
 
         //View the MarketPlace
         JButton option1 = new JButton("Option 1");
