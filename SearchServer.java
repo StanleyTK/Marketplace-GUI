@@ -91,9 +91,13 @@ public class SearchServer {
                     } else if (option.equals("2")) {
                         //TODO Search for Products
                     } else if (option.equals("3")) {
-                        //TODO Sort by price least to greatest
+                        String toReturn = sortPrice();
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("4")) {
-                        //TODO Sort by quantity least to greatest
+                        String toReturn = sortQuantity();
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("5")) {
                         //TODO View Dashboard
                     } else if (option.equals("6")) {
@@ -137,6 +141,8 @@ public class SearchServer {
 
     }
 
+
+
     // Customer Option 1 and Seller Option 1
     private static String viewMarket() {
         String line;
@@ -174,6 +180,127 @@ public class SearchServer {
         }
         System.out.println(printer);
         return printer;
+    }
+
+
+    // Customer Option 3
+    private static String sortPrice() {
+        String line;
+        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<String> storeNames = new ArrayList<>();
+        try {
+            File markets = new File("Markets.txt");
+            BufferedReader bfr = new BufferedReader(new FileReader(markets));
+            while ((line = bfr.readLine()) != null) { //Takes name of all markets in file
+                storeNames.add(line); //adds to arraylist
+            }
+
+            bfr.close();
+            for (String storeName : storeNames) {
+                File f = new File(storeName + " Market.txt");
+                BufferedReader productReader = new BufferedReader(new FileReader(f));
+                line = productReader.readLine();
+                while (line != null) { //iterates through lines of files and adds them to string
+                    if (!line.contains("------")) {
+                        products.add(getProduct(line));
+                        line = productReader.readLine();
+                    } else {
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("There are no stores/products found. Sorry");
+
+        }
+
+        Product[] temp = new Product[products.size()];
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = products.get(i);
+        }
+
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = temp.length - 1; j > i; j--) {
+                if (temp[i].getPrice() > temp[j].getPrice()) {
+
+                    double tempI = temp[i].getPrice();
+                    double tempJ = temp[j].getPrice();
+                    if (tempI > tempJ) {
+                        Product yolo = temp[i];
+                        temp[i] = temp[j];
+                        temp[j] = yolo;
+                    }
+
+                }
+
+            }
+        }
+        String toReturn = "";
+        for (Product product : temp) {
+            toReturn = toReturn + product.toString() + ";";
+
+        }
+        return toReturn;
+    }
+
+
+    // Customer Option 4
+
+    private static String sortQuantity() {
+        String line;
+        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<String> storeNames = new ArrayList<>();
+        try {
+            File markets = new File("Markets.txt");
+            BufferedReader bfr = new BufferedReader(new FileReader(markets));
+            while ((line = bfr.readLine()) != null) { //Takes name of all markets in file
+                storeNames.add(line); //adds to arraylist
+            }
+
+            bfr.close();
+            for (String storeName : storeNames) {
+                File f = new File(storeName + " Market.txt");
+                BufferedReader productReader = new BufferedReader(new FileReader(f));
+                line = productReader.readLine();
+                while (line != null) { //iterates through lines of files and adds them to string
+                    if (!line.contains("----")) {
+                        products.add(getProduct(line));
+                        line = productReader.readLine();
+                    } else {
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("There are no stores/products found. Sorry");
+        }
+
+        Product[] temp = new Product[products.size()];
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = products.get(i);
+        }
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = temp.length - 1; j > i; j--) {
+                if (temp[i].getQuantity() > temp[j].getQuantity()) {
+
+                    int tempI = temp[i].getQuantity();
+                    int tempJ = temp[j].getQuantity();
+                    if (tempI > tempJ) {
+                        Product yolo = temp[i];
+                        temp[i] = temp[j];
+                        temp[j] = yolo;
+                    }
+
+                }
+
+            }
+        }
+        for (int i = 0; i < temp.length; i++) {
+            System.out.printf((i + 1) + ". Product: %s, Store: %s, Description: %s, " +
+                            "Price: %.2f, Quantity: %d\n", temp[i].getName(), temp[i].getStore(),
+                    temp[i].getDescription(), temp[i].getPrice(), temp[i].getQuantity());
+        }
+        return null;
     }
 
 
