@@ -22,16 +22,17 @@ public class SearchServer {
 
     public static void main(String[] args) {
         boolean createNewAccount = false;
-
+        BufferedReader br;
+        PrintWriter writer;
 
         try {
             ServerSocket serverSocket = new ServerSocket(1234);
             System.out.println("Waiting for the client to connect...");
             Socket socket = serverSocket.accept();
             System.out.println("Client connected!");
-            BufferedReader br = new BufferedReader(
+            br = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer = new
+            writer = new
                     PrintWriter(socket.getOutputStream());
             String line;
 
@@ -85,8 +86,7 @@ public class SearchServer {
                     option = br.readLine();
 
                     if (option.equals("1")) {
-                        // TODO View MarketPlace
-
+                        //TODO View MarketPlace
                     } else if (option.equals("2")) {
                         //TODO Search for Products
                     } else if (option.equals("3")) {
