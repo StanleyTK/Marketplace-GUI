@@ -41,14 +41,12 @@ public class Login {
                     writer.flush();
                     try {
                         String line = br.readLine();
-                        System.out.println(line);
                         String[] info = line.split(";");
                         if (line.equals("Incorrect Username or Password, try again")) {
                             JOptionPane.showMessageDialog(null, line,
                                     "Incorrect Login!", JOptionPane.ERROR_MESSAGE);
                         } else {
                             User user = convertUser(line);
-                            System.out.println(user.toString());
 
                             if (user instanceof Customer) {
                                 frame.dispose();
@@ -177,7 +175,6 @@ public class Login {
 
     public static User convertUser(String line) {
         String[] info = line.split(";");
-        System.out.println(Arrays.toString(info));
         try {
             if (info[0].contains("Customer")) {
                 ArrayList<String> fileInfo = getTextInfo(new File(info[2] + "'s File.txt"));

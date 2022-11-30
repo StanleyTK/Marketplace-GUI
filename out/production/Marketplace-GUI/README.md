@@ -4,7 +4,7 @@
 Hello, this is the Project 5, Option 3!!
 To run the program, simply navigate to the GUI class and run it.
 
-Authors: Stanley, Richard, Vid, (Michael??)
+Authors: Stanley, Richard, Vid, Michael
 
 ## Updates with the code
 
@@ -12,6 +12,10 @@ Authors: Stanley, Richard, Vid, (Michael??)
 Created the GUI for login and create account. 
 Set some starter code so it's easier for us
 Now need to navigate to the Seller menu and Customer menu, start coding from there
+
+11/29 - Stanley
+Finished up the Server functions for login and create account, set up Customer Options
+TODO finish all functionalities for Customer Options ASAP
 
 
 ## Project 5 Handout:

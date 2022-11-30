@@ -29,6 +29,17 @@ public class CustomerOptions {
         option1.addActionListener(ev -> {
             writer.println("1");
             writer.flush();
+            try {
+                String line = br.readLine();
+                System.out.println(line);
+//                String [] split = line.split(";;");
+//                for (String s : split) {
+//                    System.out.println(s);
+//                }
+            } catch (IOException e) {
+                System.out.println("There was an error");
+            }
+
 
         });
         panel.add(option1);
@@ -38,7 +49,6 @@ public class CustomerOptions {
         option2.addActionListener(ev -> {
             writer.println("2");
             writer.flush();
-
 
 
         });
@@ -51,7 +61,6 @@ public class CustomerOptions {
             writer.flush();
 
 
-
         });
         panel.add(option3);
 
@@ -60,7 +69,6 @@ public class CustomerOptions {
         option4.addActionListener(ev -> {
             writer.println("4");
             writer.flush();
-
 
 
         });
@@ -73,7 +81,6 @@ public class CustomerOptions {
             writer.flush();
 
 
-
         });
         panel.add(option5);
 
@@ -82,7 +89,6 @@ public class CustomerOptions {
         option6.addActionListener(ev -> {
             writer.println("6");
             writer.flush();
-
 
 
         });
@@ -95,7 +101,6 @@ public class CustomerOptions {
             writer.flush();
 
 
-
         });
         panel.add(option7);
 
@@ -104,7 +109,6 @@ public class CustomerOptions {
         option8.addActionListener(ev -> {
             writer.println("8");
             writer.flush();
-
 
 
         });
@@ -117,7 +121,6 @@ public class CustomerOptions {
             writer.flush();
 
 
-
         });
         panel.add(option9);
 
@@ -126,7 +129,6 @@ public class CustomerOptions {
         option10.addActionListener(ev -> {
             writer.println("10");
             writer.flush();
-
 
 
         });
@@ -139,7 +141,6 @@ public class CustomerOptions {
             writer.flush();
 
 
-
         });
         panel.add(option10);
         panel.add(option11);
@@ -150,18 +151,16 @@ public class CustomerOptions {
             writer.println("12");
             writer.flush();
             // Exit the program
-            if (JOptionPane.showConfirmDialog(frame,"Confirm if you Want to Exit","Confirmation",
-                    JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+            if (JOptionPane.showConfirmDialog(frame, "Confirm if you Want to Exit", "Confirmation",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                 System.exit(0);
         });
         panel.add(option12);
 
 
-
-
-
         frame.add(panel);
         frame.setVisible(true);
+
 
     }
 

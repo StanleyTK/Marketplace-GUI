@@ -53,7 +53,6 @@ public class SearchServer {
                     writer.flush();
                 } else {
                     String[] info = line.split(";");
-                    System.out.println(line);
                     JOptionPane.showMessageDialog(null, "Welcome " + info[2],
                             "Welcome!", JOptionPane.INFORMATION_MESSAGE);
                     User user = getUser(line);
@@ -86,7 +85,9 @@ public class SearchServer {
                     option = br.readLine();
 
                     if (option.equals("1")) {
-                        //TODO View MarketPlace
+                        String toReturn = viewMarket();
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("2")) {
                         //TODO Search for Products
                     } else if (option.equals("3")) {
@@ -136,6 +137,44 @@ public class SearchServer {
 
     }
 
+    // Customer Option 1 and Seller Option 1
+    private static String viewMarket() {
+        String line;
+        String printer = "";
+        ArrayList<Product> products = new ArrayList<>();
+
+        ArrayList<String> storeNames = new ArrayList<>();
+        try {
+            File markets = new File("Markets.txt");
+            BufferedReader bfr = new BufferedReader(new FileReader(markets));
+            while ((line = bfr.readLine()) != null) { //Takes name of all markets in file
+                storeNames.add(line); //adds to arraylist
+            }
+
+            bfr.close();
+            for (String storeName : storeNames) {
+                File f = new File(storeName + " Market.txt");
+                BufferedReader productReader = new BufferedReader(new FileReader(f));
+                line = productReader.readLine();
+                while (line != null) { //iterates through lines of files and adds them to string
+                    if (!line.contains("-----")) {
+                        products.add(getProduct(line));
+                        line = productReader.readLine();
+                    } else {
+                        break;
+                    }
+                }
+
+            }
+        } catch (IOException e) {
+            System.out.println("There are no stores/products found. Sorry");
+        }
+        for (int i = 0; i < products.size(); i++) {
+            printer = printer + products.get(i).toString() + ";";
+        }
+        System.out.println(printer);
+        return printer;
+    }
 
 
     // Checks the login information, and checks if the info matches the login
