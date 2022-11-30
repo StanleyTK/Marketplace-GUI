@@ -1,4 +1,3 @@
 Name: Stan
 User: Customer
-phone,Walmart,you use it,11,999.99
-computer,Target,you use it,13,99.99
+computer;Target;you use it;6;99.99

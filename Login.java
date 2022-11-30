@@ -174,13 +174,14 @@ public class Login {
     }
 
     public static User convertUser(String line) {
-        String[] info = line.split(";");
+        String[] info = line.split(";"); //makes line into array of information about user
+
         try {
-            if (info[0].contains("Customer")) {
-                ArrayList<String> fileInfo = getTextInfo(new File(info[2] + "'s File.txt"));
+            if (info[0].contains("Customer")) { //Customer information
+                ArrayList<String> fileInfo = getTextInfo(new File(info[2] + "'s File.txt")); //ArrayList of customer info
                 ArrayList<Product> products = new ArrayList<>();
-                for (String x : fileInfo) {
-                    if (!x.contains("User: ") && !x.contains("Name: ")) {
+                for (String x : fileInfo) { //for each string in customers info
+                    if (x.contains(";")) {
                         products.add(new Product(x));
                     }
 
