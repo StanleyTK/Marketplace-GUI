@@ -129,7 +129,11 @@ public class CustomerOptions {
         option10.addActionListener(ev -> {
             writer.println("10");
             writer.flush();
-
+            try {
+                System.out.println(br.readLine());
+            } catch (IOException e) {
+                System.out.println("There was an error");
+            }
 
         });
         panel.add(option10);

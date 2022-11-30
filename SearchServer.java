@@ -309,10 +309,9 @@ public class SearchServer {
     // Customer Option 10
     private static String viewShoppingCart(Customer user) {
         String returnable = "";
-
         try {
             ArrayList<Product> lines = new ArrayList<>();
-            BufferedReader bfr = new BufferedReader(new FileReader(user.getCustomerName() + "'s File.txt"));
+            BufferedReader bfr = new BufferedReader(new FileReader(user.getUsername() + "'s File.txt"));
             String line = bfr.readLine();
 
             while (line != null) {
