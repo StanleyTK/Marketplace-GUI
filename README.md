@@ -13,6 +13,10 @@ Created the GUI for login and create account.
 Set some starter code so it's easier for us
 Now need to navigate to the Seller menu and Customer menu, start coding from there
 
+11/29 - Stanley
+Finished up the Server functions for login and create account, set up Customer Options
+TODO finish all functionalities for Customer Options ASAP
+
 
 ## Project 5 Handout:
 
