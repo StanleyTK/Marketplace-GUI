@@ -240,6 +240,7 @@ public class SearchServer {
             toReturn = toReturn + product.toString() + ";";
 
         }
+        System.out.println(toReturn);
         return toReturn;
     }
 
@@ -295,12 +296,13 @@ public class SearchServer {
 
             }
         }
-        for (int i = 0; i < temp.length; i++) {
-            System.out.printf((i + 1) + ". Product: %s, Store: %s, Description: %s, " +
-                            "Price: %.2f, Quantity: %d\n", temp[i].getName(), temp[i].getStore(),
-                    temp[i].getDescription(), temp[i].getPrice(), temp[i].getQuantity());
+        String toReturn = "";
+        for (Product product : temp) {
+            toReturn = toReturn + product.toString() + ";";
+
         }
-        return null;
+        System.out.println(toReturn);
+        return toReturn;
     }
 
 
