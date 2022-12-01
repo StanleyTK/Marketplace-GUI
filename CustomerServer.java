@@ -166,20 +166,19 @@ public class CustomerServer {
     }
 
     // Customer Option 10
-    static String viewShoppingCart(Customer user) {
-        String returnable = "";
+    public static String viewShoppingCart(Customer user) {
+        String toReturn = "";
+        String format = "%s,%s,%s,%d,%.2f;";
         try {
             ArrayList<Product> lines = new ArrayList<>();
             BufferedReader bfr = new BufferedReader(new FileReader(user.getUsername() + "'s File.txt"));
             String line = bfr.readLine();
 
             while (line != null) {
-                if (!line.contains("User: ") && !line.contains("Name: ")) {
+                if (line.contains(",")) {
                     Product product = SearchServer.getProduct(line);
-                    returnable = returnable + "Product: %s, Description: %s, " +
-                            "Price: %.2f, Quantity: %d\n";
-                    String.format(returnable, product.getName(),
-                            product.getDescription(), product.getPrice(), product.getQuantity());
+                    toReturn = String.format(format, product.getName(), product.getStore() ,
+                            product.getDescription(), product.getQuantity(), product.getPrice()) + toReturn;
                     lines.add(product);
                 }
                 line = bfr.readLine();
@@ -191,7 +190,8 @@ public class CustomerServer {
         } catch (IOException e) {
             return "There are no stores/products found. Sorry";
         }
-        return returnable;
+        toReturn = toReturn.substring(0 , toReturn.length() - 1);
+        return toReturn;
     }
 
 }

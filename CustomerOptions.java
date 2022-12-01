@@ -42,6 +42,7 @@ public class CustomerOptions {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            System.out.println(printer);
             showTable(printer);
         });
         panel.add(option1);
@@ -145,11 +146,13 @@ public class CustomerOptions {
         option10.addActionListener(ev -> {
             writer.println("10");
             writer.flush();
+            String DATA = "";
             try {
-                System.out.println(br.readLine());
+                DATA = br.readLine();
             } catch (IOException e) {
                 System.out.println("There was an error");
             }
+            showTable(DATA);
 
         });
         panel.add(option10);
