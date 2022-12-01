@@ -144,7 +144,14 @@ public class SearchServer {
                         writer.println(toReturn);
                         writer.flush();
                     } else if (option.equals("2")) {
-                        //TODO Edit Product from Store
+                        option = br.readLine();
+                        if (option.equals("Create")) {
+
+                        } else if (option.equals("Delete")) {
+
+                        } else {
+
+                        }
                     } else if (option.equals("3")) {
                         //TODO View Sales by Store
 

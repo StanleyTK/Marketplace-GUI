@@ -14,7 +14,7 @@ public class Login {
             e.printStackTrace();
         }
         JFrame frame = new JFrame("Welcome to Marketplace!");
-        frame.setSize(350, 200);
+        frame.setSize(350, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
         panel.setLayout(null);
@@ -39,40 +39,45 @@ public class Login {
         loginButton.setBounds(10, 80, 80, 25);
         loginButton.addActionListener(e -> {
 
-
-                    String username = userText.getText();
-                    // Ignore the getText getting crossed out, it still works
-                    String password = passwordText.getText();
-                    writer.println(username + ";" + password);
-                    writer.flush();
-                    try {
-                        String line = br.readLine();
-                        if (line.equals("Incorrect Username or Password, try again")) {
-                            JOptionPane.showMessageDialog(null, line,
-                                    "Incorrect Login!", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            User user = convertUser(line);
-
-                            if (user instanceof Customer) {
-                                frame.dispose();
-                                writer.println("Break out of the loop");
-                                writer.flush();
-                                CustomerOptions.options(user, br, writer);
-                            }
-                            if (user instanceof Seller) {
-                                frame.dispose();
-                                writer.println("Break out of the loop");
-                                writer.flush();
-                                SellerOptions.options(user, br, writer);
-                            }
-                        }
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Error, invalid line",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-
-
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                         IllegalAccessException ev) {
+                    ev.printStackTrace();
                 }
+                String username = userText.getText();
+                // Ignore the getText getting crossed out, it still works
+                String password = passwordText.getText();
+                writer.println(username + ";" + password);
+                writer.flush();
+                try {
+                    String line = br.readLine();
+                    if (line.equals("Incorrect Username or Password, try again")) {
+                        JOptionPane.showMessageDialog(null, line,
+                                "Incorrect Login!", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        User user = convertUser(line);
+
+                        if (user instanceof Customer) {
+                            frame.dispose();
+                            writer.println("Break out of the loop");
+                            writer.flush();
+                            CustomerOptions.options(user, br, writer);
+                        }
+                        if (user instanceof Seller) {
+                            frame.dispose();
+                            writer.println("Break out of the loop");
+                            writer.flush();
+                            SellerOptions.options(user, br, writer);
+                        }
+                    }
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Error, invalid line",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+
+            }
         );
         panel.add(loginButton);
         JButton createAccount = new JButton("Create Account");
@@ -133,6 +138,12 @@ public class Login {
             JButton createAccount2 = new JButton("Create New Account");
             createAccount2.setBounds(100, 150, 150, 25);
             createAccount2.addActionListener(ev -> {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                         IllegalAccessException eve) {
+                    eve.printStackTrace();
+                }
                 String username = userText2.getText();
                 // Ignore the getText getting crossed out, it still works
                 String password = passwordText2.getText();

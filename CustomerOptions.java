@@ -130,7 +130,7 @@ public class CustomerOptions {
         });
         panel.add(option8);
 
-        JButton option9 = new JButton("9. Purchase Items in Shopping Cart");
+        JButton option9 = new JButton("9. Purchase Shopping Cart");
         option9.setBounds(10, 250, 230, 40);
         option9.addActionListener(ev -> {
             writer.println("9");
