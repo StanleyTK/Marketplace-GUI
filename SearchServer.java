@@ -104,7 +104,16 @@ public class SearchServer {
                     } else if (option.equals("5")) {
                         //TODO View Dashboard
                     } else if (option.equals("6")) {
-                        //TODO Export File with Purchase History
+                        //export purchase history
+                        try {
+                            String toReturn = CustomerServer.exportPurchaseHistory((Customer) user);
+                            writer.println(toReturn);
+                            writer.println("finished");
+                            writer.flush();
+                        } catch (IOException e) {
+                            writer.println("Failed");
+                            writer.flush();
+                        }
                     } else if (option.equals("7")) {
                         //TODO Add Items to the Shopping Cart
                     } else if (option.equals("8")) {

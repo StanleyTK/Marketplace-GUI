@@ -128,8 +128,37 @@ public class CustomerOptions {
         option6.addActionListener(ev -> {
             writer.println("6");
             writer.flush();
-
-
+            String fileLocation = (String) JOptionPane.showInputDialog(null,
+                    "What is the file name you wish to export your purchase history to?",
+                    "Marketplace - Export Purchase History", JOptionPane.QUESTION_MESSAGE);
+            try {
+                // TODO get stuff from the server, then write to a file here
+                String line = br.readLine();
+                if (line.equals("Failed")) {
+                    JOptionPane.showMessageDialog(null, "There was an error accessing the market place.",
+                            "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    try {
+                        String printer = "";
+                        while (!line.equals("finished")) {
+                            printer += line;
+                            line = br.readLine();
+                        }
+                        File f = new File(fileLocation);
+                        PrintWriter pw = new PrintWriter(new FileOutputStream(f));
+                        pw.println(printer);
+                        JOptionPane.showMessageDialog(null,
+                                "Your purchase history was successfully exported to " + fileLocation,
+                                "Marketplace - Export Purchase History", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, "The provided file location is invalid.",
+                                "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "There was an error: " + e.getMessage(),
+                        "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
+            }
         });
         panel.add(option6);
 
