@@ -1,4 +1,4 @@
 Name: Stan
 User: Customer
-computer,Target,you use it,6,99.99
-apple,Walmart,you eat it,100,0.99
+keyboard,Walmart,you type on it,19,49.99
+phone,Walmart,you use it,11,999.99

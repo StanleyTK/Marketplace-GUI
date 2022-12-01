@@ -112,7 +112,7 @@ public class SearchServer {
                     } else if (option.equals("9")) {
                         //TODO Purchase All Items in the Shopping Cart
                     } else if (option.equals("10")) {
-                        String toReturn = CustomerServer.viewShoppingCart((Customer) user);
+                        String toReturn = CustomerServer.shoppingCartArray((Customer) user);
                         writer.println(toReturn);
                         writer.flush();
                     } else if (option.equals("11")) {

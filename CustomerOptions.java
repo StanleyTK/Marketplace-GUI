@@ -1,5 +1,7 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -42,7 +44,6 @@ public class CustomerOptions {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(printer);
             showTable(printer);
         });
         panel.add(option1);
@@ -124,10 +125,51 @@ public class CustomerOptions {
         JButton option8 = new JButton("8. Remove Item to Shopping Cart");
         option8.setBounds(260, 200, 230, 40);
         option8.addActionListener(ev -> {
-            writer.println("8");
-            writer.flush();
+                    writer.println("8");
+                    writer.flush();
+
+            JFrame removalFrame = new JFrame("Cart Removal");
+            removalFrame.setVisible(true);
+            removalFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            removalFrame.setSize(300, 200);
+            removalFrame.setLocation(430, 100);
+
+            JPanel pane = new JPanel();
+            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+
+            removalFrame.add(pane);
+
+            JLabel lbl = new JLabel("Select a product to remove from your shopping cart.");
+            lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+            pane.add(lbl);
+
+            JComboBox cb = null;
+
+            try {
+                cb = new JComboBox(CustomerServer.removeShoppingCart(user));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
+            cb.setMaximumSize(cb.getPreferredSize()); // added code
+            cb.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            pane.add(cb);
+
+            JButton btn = new JButton("REMOVE");
+            btn.setAlignmentX(Component.CENTER_ALIGNMENT); //added code
+            pane.add(btn);
+            JComboBox finalCb = cb;
+            btn.addActionListener(actionEvent -> {
+                removalFrame.dispose();
+                String removal = (String) finalCb.getSelectedItem();
+                try {
+                    removeShoppingCart(removal, user);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         });
         panel.add(option8);
 
@@ -196,7 +238,6 @@ public class CustomerOptions {
             jFrame.setVisible(true);
 
 
-
         });
         panel.add(option11);
 
@@ -259,7 +300,67 @@ public class CustomerOptions {
                 tableColumn.setPreferredWidth(100);
             }
         }
+
+        table.setDefaultEditor(Object.class, null); // Makes it so cells are not editable.
+
         jFrame.setVisible(true); // Creates a JFrame to view the table
+    }
+
+    public static void removeShoppingCart(String removal, User user) throws IOException {
+        File inputFile = new File(user.getUsername() + "'s File.txt");
+        File tempFile = new File("myTempFile.txt");
+
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+        String currentLine;
+
+        while((currentLine = reader.readLine()) != null) {
+            // trim newline when comparing with lineToRemove
+            String trimmedLine = currentLine.trim();
+            if(trimmedLine.equals(removal)) continue;
+            writer.write(currentLine + System.getProperty("line.separator"));
+        }
+        writer.close();
+        reader.close();
+        boolean successful = tempFile.renameTo(inputFile);
+        copyFileToFile(tempFile , inputFile);
+    }
+
+    public static void copyFileToFile(final File src, final File dest) throws IOException
+    {
+        copyInputStreamToFile(new FileInputStream(src), dest);
+        dest.setLastModified(src.lastModified());
+    }
+
+    public static void copyInputStreamToFile(final InputStream in, final File dest)
+            throws IOException
+    {
+        copyInputStreamToOutputStream(in, new FileOutputStream(dest));
+    }
+
+
+    public static void copyInputStreamToOutputStream(final InputStream in,
+                                                     final OutputStream out) throws IOException
+    {
+        try
+        {
+            try
+            {
+                final byte[] buffer = new byte[1024];
+                int n;
+                while ((n = in.read(buffer)) != -1)
+                    out.write(buffer, 0, n);
+            }
+            finally
+            {
+                out.close();
+            }
+        }
+        finally
+        {
+            in.close();
+        }
     }
 
 }

@@ -165,8 +165,25 @@ public class CustomerServer {
         return toReturn;
     }
 
+    // Customer Option 8
+    public static Object[] removeShoppingCart(User user) throws IOException {
+        File f = new File(user.getUsername() + "'s File.txt");
+        BufferedReader bfr = new BufferedReader(new FileReader(f));
+        String line;
+        ArrayList<String> shoppingCartArrayList = new ArrayList<String>();
+
+        while ((line = bfr.readLine()) != null) {
+            if (line.contains(",")) {
+                shoppingCartArrayList.add(line);
+            }
+        }
+        bfr.close();
+        Object[] toReturn = (shoppingCartArrayList.toArray());
+        return toReturn;
+    }
+
     // Customer Option 10
-    public static String viewShoppingCart(Customer user) {
+    public static String shoppingCartArray(Customer user) {
         String toReturn = "";
         String format = "%s,%s,%s,%d,%.2f;";
         try {
@@ -184,8 +201,10 @@ public class CustomerServer {
                 line = bfr.readLine();
             }
             if (lines.size() == 0) {
+                bfr.close();
                 return "You do not have any products in your shopping cart.";
             }
+            bfr.close();
 
         } catch (IOException e) {
             return "There are no stores/products found. Sorry";

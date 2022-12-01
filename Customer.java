@@ -19,6 +19,11 @@ public class Customer extends User {
         this.shoppingCart = shoppingCart;
     }
 
+    public void addItemToCart(Product product) {
+        String line = product.toString();
+        System.out.println();
+    }
+
     @Override
     public String toString() {
         return String.format("Customer;%s;%s;%s;%s", getCustomerName(), getUsername(), getPassword(), shoppingCart);
