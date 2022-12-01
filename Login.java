@@ -14,7 +14,7 @@ public class Login {
             e.printStackTrace();
         }
         JFrame frame = new JFrame("Welcome to Marketplace!");
-        frame.setSize(350, 350);
+        frame.setSize(350, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
         panel.setLayout(null);

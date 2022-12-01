@@ -36,44 +36,7 @@ public class SellerOptions {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String[] printerSplit = printer.split(";"); // Splits the list into an array of individual products
-            ArrayList<String[]> toReturnArrayList = new ArrayList<>();
-            for (String s : printerSplit) {
-                String[] printerSplitString = s.split(",");
-                toReturnArrayList.add(printerSplitString);
-            } // Adds the details of each product to the array list
-
-            String[][] toReturnSize = new String[toReturnArrayList.size()][5];
-            Object[][] rowArray = toReturnArrayList.toArray(toReturnSize); // Creates a 2D array for the product details
-            Object[] columnArray = {"Product Name", "Store Name", "Description", "Quantity Available", "Price"};
-
-            JTable table = new JTable(rowArray, columnArray); // Creates a table with the product list
-            JScrollPane scrollPane = new JScrollPane(table);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
-                     IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            final JFrame jFrame = new JFrame("Marketplace");
-            jFrame.setSize(1000, 500);
-            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            jFrame.getContentPane().add(scrollPane);
-            TableColumn tableColumn;
-            for (int i = 0; i < 5; i++) {
-                tableColumn = table.getColumnModel().getColumn(i);
-                if (i == 2) {
-                    tableColumn.setPreferredWidth(150);
-                } else if (i == 3) {
-                    tableColumn.setPreferredWidth(50);
-                } else {
-                    tableColumn.setPreferredWidth(100);
-                }
-            }
-            jFrame.setVisible(true); // Creates a JFrame to view the table
-
+            CustomerOptions.showTable(printer);
 
         });
         panel.add(option1);
@@ -163,19 +126,27 @@ public class SellerOptions {
         option10.addActionListener(ev -> {
             writer.println("10");
             writer.flush();
-            frame.getContentPane().removeAll();
-            frame.repaint();
-            JPanel panel2 = new JPanel();
-            panel2.setLayout(null);
-
-            String line;
+            String line = "";
             try {
                 line = br.readLine();
-
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("There was an error");
             }
+
+
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                     IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            final JFrame jFrame = new JFrame("More Information");
+            jFrame.setSize(400, 500);
+            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            jFrame.getContentPane();
             String[] lines = line.split(";");
+            JPanel panel2 = new JPanel();
+            panel2.setLayout(null);
 
             int x = 10;
             int y = 20;
@@ -185,18 +156,9 @@ public class SellerOptions {
                 panel2.add(label);
                 y += 40;
             }
+            jFrame.add(panel2);
+            jFrame.setVisible(true);
 
-
-            JButton back = new JButton("Go back to menu");
-            back.setBounds(300, 400, 200, 40);
-            option10.addActionListener(eve -> {
-                frame.getContentPane().removeAll();
-                frame.repaint();
-                options(user, br, writer);
-            });
-            panel2.add(back);
-            frame.add(panel2);
-            frame.setVisible(true);
 
 
 

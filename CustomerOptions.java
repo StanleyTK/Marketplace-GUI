@@ -42,44 +42,7 @@ public class CustomerOptions {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String[] printerSplit = printer.split(";"); // Splits the list into an array of individual products
-            ArrayList<String[]> toReturnArrayList = new ArrayList<>();
-            for (String s : printerSplit) {
-                String[] printerSplitString = s.split(",");
-                toReturnArrayList.add(printerSplitString);
-            } // Adds the details of each product to the array list
-
-            String[][] toReturnSize = new String[toReturnArrayList.size()][5];
-            Object[][] rowArray = toReturnArrayList.toArray(toReturnSize); // Creates a 2D array for the product details
-            Object[] columnArray = {"Product Name", "Store Name", "Description", "Quantity Available", "Price"};
-
-            JTable table = new JTable(rowArray, columnArray); // Creates a table with the product list
-
-            JScrollPane scrollPane = new JScrollPane(table);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
-                     IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            final JFrame jFrame = new JFrame("Marketplace");
-            jFrame.setSize(1000, 500);
-            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            jFrame.getContentPane().add(scrollPane);
-            TableColumn tableColumn;
-            for (int i = 0; i < 5; i++) {
-                tableColumn = table.getColumnModel().getColumn(i);
-                if (i == 2) {
-                    tableColumn.setPreferredWidth(150);
-                } else if (i == 3) {
-                    tableColumn.setPreferredWidth(50);
-                } else {
-                    tableColumn.setPreferredWidth(100);
-                }
-            }
-            jFrame.setVisible(true); // Creates a JFrame to view the table
+            showTable(printer);
         });
         panel.add(option1);
 
@@ -98,6 +61,13 @@ public class CustomerOptions {
         option3.addActionListener(ev -> {
             writer.println("3");
             writer.flush();
+            String DATA = "";
+            try {
+                DATA = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            showTable(DATA);
 
 
         });
@@ -108,6 +78,13 @@ public class CustomerOptions {
         option4.addActionListener(ev -> {
             writer.println("4");
             writer.flush();
+            String DATA = "";
+            try {
+                DATA = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            showTable(DATA);
 
 
         });
@@ -182,10 +159,42 @@ public class CustomerOptions {
         option11.addActionListener(ev -> {
             writer.println("11");
             writer.flush();
+            String line = "";
+            try {
+                line = br.readLine();
+            } catch (IOException e) {
+                System.out.println("There was an error");
+            }
+
+
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                     IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            final JFrame jFrame = new JFrame("More Information");
+            jFrame.setSize(400, 500);
+            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            jFrame.getContentPane();
+            String[] lines = line.split(";");
+            JPanel panel2 = new JPanel();
+            panel2.setLayout(null);
+
+            int x = 10;
+            int y = 20;
+            for (String a : lines) {
+                JLabel label = new JLabel(a);
+                label.setBounds(x, y, 400, 30);
+                panel2.add(label);
+                y += 40;
+            }
+            jFrame.add(panel2);
+            jFrame.setVisible(true);
+
 
 
         });
-        panel.add(option10);
         panel.add(option11);
 
         JButton option12 = new JButton("Exit");
@@ -207,6 +216,47 @@ public class CustomerOptions {
         frame.setVisible(true);
 
 
+    }
+
+    static void showTable(String printer) {
+        String[] printerSplit = printer.split(";"); // Splits the list into an array of individual products
+        ArrayList<String[]> toReturnArrayList = new ArrayList<>();
+        for (String s : printerSplit) {
+            String[] printerSplitString = s.split(",");
+            toReturnArrayList.add(printerSplitString);
+        } // Adds the details of each product to the array list
+
+        String[][] toReturnSize = new String[toReturnArrayList.size()][5];
+        Object[][] rowArray = toReturnArrayList.toArray(toReturnSize); // Creates a 2D array for the product details
+        Object[] columnArray = {"Product Name", "Store Name", "Description", "Quantity Available", "Price"};
+
+        JTable table = new JTable(rowArray, columnArray); // Creates a table with the product list
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                 IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        final JFrame jFrame = new JFrame("Marketplace");
+        jFrame.setSize(1000, 500);
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrame.getContentPane().add(scrollPane);
+        TableColumn tableColumn;
+        for (int i = 0; i < 5; i++) {
+            tableColumn = table.getColumnModel().getColumn(i);
+            if (i == 2) {
+                tableColumn.setPreferredWidth(150);
+            } else if (i == 3) {
+                tableColumn.setPreferredWidth(50);
+            } else {
+                tableColumn.setPreferredWidth(100);
+            }
+        }
+        jFrame.setVisible(true); // Creates a JFrame to view the table
     }
 
 }
