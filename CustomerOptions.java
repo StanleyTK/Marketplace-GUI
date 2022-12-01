@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -11,9 +12,9 @@ public class CustomerOptions {
     public static void options(User user, BufferedReader br, PrintWriter writer) {
 
         JFrame frame = new JFrame("Customer Options");
-        frame.setSize(490, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
+        frame.setSize(490, 500);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         panel.setLayout(null);
 
         JLabel userLabel = new JLabel("Welcome " + user.getCustomerName());
@@ -22,13 +23,23 @@ public class CustomerOptions {
         writer.println("Customer");
         writer.flush();
 
-
         //View the MarketPlace
-        JButton option1 = new JButton("Option 1");
+        JButton option1 = new JButton("View the Marketplace");
         option1.setBounds(10, 50, 100, 100);
         option1.addActionListener(ev -> {
             writer.println("1");
             writer.flush();
+            try {
+                String line = br.readLine();
+                System.out.println(line);
+//                String [] split = line.split(";;");
+//                for (String s : split) {
+//                    System.out.println(s);
+//                }
+            } catch (IOException e) {
+                System.out.println("There was an error");
+            }
+
 
         });
         panel.add(option1);
@@ -40,27 +51,24 @@ public class CustomerOptions {
             writer.flush();
 
 
-
         });
         panel.add(option2);
 
-        JButton option3 = new JButton("Option 3");
+        JButton option3 = new JButton("Sort by Price");
         option3.setBounds(250, 50, 100, 100);
         option3.addActionListener(ev -> {
             writer.println("3");
             writer.flush();
 
 
-
         });
         panel.add(option3);
 
-        JButton option4 = new JButton("Option 4");
+        JButton option4 = new JButton("Sort by Quantity");
         option4.setBounds(370, 50, 100, 100);
         option4.addActionListener(ev -> {
             writer.println("4");
             writer.flush();
-
 
 
         });
@@ -73,7 +81,6 @@ public class CustomerOptions {
             writer.flush();
 
 
-
         });
         panel.add(option5);
 
@@ -82,7 +89,6 @@ public class CustomerOptions {
         option6.addActionListener(ev -> {
             writer.println("6");
             writer.flush();
-
 
 
         });
@@ -95,7 +101,6 @@ public class CustomerOptions {
             writer.flush();
 
 
-
         });
         panel.add(option7);
 
@@ -104,7 +109,6 @@ public class CustomerOptions {
         option8.addActionListener(ev -> {
             writer.println("8");
             writer.flush();
-
 
 
         });
@@ -117,17 +121,19 @@ public class CustomerOptions {
             writer.flush();
 
 
-
         });
         panel.add(option9);
 
-        JButton option10 = new JButton("Option 10");
+        JButton option10 = new JButton("View your Shopping Cart");
         option10.setBounds(130, 290, 100, 100);
         option10.addActionListener(ev -> {
             writer.println("10");
             writer.flush();
-
-
+            try {
+                System.out.println(br.readLine());
+            } catch (IOException e) {
+                System.out.println("There was an error");
+            }
 
         });
         panel.add(option10);
@@ -137,7 +143,6 @@ public class CustomerOptions {
         option11.addActionListener(ev -> {
             writer.println("11");
             writer.flush();
-
 
 
         });
@@ -150,18 +155,16 @@ public class CustomerOptions {
             writer.println("12");
             writer.flush();
             // Exit the program
-            if (JOptionPane.showConfirmDialog(frame,"Confirm if you Want to Exit","Confirmation",
-                    JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+            if (JOptionPane.showConfirmDialog(frame, "Confirm if you Want to Exit", "Confirmation",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                 System.exit(0);
         });
         panel.add(option12);
 
 
-
-
-
         frame.add(panel);
         frame.setVisible(true);
+
 
     }
 

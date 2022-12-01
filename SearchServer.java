@@ -22,16 +22,18 @@ public class SearchServer {
 
     public static void main(String[] args) {
         boolean createNewAccount = false;
-
+        BufferedReader br;
+        PrintWriter writer;
+        User user = null;
 
         try {
             ServerSocket serverSocket = new ServerSocket(1234);
             System.out.println("Waiting for the client to connect...");
             Socket socket = serverSocket.accept();
             System.out.println("Client connected!");
-            BufferedReader br = new BufferedReader(
+            br = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer = new
+            writer = new
                     PrintWriter(socket.getOutputStream());
             String line;
 
@@ -52,10 +54,9 @@ public class SearchServer {
                     writer.flush();
                 } else {
                     String[] info = line.split(";");
-                    System.out.println(line);
                     JOptionPane.showMessageDialog(null, "Welcome " + info[2],
                             "Welcome!", JOptionPane.INFORMATION_MESSAGE);
-                    User user = getUser(line);
+                    user = getUser(line);
                     writer.println(user.toString());
                     writer.flush();
                 }
@@ -64,7 +65,7 @@ public class SearchServer {
             if (createNewAccount) {
                 line = br.readLine();
                 String[] info = line.split(";");
-                User user = createAccount(info[0], info[1], info[2], info[3]);
+                user = createAccount(info[0], info[1], info[2], info[3]);
                 if (user == null) {
                     line = "ERROR";
                 }
@@ -85,14 +86,19 @@ public class SearchServer {
                     option = br.readLine();
 
                     if (option.equals("1")) {
-                        // TODO View MarketPlace
-
+                        String toReturn = viewMarket();
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("2")) {
                         //TODO Search for Products
                     } else if (option.equals("3")) {
-                        //TODO Sort by price least to greatest
+                        String toReturn = sortPrice();
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("4")) {
-                        //TODO Sort by quantity least to greatest
+                        String toReturn = sortQuantity();
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("5")) {
                         //TODO View Dashboard
                     } else if (option.equals("6")) {
@@ -104,7 +110,9 @@ public class SearchServer {
                     } else if (option.equals("9")) {
                         //TODO Purchase All Items in the Shopping Cart
                     } else if (option.equals("10")) {
-                        //TODO View Shopping Cart
+                        String toReturn = viewShoppingCart((Customer) user);
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("11")) {
                         //TODO More Information
                     } else {
@@ -136,6 +144,197 @@ public class SearchServer {
 
     }
 
+
+
+    // Customer Option 1 and Seller Option 1
+    private static String viewMarket() {
+        String line;
+        String printer = "";
+        ArrayList<Product> products = new ArrayList<>();
+
+        ArrayList<String> storeNames = new ArrayList<>();
+        try {
+            File markets = new File("Markets.txt");
+            BufferedReader bfr = new BufferedReader(new FileReader(markets));
+            while ((line = bfr.readLine()) != null) { //Takes name of all markets in file
+                storeNames.add(line); //adds to arraylist
+            }
+
+            bfr.close();
+            for (String storeName : storeNames) {
+                File f = new File(storeName + " Market.txt");
+                BufferedReader productReader = new BufferedReader(new FileReader(f));
+                line = productReader.readLine();
+                while (line != null) { //iterates through lines of files and adds them to string
+                    if (!line.contains("-----")) {
+                        products.add(getProduct(line));
+                        line = productReader.readLine();
+                    } else {
+                        break;
+                    }
+                }
+
+            }
+        } catch (IOException e) {
+            System.out.println("There are no stores/products found. Sorry");
+        }
+        for (int i = 0; i < products.size(); i++) {
+            printer = printer + products.get(i).toString() + ";";
+        }
+        System.out.println(printer);
+        return printer;
+    }
+
+
+    // Customer Option 3
+    private static String sortPrice() {
+        String line;
+        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<String> storeNames = new ArrayList<>();
+        try {
+            File markets = new File("Markets.txt");
+            BufferedReader bfr = new BufferedReader(new FileReader(markets));
+            while ((line = bfr.readLine()) != null) { //Takes name of all markets in file
+                storeNames.add(line); //adds to arraylist
+            }
+
+            bfr.close();
+            for (String storeName : storeNames) {
+                File f = new File(storeName + " Market.txt");
+                BufferedReader productReader = new BufferedReader(new FileReader(f));
+                line = productReader.readLine();
+                while (line != null) { //iterates through lines of files and adds them to string
+                    if (!line.contains("------")) {
+                        products.add(getProduct(line));
+                        line = productReader.readLine();
+                    } else {
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("There are no stores/products found. Sorry");
+
+        }
+
+        Product[] temp = new Product[products.size()];
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = products.get(i);
+        }
+
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = temp.length - 1; j > i; j--) {
+                if (temp[i].getPrice() > temp[j].getPrice()) {
+
+                    double tempI = temp[i].getPrice();
+                    double tempJ = temp[j].getPrice();
+                    if (tempI > tempJ) {
+                        Product yolo = temp[i];
+                        temp[i] = temp[j];
+                        temp[j] = yolo;
+                    }
+
+                }
+
+            }
+        }
+        String toReturn = "";
+        for (Product product : temp) {
+            toReturn = toReturn + product.toString() + ";";
+
+        }
+        return toReturn;
+    }
+
+
+    // Customer Option 4
+
+    private static String sortQuantity() {
+        String line;
+        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<String> storeNames = new ArrayList<>();
+        try {
+            File markets = new File("Markets.txt");
+            BufferedReader bfr = new BufferedReader(new FileReader(markets));
+            while ((line = bfr.readLine()) != null) { //Takes name of all markets in file
+                storeNames.add(line); //adds to arraylist
+            }
+
+            bfr.close();
+            for (String storeName : storeNames) {
+                File f = new File(storeName + " Market.txt");
+                BufferedReader productReader = new BufferedReader(new FileReader(f));
+                line = productReader.readLine();
+                while (line != null) { //iterates through lines of files and adds them to string
+                    if (!line.contains("----")) {
+                        products.add(getProduct(line));
+                        line = productReader.readLine();
+                    } else {
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("There are no stores/products found. Sorry");
+        }
+
+        Product[] temp = new Product[products.size()];
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = products.get(i);
+        }
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = temp.length - 1; j > i; j--) {
+                if (temp[i].getQuantity() > temp[j].getQuantity()) {
+
+                    int tempI = temp[i].getQuantity();
+                    int tempJ = temp[j].getQuantity();
+                    if (tempI > tempJ) {
+                        Product yolo = temp[i];
+                        temp[i] = temp[j];
+                        temp[j] = yolo;
+                    }
+
+                }
+
+            }
+        }
+        for (int i = 0; i < temp.length; i++) {
+            System.out.printf((i + 1) + ". Product: %s, Store: %s, Description: %s, " +
+                            "Price: %.2f, Quantity: %d\n", temp[i].getName(), temp[i].getStore(),
+                    temp[i].getDescription(), temp[i].getPrice(), temp[i].getQuantity());
+        }
+        return null;
+    }
+
+    // Customer Option 10
+    private static String viewShoppingCart(Customer user) {
+        String toReturn = "";
+        final String setUp = "Product: %s, Description: %s, Price: %.2f, Quantity: %d\n";
+        try {
+            ArrayList<Product> lines = new ArrayList<>();
+            BufferedReader bfr = new BufferedReader(new FileReader(user.getUsername() + "'s File.txt"));
+            String line = bfr.readLine();
+
+            while (line != null) {
+                if (line.contains(",")) {
+                    Product product = SearchServer.getProduct(line);
+                    toReturn = String.format(setUp , product.getName() , product.getDescription() , product.getPrice()
+                            , product.getQuantity()) + toReturn;
+
+                    lines.add(product);
+                }
+                line = bfr.readLine();
+            }
+            if (lines.size() == 0) {
+                return "You do not have any products in your shopping cart.";
+            }
+
+        } catch (IOException e) {
+            return "There are no stores/products found. Sorry";
+        }
+        toReturn = toReturn.substring(0,toReturn.length() - 1); //Gets rid of last newline
+        return toReturn;
+    }
 
 
     // Checks the login information, and checks if the info matches the login
@@ -214,6 +413,7 @@ public class SearchServer {
         return toReturn;
 
     }
+
 
 
     public static User getUser(String info) throws IOException {
