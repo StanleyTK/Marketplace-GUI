@@ -14,7 +14,7 @@ public class Product {
     }
 
     public Product(String line) {
-        String[] info = line.split(";");
+        String[] info = line.split(",");
         this.name = info[0];
         this.store = info[1];
         this.description = info[2];
