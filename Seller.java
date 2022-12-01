@@ -31,8 +31,7 @@ public class Seller extends User {
 
     @Override
     public String toString() {
-        return "Seller{" +
-                "customerNames=" + customerNames +
-                '}';
+        return String.format("Seller;%s;%s;%s", getCustomerName(), getUsername(), getPassword());
+
     }
 }

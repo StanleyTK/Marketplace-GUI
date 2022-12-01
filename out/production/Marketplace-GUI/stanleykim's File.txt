@@ -1,3 +1,0 @@
-Name: Stan
-User: Customer
-computer,Target,you use it,1,99.99

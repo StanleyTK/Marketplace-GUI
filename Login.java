@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,11 +7,16 @@ import java.util.Arrays;
 
 public class Login {
     public static void login(BufferedReader br, PrintWriter writer) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                 IllegalAccessException e) {
+            e.printStackTrace();
+        }
         JFrame frame = new JFrame("Welcome to Marketplace!");
-        frame.setSize(350, 500);
+        frame.setSize(350, 350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
-
         panel.setLayout(null);
 
         JLabel userLabel = new JLabel("Username");
@@ -41,7 +47,6 @@ public class Login {
                     writer.flush();
                     try {
                         String line = br.readLine();
-                        String[] info = line.split(";");
                         if (line.equals("Incorrect Username or Password, try again")) {
                             JOptionPane.showMessageDialog(null, line,
                                     "Incorrect Login!", JOptionPane.ERROR_MESSAGE);
@@ -52,14 +57,13 @@ public class Login {
                                 frame.dispose();
                                 writer.println("Break out of the loop");
                                 writer.flush();
-                                System.out.println("Did it work here?");
                                 CustomerOptions.options(user, br, writer);
                             }
                             if (user instanceof Seller) {
                                 frame.dispose();
                                 writer.println("Break out of the loop");
                                 writer.flush();
-                                SellerOptions.options(user);
+                                SellerOptions.options(user, br, writer);
                             }
                         }
                     } catch (IOException ex) {
@@ -74,6 +78,12 @@ public class Login {
         JButton createAccount = new JButton("Create Account");
         createAccount.setBounds(100, 80, 150, 25);
         createAccount.addActionListener(e -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                     IllegalAccessException a) {
+                a.printStackTrace();
+            }
             writer.println("Creating a new account");
             writer.flush();
             frame.getContentPane().removeAll();
@@ -152,7 +162,7 @@ public class Login {
                     if (user instanceof Customer) {
                         CustomerOptions.options(user, br, writer);
                     } else {
-                        SellerOptions.options(user);
+                        SellerOptions.options(user, br, writer);
                     }
                 } else {
                     System.out.println("you scuk and you cant dot eh prject cuz ur stupdi");
@@ -175,7 +185,6 @@ public class Login {
 
     public static User convertUser(String line) {
         String[] info = line.split(";"); //makes line into array of information about user
-
         try {
             if (info[0].contains("Customer")) { //Customer information
                 ArrayList<String> fileInfo = getTextInfo(new File(info[2] + "'s File.txt")); //ArrayList of customer info
@@ -190,7 +199,6 @@ public class Login {
 
 
             } else if (info[0].contains("Seller")) {
-                ArrayList<String> fileInfo = getTextInfo(new File(info[1] + "'s File.txt"));
                 return new Seller(info[1], info[2], info[3]);
 
 
