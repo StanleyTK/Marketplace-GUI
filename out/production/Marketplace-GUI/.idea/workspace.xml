@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c8806991-01de-43e5-8eeb-4dcabbaebd3f" name="Changes" comment="Finished Option 3, 4, 11 for Customer Options&#10;&#10;Finished Option 1 and 10 for Seller Options">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CustomerOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/CustomerOptions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CustomerServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/CustomerServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SearchServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/SearchServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.txt" beforeDir="false" afterPath="$PROJECT_DIR$/login.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/.idea/Marketplace-GUI.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Customer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/CustomerOptions.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/CustomerOptions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/CustomerServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/CustomerServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Customers.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/Customers.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/GUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Login.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Market.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Markets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/Markets.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Product.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/RICH's File.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/SearchServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/SearchServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Seller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/SellerOptions.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/SellerOptions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/SellerServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/SellerServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/ShoppingCart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Target Market.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Walmart Market.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/login.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/stanleykim902's File.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/stanleykim902's File.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/username's File.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/vid123's File.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/SearchServer.java" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2HkH8PEH4mZ7yOEmFpFWbqbwMIF" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Stanley Kim/IdeaProjects/Marketplace-GUI"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c8806991-01de-43e5-8eeb-4dcabbaebd3f" name="Changes" comment="" />
+      <created>1668822000706</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668822000706</updated>
+    </task>
+    <task id="LOCAL-00001" summary="First commit, made few improvements to Project 4, worked on login function">
+      <created>1668839496892</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668839496892</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Implemented Create new account and login function on GUI, tested and works fine. Also made minor improvements from the code from project 4">
+      <created>1668841311124</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668841311124</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Set up for better organization for the meeting">
+      <created>1668842978524</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668842978524</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Set up for better organization for the meeting">
+      <created>1668901721999</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668901721999</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Set up for better organization for the meeting">
+      <created>1668901732969</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1668901732969</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Rewrote the Login and create new account page so that it works with network IO">
+      <created>1668984652861</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668984652861</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Rewrote the Login and create new account page so that it works with network IO">
+      <created>1668984663544</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1668984663544</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Customer Options Set up on both the GUI and the Server">
+      <created>1669743904741</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1669743904741</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Customer Options Set up on both the GUI and the Server">
+      <created>1669743917328</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1669743917328</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Customer Options Set up on both the GUI and the Server">
+      <created>1669743924572</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1669743924572</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Customer Options Set up on both the GUI and the Server">
+      <created>1669776784002</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1669776784002</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Customer Options Set up on both the GUI and the Server">
+      <created>1669779053762</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1669779053762</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Customer Options Set up on both the GUI and the Server">
+      <created>1669779640713</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1669779640713</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Customer Options Set up on both the GUI and the Server">
+      <created>1669780130205</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1669780130205</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Merged everyone's code">
+      <created>1669856114994</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1669856114994</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Merged everyone's code">
+      <created>1669856200406</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1669856200406</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Fixed Vid's Code">
+      <created>1669858264782</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1669858264782</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Finished Option 3, 4, 11 for Customer Options&#10;&#10;Finished Option 1 and 10 for Seller Options">
+      <created>1669861862207</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1669861862207</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Finished Option 3, 4, 11 for Customer Options&#10;&#10;Finished Option 1 and 10 for Seller Options">
+      <created>1669863559117</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1669863559117</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Finished Option 3, 4, 11 for Customer Options&#10;&#10;Finished Option 1 and 10 for Seller Options">
+      <created>1670004855996</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1670004855996</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First commit, made few improvements to Project 4, worked on login function" />
+    <MESSAGE value="Implemented Create new account and login function on GUI, tested and works fine. Also made minor improvements from the code from project 4" />
+    <MESSAGE value="Set up for better organization for the meeting" />
+    <MESSAGE value="Rewrote the Login and create new account page so that it works with network IO" />
+    <MESSAGE value="Customer Options Set up on both the GUI and the Server" />
+    <MESSAGE value="Merged everyone's code" />
+    <MESSAGE value="Fixed Vid's Code" />
+    <MESSAGE value="Finished Option 3, 4, 11 for Customer Options&#10;&#10;Finished Option 1 and 10 for Seller Options" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished Option 3, 4, 11 for Customer Options&#10;&#10;Finished Option 1 and 10 for Seller Options" />
+  </component>
+</project>
