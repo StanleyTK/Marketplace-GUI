@@ -118,6 +118,17 @@ public class CustomerOptions {
         option5.addActionListener(ev -> {
             writer.println("5");
             writer.flush();
+            String purchaseHistory = "";
+            try {
+                String line = br.readLine();
+                while (!line.equals("")) {
+                    purchaseHistory = purchaseHistory + line + "\n";
+                    line = br.readLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            showDashboard(purchaseHistory);
 
 
         });
@@ -128,8 +139,37 @@ public class CustomerOptions {
         option6.addActionListener(ev -> {
             writer.println("6");
             writer.flush();
-
-
+            String fileLocation = (String) JOptionPane.showInputDialog(null,
+                    "What is the file name you wish to export your purchase history to?",
+                    "Marketplace - Export Purchase History", JOptionPane.QUESTION_MESSAGE);
+            try {
+                String line = br.readLine();
+                if (line.equals("Failed")) {
+                    JOptionPane.showMessageDialog(null, "There was an error accessing the market place.",
+                            "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    try {
+                        String printer = "";
+                        while (!line.equals("finished")) {
+                            printer += line + "\n";
+                            line = br.readLine();
+                        }
+                        File f = new File(fileLocation);
+                        PrintWriter pw = new PrintWriter(new FileOutputStream(f));
+                        pw.println(printer);
+                        pw.close();
+                        JOptionPane.showMessageDialog(null,
+                                "Your purchase history was successfully exported to " + fileLocation,
+                                "Marketplace - Export Purchase History", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, "The provided file location is invalid.",
+                                "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "There was an error: " + e.getMessage(),
+                        "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
+            }
         });
         panel.add(option6);
 
@@ -286,6 +326,17 @@ public class CustomerOptions {
         frame.setVisible(true);
 
 
+    }
+
+    protected static void showDashboard(String purchaseHistory) {
+        JTextArea dashboard = new JTextArea();
+        dashboard.append(purchaseHistory);
+        JScrollPane scrollable = new JScrollPane(dashboard);
+        JFrame jFrame = new JFrame("Customer Dashboard");
+        jFrame.setSize(1000, 500);
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrame.getContentPane().add(scrollable);
+        jFrame.setVisible(true);
     }
 
     static void showTable(String printer) {
