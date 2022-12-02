@@ -102,7 +102,9 @@ public class SearchServer {
                         writer.println(toReturn);
                         writer.flush();
                     } else if (option.equals("5")) {
-                        //TODO View Dashboard
+                        JFrame toReturn = CustomerServer.viewCustomer();
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("6")) {
                         //TODO Export File with Purchase History
                     } else if (option.equals("7")) {
