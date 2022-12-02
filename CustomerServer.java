@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CustomerServer {
 
@@ -162,21 +163,88 @@ public class CustomerServer {
         return toReturn;
     }
 
+    // Customer Option 5
+    public static String viewCustomer(Customer customer) {
+        String customerName = customer.getCustomerName();
+        String purchaseHistory = "";
+        try {
+            FileReader fr = new FileReader("Markets.txt");
+            BufferedReader br = new BufferedReader(fr);
+            String line = br.readLine();
+            ArrayList<String[]> products = new ArrayList<>(); // ArrayList for each product in the store
+            ArrayList<String[]> purchases = new ArrayList<>(); // ArrayList for each purchase in the store
+            ArrayList<String[]> customerPurchases = new ArrayList<>(); // ArrayList for each purchase the customer made
+            while (line != null) {
+                FileReader fileReader = new FileReader(line + " Market.txt");
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                int delineate = 0; // Checks to see where in the market store bufferedReader is
+                String marketLine = bufferedReader.readLine();
+                while (marketLine != null) {
+                    if (marketLine.contains("------")) {
+                        delineate++; // Increments delineate if it iterates through the given line
+                        marketLine = bufferedReader.readLine();
+                    }
+                    while (delineate == 0 && !marketLine.contains("------")) {
+                        String[] product = marketLine.split(","); // Creates an array of the product
+                        products.add(product);
+                        marketLine = bufferedReader.readLine(); // Creates an arraylist of products available
+                    }
+                    while (delineate == 1 && !marketLine.contains("------")) {
+                        marketLine = bufferedReader.readLine();
+                    }
+                    while (delineate == 2 && marketLine != null) {
+                        String[] purchase = marketLine.split(","); // Creates an array of the purchase
+                        purchases.add(purchase);
+                        marketLine = bufferedReader.readLine(); // Creates an arraylist of all the purchases
+                    }
+                }
+                bufferedReader.close();
+                int productsNumber = products.size();
+                purchaseHistory = purchaseHistory + String.format("%s has %d products for sale.\n",
+                        line, productsNumber);
+                for (int i = 0; i < products.size(); i++) {
+                    purchaseHistory = purchaseHistory + String.format("%d: %s\n",
+                            i + 1, Arrays.toString(products.get(i)));
+                } // Adds all the products available for sale to the purchaseHistory string
+                for (String[] currentPurchase : purchases) {
+                    if (customerName.equals(currentPurchase[5])) {
+                        customerPurchases.add(currentPurchase);
+                    }
+                } // Checks if the customer has purchased, then adds to the arraylist of customer purchases
+                purchaseHistory = purchaseHistory +
+                        String.format("From %s, %s has purchased the following products:\n", line, customerName);
+                for (int i = 0; i < customerPurchases.size(); i++) {
+                    purchaseHistory = purchaseHistory + String.format("%d: %s\n", i + 1,
+                            Arrays.toString(customerPurchases.get(i)));
+                } // Adds the products that the customer has purchased from the store
+                if (customerPurchases.isEmpty()) {
+                    purchaseHistory = purchaseHistory + "There have been no purchases from this store.\n";
+                }
+                products.clear();
+                purchases.clear();
+                line = br.readLine();
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return purchaseHistory;
+    }
+
     // Customer Option 10
-    static String viewShoppingCart(Customer user) {
-        String returnable = "";
+    public static String viewShoppingCart(Customer user) {
+        String toReturn = "";
+        String format = "%s,%s,%s,%d,%.2f;";
         try {
             ArrayList<Product> lines = new ArrayList<>();
             BufferedReader bfr = new BufferedReader(new FileReader(user.getUsername() + "'s File.txt"));
             String line = bfr.readLine();
 
             while (line != null) {
-                if (!line.contains("User: ") && !line.contains("Name: ")) {
+                if (line.contains(",")) {
                     Product product = SearchServer.getProduct(line);
-                    returnable = returnable + "Product: %s, Description: %s, " +
-                            "Price: %.2f, Quantity: %d\n";
-                    String.format(returnable, product.getName(),
-                            product.getDescription(), product.getPrice(), product.getQuantity());
+                    toReturn = String.format(format, product.getName(), product.getStore() ,
+                            product.getDescription(), product.getQuantity(), product.getPrice()) + toReturn;
                     lines.add(product);
                 }
                 line = bfr.readLine();
@@ -188,7 +256,8 @@ public class CustomerServer {
         } catch (IOException e) {
             return "There are no stores/products found. Sorry";
         }
-        return returnable;
+        toReturn = toReturn.substring(0 , toReturn.length() - 1);
+        return toReturn;
     }
 
     static String exportPurchaseHistory(Customer customer) throws IOException {

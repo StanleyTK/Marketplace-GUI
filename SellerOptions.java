@@ -10,6 +10,13 @@ import java.util.ArrayList;
 public class SellerOptions {
 
     public static void options(User user, BufferedReader br, PrintWriter writer) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                 IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
 
         JFrame frame = new JFrame("Seller Options");
         JPanel panel = new JPanel();
@@ -25,7 +32,7 @@ public class SellerOptions {
 
 
         //View the MarketPlace
-        JButton option1 = new JButton("View Market");
+        JButton option1 = new JButton("1. View Market");
         option1.setBounds(10, 50, 230, 40);
         option1.addActionListener(ev -> {
             writer.println("1");
@@ -36,59 +43,34 @@ public class SellerOptions {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String[] printerSplit = printer.split(";"); // Splits the list into an array of individual products
-            ArrayList<String[]> toReturnArrayList = new ArrayList<>();
-            for (String s : printerSplit) {
-                String[] printerSplitString = s.split(",");
-                toReturnArrayList.add(printerSplitString);
-            } // Adds the details of each product to the array list
+            CustomerOptions.showTable(printer);
 
-            String[][] toReturnSize = new String[toReturnArrayList.size()][5];
-            Object[][] rowArray = toReturnArrayList.toArray(toReturnSize); // Creates a 2D array for the product details
-            Object[] columnArray = {"Product Name", "Store Name", "Description", "Quantity Available", "Price"};
+        });
+        panel.add(option1);
 
-            JTable table = new JTable(rowArray, columnArray); // Creates a table with the product list
-            JScrollPane scrollPane = new JScrollPane(table);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
+        JButton option2 = new JButton("2. Edit Product from Store");
+        option2.setBounds(260, 50, 230, 40);
+        option2.addActionListener(ev -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
                      IllegalAccessException e) {
                 e.printStackTrace();
             }
-            final JFrame jFrame = new JFrame("Marketplace");
-            jFrame.setSize(1000, 500);
-            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            jFrame.getContentPane().add(scrollPane);
-            TableColumn tableColumn;
-            for (int i = 0; i < 5; i++) {
-                tableColumn = table.getColumnModel().getColumn(i);
-                if (i == 2) {
-                    tableColumn.setPreferredWidth(150);
-                } else if (i == 3) {
-                    tableColumn.setPreferredWidth(50);
-                } else {
-                    tableColumn.setPreferredWidth(100);
-                }
-            }
-            jFrame.setVisible(true); // Creates a JFrame to view the table
 
-
-        });
-        panel.add(option1);
-
-        JButton option2 = new JButton("Edit Product from Store");
-        option2.setBounds(260, 50, 230, 40);
-        option2.addActionListener(ev -> {
             writer.println("2");
+            writer.flush();
+            String[] info = new String[]{"Create", "Delete", "Edit"};
+            String item = (String) JOptionPane.showInputDialog(null, "Select an option ", "Option",
+                    JOptionPane.PLAIN_MESSAGE, null, info, null);
+            writer.println(item);
             writer.flush();
 
 
         });
         panel.add(option2);
 
-        JButton option3 = new JButton("View Sales by Store");
+        JButton option3 = new JButton("3. View Sales by Store");
         option3.setBounds(10, 100, 230, 40);
         option3.addActionListener(ev -> {
             writer.println("3");
@@ -98,7 +80,7 @@ public class SellerOptions {
         });
         panel.add(option3);
 
-        JButton option4 = new JButton("View Dashboard");
+        JButton option4 = new JButton("4. View Dashboard");
         option4.setBounds(260, 100, 230, 40);
         option4.addActionListener(ev -> {
             writer.println("4");
@@ -108,7 +90,7 @@ public class SellerOptions {
         });
         panel.add(option4);
 
-        JButton option5 = new JButton("Import Products (CSV File)");
+        JButton option5 = new JButton("5. Import Products (CSV File)");
         option5.setBounds(10, 150, 230, 40);
         option5.addActionListener(ev -> {
             writer.println("5");
@@ -118,7 +100,7 @@ public class SellerOptions {
         });
         panel.add(option5);
 
-        JButton option6 = new JButton("Export Products (CSV File)");
+        JButton option6 = new JButton("6. Export Products (CSV File)");
         option6.setBounds(260, 150, 230, 40);
         option6.addActionListener(ev -> {
             writer.println("6");
@@ -128,7 +110,7 @@ public class SellerOptions {
         });
         panel.add(option6);
 
-        JButton option7 = new JButton("View Shopping Carts");
+        JButton option7 = new JButton("7. View Shopping Carts");
         option7.setBounds(10, 200, 230, 40);
         option7.addActionListener(ev -> {
             writer.println("7");
@@ -138,17 +120,18 @@ public class SellerOptions {
         });
         panel.add(option7);
 
-        JButton option8 = new JButton("Create Market");
+        JButton option8 = new JButton("8. Create Market");
         option8.setBounds(260, 200, 230, 40);
         option8.addActionListener(ev -> {
             writer.println("8");
             writer.flush();
 
 
+
         });
         panel.add(option8);
 
-        JButton option9 = new JButton("Delete Market");
+        JButton option9 = new JButton("9. Delete Market");
         option9.setBounds(10, 250, 230, 40);
         option9.addActionListener(ev -> {
             writer.println("9");
@@ -158,24 +141,32 @@ public class SellerOptions {
         });
         panel.add(option9);
 
-        JButton option10 = new JButton("More Information");
+        JButton option10 = new JButton("10. More Information");
         option10.setBounds(260, 250, 230, 40);
         option10.addActionListener(ev -> {
             writer.println("10");
             writer.flush();
-            frame.getContentPane().removeAll();
-            frame.repaint();
-            JPanel panel2 = new JPanel();
-            panel2.setLayout(null);
-
-            String line;
+            String line = "";
             try {
                 line = br.readLine();
-
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("There was an error");
             }
+
+
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                     IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            final JFrame jFrame = new JFrame("More Information");
+            jFrame.setSize(400, 500);
+            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            jFrame.getContentPane();
             String[] lines = line.split(";");
+            JPanel panel2 = new JPanel();
+            panel2.setLayout(null);
 
             int x = 10;
             int y = 20;
@@ -185,18 +176,9 @@ public class SellerOptions {
                 panel2.add(label);
                 y += 40;
             }
+            jFrame.add(panel2);
+            jFrame.setVisible(true);
 
-
-            JButton back = new JButton("Go back to menu");
-            back.setBounds(300, 400, 200, 40);
-            option10.addActionListener(eve -> {
-                frame.getContentPane().removeAll();
-                frame.repaint();
-                options(user, br, writer);
-            });
-            panel2.add(back);
-            frame.add(panel2);
-            frame.setVisible(true);
 
 
 

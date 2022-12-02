@@ -102,7 +102,9 @@ public class SearchServer {
                         writer.println(toReturn);
                         writer.flush();
                     } else if (option.equals("5")) {
-                        //TODO View Dashboard
+                        String toReturn = CustomerServer.viewCustomer((Customer) user);
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("6")) {
                         //export purchase history
                         try {
@@ -153,7 +155,14 @@ public class SearchServer {
                         writer.println(toReturn);
                         writer.flush();
                     } else if (option.equals("2")) {
-                        //TODO Edit Product from Store
+                        option = br.readLine();
+                        if (option.equals("Create")) {
+
+                        } else if (option.equals("Delete")) {
+
+                        } else {
+
+                        }
                     } else if (option.equals("3")) {
                         //TODO View Sales by Store
 
