@@ -5,4 +5,6 @@ wallet,Costco,you use it,30,12.99
 apples,Costco,you eat it,45,6.99
 desk,Costco,you use it,13,49.99
 --------
+stanleykim902
 --------
+apples,Costco,you eat it,2,6.99,stanleykim902
