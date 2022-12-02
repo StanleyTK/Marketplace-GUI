@@ -87,7 +87,9 @@ public class SearchServer {
                     option = br.readLine();
 
                     if (option.equals("1")) {
-                        JFrame toReturn = CustomerServer.viewMarket();
+                        String toReturn = CustomerServer.viewMarket();
+                        writer.println(toReturn);
+                        writer.flush();
 
                     } else if (option.equals("2")) {
                         //TODO Search for Products
@@ -138,9 +140,18 @@ public class SearchServer {
                     option = br.readLine();
 
                     if (option.equals("1")) {
-                        JFrame toReturn = CustomerServer.viewMarket();
+                        String toReturn = CustomerServer.viewMarket();
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("2")) {
-                        //TODO Edit Product from Store
+                        option = br.readLine();
+                        if (option.equals("Create")) {
+
+                        } else if (option.equals("Delete")) {
+
+                        } else {
+
+                        }
                     } else if (option.equals("3")) {
                         //TODO View Sales by Store
 
@@ -179,9 +190,6 @@ public class SearchServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
 
 
 

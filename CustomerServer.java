@@ -10,20 +10,14 @@ public class CustomerServer {
 
 
     // Customer Option 1 and Seller Option 1
-    static JFrame viewMarket() {
+    public static String viewMarket() {
         String line;
         String printer = "";
         ArrayList<Product> products = new ArrayList<>();
 
         ArrayList<String> storeNames = new ArrayList<>();
         try {
-            File markets = new File("Markets.txt");
-            BufferedReader bfr = new BufferedReader(new FileReader(markets));
-            while ((line = bfr.readLine()) != null) { //Takes name of all markets in file
-                storeNames.add(line); //adds to arraylist
-            }
-
-            bfr.close();
+            storeNames = SearchServer.getTextInfo(new File("Markets.txt"));
             for (String storeName : storeNames) {
                 File f = new File(storeName + " Market.txt");
                 BufferedReader productReader = new BufferedReader(new FileReader(f));
@@ -41,49 +35,11 @@ public class CustomerServer {
         } catch (IOException e) {
             System.out.println("There are no stores/products found. Sorry");
         }
-        for (int i = 0; i < products.size(); i++) {
-            printer = printer + products.get(i).toString() + ";";
+        for (Product product : products) {
+            printer = printer + product.toString() + ";";
         }
-        String[] printerSplit = printer.split(";"); // Splits the list into an array of individual products
-        ArrayList<String[]> toReturnArrayList = new ArrayList<>();
-        for (String s : printerSplit) {
-            String[] printerSplitString = s.split(",");
-            toReturnArrayList.add(printerSplitString);
-        } // Adds the details of each product to the array list
+        return printer;
 
-        String[][] toReturnSize = new String[toReturnArrayList.size()][5];
-        Object[][] rowArray = toReturnArrayList.toArray(toReturnSize); // Creates a 2D array for the product details
-        Object[] columnArray = {"Product Name", "Store Name", "Description", "Quantity Available", "Price"};
-
-        JTable table = new JTable(rowArray, columnArray); // Creates a table with the product list
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
-                 IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        final JFrame jFrame = new JFrame("Marketplace");
-        jFrame.setSize(1000, 500);
-        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        jFrame.getContentPane().add(scrollPane);
-        TableColumn tableColumn;
-        for (int i = 0; i < 5; i++) {
-            tableColumn = table.getColumnModel().getColumn(i);
-            if (i == 2) {
-                tableColumn.setPreferredWidth(150);
-            } else if (i == 3) {
-                tableColumn.setPreferredWidth(50);
-            } else {
-                tableColumn.setPreferredWidth(100);
-            }
-        }
-        jFrame.setVisible(true); // Creates a JFrame to view the table
-
-        return jFrame;
     }
 
 
@@ -210,20 +166,19 @@ public class CustomerServer {
     }
 
     // Customer Option 10
-    static String viewShoppingCart(Customer user) {
-        String returnable = "";
+    public static String viewShoppingCart(Customer user) {
+        String toReturn = "";
+        String format = "%s,%s,%s,%d,%.2f;";
         try {
             ArrayList<Product> lines = new ArrayList<>();
             BufferedReader bfr = new BufferedReader(new FileReader(user.getUsername() + "'s File.txt"));
             String line = bfr.readLine();
 
             while (line != null) {
-                if (!line.contains("User: ") && !line.contains("Name: ")) {
+                if (line.contains(",")) {
                     Product product = SearchServer.getProduct(line);
-                    returnable = returnable + "Product: %s, Description: %s, " +
-                            "Price: %.2f, Quantity: %d\n";
-                    String.format(returnable, product.getName(),
-                            product.getDescription(), product.getPrice(), product.getQuantity());
+                    toReturn = String.format(format, product.getName(), product.getStore() ,
+                            product.getDescription(), product.getQuantity(), product.getPrice()) + toReturn;
                     lines.add(product);
                 }
                 line = bfr.readLine();
@@ -235,7 +190,8 @@ public class CustomerServer {
         } catch (IOException e) {
             return "There are no stores/products found. Sorry";
         }
-        return returnable;
+        toReturn = toReturn.substring(0 , toReturn.length() - 1);
+        return toReturn;
     }
 
 }
