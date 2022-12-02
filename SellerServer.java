@@ -2,6 +2,102 @@ import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 
+
+class CustomerPurchases { // Class used in the viewSeller method
+    public String customer;
+    public ArrayList<String> purchases;
+    public CustomerPurchases(String customer, ArrayList<String> purchases) {
+        this.customer = customer;
+        this.purchases = purchases;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    public ArrayList<String> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(ArrayList<String> purchases) {
+        this.purchases = purchases;
+    }
+}
+
+class ProductPurchases { // Class used in the viewSeller method
+    public String product;
+    public int purchaseNumber;
+    public ProductPurchases(String product, int purchaseNumber) {
+        this.product = product;
+        this.purchaseNumber = purchaseNumber;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public int getPurchaseNumber() {
+        return purchaseNumber;
+    }
+
+    public void setPurchaseNumber(int purchaseNumber) {
+        this.purchaseNumber = purchaseNumber;
+    }
+}
+
+class PurchaseInformation { //Class used in the viewSales method.
+    public String customer;
+    public ArrayList<String> purchases;
+    public ArrayList<Integer> amountPurchased;
+    public ArrayList<Double> price;
+    public PurchaseInformation(String customer, ArrayList<String> purchases,
+                               ArrayList<Integer> amountPurchased, ArrayList<Double> price) {
+        this.customer = customer;
+        this.purchases = purchases;
+        this.amountPurchased = amountPurchased;
+        this.price = price;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    public ArrayList<String> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(ArrayList<String> purchases) {
+        this.purchases = purchases;
+    }
+
+    public ArrayList<Integer> getAmountPurchased() {
+        return amountPurchased;
+    }
+
+    public void setAmountPurchased(ArrayList<Integer> amountPurchased) {
+        this.amountPurchased = amountPurchased;
+    }
+
+    public ArrayList<Double> getPrice() {
+        return price;
+    }
+
+    public void setPrice(ArrayList<Double> price) {
+        this.price = price;
+    }
+}
 public class SellerServer {
 
 
@@ -38,5 +134,165 @@ public class SellerServer {
     }
 
     public static void editItem() {
+    }
+
+
+    // Seller Option 3
+    public static String viewSales(String market) {
+        String salesInformation = "";
+        try {
+            FileReader fr = new FileReader(market + " Market.txt");
+            BufferedReader br = new BufferedReader(fr);
+            int delineate = 0;
+            ArrayList<PurchaseInformation> purchaseInformation = new ArrayList<>(); // ArrayList of customers, purchases
+            ArrayList<String[]> purchases = new ArrayList<>(); // ArrayList for each purchase in the store
+            String line = br.readLine();
+            double totalRevenue = 0;
+            while (line != null) {
+                if (line.contains("------")) {
+                    delineate++; // Increments delineate if it iterates through the given line
+                    line = br.readLine();
+                }
+                while (delineate == 0 && !line.contains("------")) {
+                    line = br.readLine();
+                }
+                while (delineate == 1 && !line.contains("------")) {
+                    purchaseInformation.add(new PurchaseInformation(line, new ArrayList<>(), new ArrayList<>(),
+                            new ArrayList<>())); // Adds a new customer
+                    line = br.readLine();
+                }
+                while (delineate == 2 && line != null) {
+                    String[] purchase = line.split(","); // Creates an array of the purchase
+                    purchases.add(purchase); // Adds the purchase
+                    line = br.readLine();
+                }
+            }
+            br.close();
+            for (PurchaseInformation currentInformation : purchaseInformation) {
+                for (String[] currentPurchase : purchases) {
+                    if (currentInformation.getCustomer().equals(currentPurchase[5])) {
+                        ArrayList<String> currentCustomerPurchases = currentInformation.getPurchases();
+                        currentCustomerPurchases.add(currentPurchase[0]);
+                        currentInformation.setPurchases(currentCustomerPurchases);
+                        ArrayList<Integer> currentPurchaseAmount = currentInformation.getAmountPurchased();
+                        currentPurchaseAmount.add(Integer.parseInt(currentPurchase[3]));
+                        currentInformation.setAmountPurchased(currentPurchaseAmount);
+                        ArrayList<Double> currentPrice = currentInformation.getPrice();
+                        currentPrice.add(Double.parseDouble(currentPurchase[4]));
+                        currentInformation.setPrice(currentPrice);
+
+                    }
+                }
+            } // Creates an arraylist of PurchaseInformation objects with customer, product, amount bought, and price
+
+            for (int i = 0; i < purchaseInformation.size(); i++) {
+                double customerAmountSpent = 0;
+                PurchaseInformation currentInformation = purchaseInformation.get(i);
+                salesInformation = salesInformation + String.format("%d. ", i + 1);
+                salesInformation = salesInformation + String.format("%s bought:\n", currentInformation.getCustomer());
+                for (int j = 0; j < currentInformation.getPurchases().size(); j++) {
+                    double amountSpent = currentInformation.getAmountPurchased().get(j) *
+                            currentInformation.getPrice().get(j);
+                    salesInformation = salesInformation +
+                            String.format("%d %s for a total of %.2f\n", currentInformation.getAmountPurchased().get(j),
+                                    currentInformation.getPurchases().get(j), amountSpent);
+                    customerAmountSpent = customerAmountSpent + amountSpent;
+                    totalRevenue = totalRevenue + amountSpent;
+                }
+                salesInformation = salesInformation + String.format("%s spent %.2f dollars\n",
+                        currentInformation.getCustomer(), customerAmountSpent);
+            } // Prints the list of product each customer bought and the money spent on each product
+            if (totalRevenue == 0.00) {
+                salesInformation = salesInformation + "There is no revenue generated from this store.\n";
+            } else {
+                salesInformation = salesInformation + String.format("The total revenue made from the store is: %.2f\n",
+                        totalRevenue);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return salesInformation;
+    } // Prints the total revenue made from the store
+
+    // Seller Option 4
+    public static String viewSeller(String market) {
+        String marketInformation = "";
+        int totalMarketPurchases = 0;
+        try {
+            FileReader fr = new FileReader(market + " Market.txt");
+            BufferedReader br = new BufferedReader(fr);
+            int delineate = 0; // Checks to see where in the market store br is
+            ArrayList<ProductPurchases> productPurchases = new ArrayList<>(); // ArrayList of products and purchases
+            ArrayList<CustomerPurchases> customerPurchases = new ArrayList<>(); // ArrayList of customers and purchases
+            ArrayList<String[]> purchases = new ArrayList<>(); // ArrayList for each purchase in the store
+            String line = br.readLine();
+            while (line != null) {
+                if (line.contains("------")) {
+                    delineate++; // Increments delineate if it iterates through the given line
+                    line = br.readLine();
+                }
+                while (delineate == 0 && !line.contains("------")) {
+                    productPurchases.add(new ProductPurchases(line, 0)); // Adds a new product
+                    line = br.readLine();
+                }
+                while (delineate == 1 && !line.contains("------")) {
+                    customerPurchases.add(new CustomerPurchases(line, new ArrayList<>())); // Adds a new customer
+                    line = br.readLine();
+                }
+                while (delineate == 2 && line != null) {
+                    String[] purchase = line.split(","); // Creates an array of the purchase
+                    purchases.add(purchase); // Adds the purchase
+                    line = br.readLine();
+                }
+            }
+            br.close();
+
+            for (CustomerPurchases currentCustomer : customerPurchases) {
+                for (String[] currentPurchase : purchases) {
+                    if (currentCustomer.getCustomer().equals(currentPurchase[5])) {
+                        ArrayList<String> currentCustomerPurchases = currentCustomer.getPurchases();
+                        currentCustomerPurchases.add(currentPurchase[0]);
+                        currentCustomer.setPurchases(currentCustomerPurchases);
+                    }
+                }
+            } // Assigns each purchase in the store to a customer
+
+            for (ProductPurchases currentProduct : productPurchases) {
+                for (String[] currentPurchase : purchases) {
+                    if (currentProduct.getProduct().equals(currentPurchase[0])) {
+                        int purchaseNumber = Integer.parseInt
+                                (currentProduct.getPurchaseNumber() + currentPurchase[3]);
+                        currentProduct.setPurchaseNumber(purchaseNumber);
+                    }
+                }
+            } // Finds the total number of times each product has been purchased
+
+            marketInformation = marketInformation +
+                    "The list of products and the amount of times they have been purchased is: \n";
+            for (int i = 0; i < productPurchases.size(); i++) {
+                ProductPurchases currentProduct = productPurchases.get(i);
+                marketInformation = marketInformation + String.format("%d. ", i + 1);
+                marketInformation = marketInformation + String.format("%s: %d\n",
+                        currentProduct.getProduct(), currentProduct.getPurchaseNumber());
+                totalMarketPurchases += currentProduct.getPurchaseNumber();
+            } // Prints the list of products in the store and the amount of times they have been purchased
+
+            if (totalMarketPurchases == 0) {
+                marketInformation = marketInformation + "No purchases have been made from this store.\n";
+            } else {
+                marketInformation = marketInformation + "The customers who have purchased from this store are: \n";
+                for (int i = 0; i < customerPurchases.size(); i++) {
+                    CustomerPurchases currentCustomer = customerPurchases.get(i);
+                    marketInformation = marketInformation + String.format("%d. ", i + 1);
+                    marketInformation = marketInformation + String.format("%s:\n", currentCustomer.getCustomer());
+                    for (int j = 0; j < currentCustomer.getPurchases().size(); j++) {
+                        marketInformation = marketInformation + (currentCustomer.getPurchases().get(j));
+                    }
+                } // Prints the list of customers who have made purchases and their products
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return marketInformation;
     }
 }

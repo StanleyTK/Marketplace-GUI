@@ -213,13 +213,21 @@ public class SearchServer {
 
                             break;
                         }
-                        case "3":
-
+                        case "3": {
+                            String market = br.readLine();
+                            String toReturn = SellerServer.viewSales(market);
+                            writer.println(toReturn);
+                            writer.flush();
 
                             break;
-                        case "4":
-                            //TODO View Dashboard
+                        }
+                        case "4": {
+                            String market = br.readLine();
+                            String toReturn = SellerServer.viewSeller(market);
+                            writer.println(toReturn);
+                            writer.flush();
                             break;
+                        }
                         case "5":
                             //TODO Import Products CSV File
                             break;

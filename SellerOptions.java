@@ -128,6 +128,19 @@ public class SellerOptions {
         option3.addActionListener(ev -> {
             writer.println("3");
             writer.flush();
+            writer.println(marketName());
+            writer.flush();
+            String salesInformation = "";
+            try {
+                String line = br.readLine();
+                while (!line.equals("")) {
+                    salesInformation = salesInformation + line + "\n";
+                    line = br.readLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            CustomerOptions.showDashboard(salesInformation);
 
 
         });
@@ -138,6 +151,19 @@ public class SellerOptions {
         option4.addActionListener(ev -> {
             writer.println("4");
             writer.flush();
+            writer.println(marketName());
+            writer.flush();
+            String marketInformation = "";
+            try {
+                String line = br.readLine();
+                while (!line.equals("")) {
+                    marketInformation = marketInformation + line + "\n";
+                    line = br.readLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            CustomerOptions.showDashboard(marketInformation);
 
 
         });
@@ -280,5 +306,9 @@ public class SellerOptions {
         frame.setVisible(true);
 
 
+    }
+
+    private static String marketName() {
+        return JOptionPane.showInputDialog(null, "Please enter a market name", "Market", JOptionPane.QUESTION_MESSAGE);
     }
 }
