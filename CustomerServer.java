@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CustomerServer {
 
@@ -38,8 +39,50 @@ public class CustomerServer {
         for (Product product : products) {
             printer = printer + product.toString() + ";";
         }
+        System.out.println(printer);
         return printer;
 
+    }
+
+
+
+    // Customer Option 2
+    public static String searchProducts(String option, String search) {
+        String results = "";
+        try {
+            ArrayList<String> markets = Login.getTextInfo(new File("Markets.txt"));
+            for (String market : markets) {
+                BufferedReader br = new BufferedReader(new FileReader(new File(market + " Market.txt")));
+                String line = br.readLine();
+                ArrayList<String> lines = new ArrayList<>();
+
+
+                while (line != null) {
+                    if (!line.contains("-----")) {
+                        lines.add(line);
+                        line = br.readLine();
+                    } else {
+                        break;
+                    }
+                }
+
+                for (String productInfo : lines) {
+                    Product product = SearchServer.getProduct(productInfo);
+                    if (product.getName().contains(search) && option.equals("Name")) {
+                        results += productInfo + ";";
+                    } else if (product.getDescription().contains(search) && option.equals("Description")) {
+                        results += productInfo + ";";
+                    } else if (product.getStore().contains(search) && option.equals("Store")) {
+                        results += productInfo + ";";
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+        return results;
     }
 
 
@@ -165,33 +208,134 @@ public class CustomerServer {
         return toReturn;
     }
 
+
+    // Customer Option 5
+    public static JFrame viewCustomer() {
+        JFrame jFrame = null;
+        try {
+            String customerName = JOptionPane.showInputDialog(null,
+                    "Please enter your username.", "Name", JOptionPane.QUESTION_MESSAGE); // Gets username
+            FileReader fr = new FileReader("Markets.txt");
+            BufferedReader br = new BufferedReader(fr);
+            String line = br.readLine();
+            ArrayList<String[]> products = new ArrayList<>(); // ArrayList for each product in the store
+            ArrayList<String[]> purchases = new ArrayList<>(); // ArrayList for each purchase in the store
+            ArrayList<String[]> customerPurchases = new ArrayList<>(); // ArrayList for each purchase the customer made
+            JTextArea dashboard = new JTextArea();
+            while (line != null) {
+                FileReader fileReader = new FileReader(line + " Market.txt");
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                int delineate = 0; // Checks to see where in the market store bufferedReader is
+                String marketLine = bufferedReader.readLine();
+                while (marketLine != null) {
+                    if (marketLine.contains("------")) {
+                        delineate++; // Increments delineate if it iterates through the given line
+                        marketLine = bufferedReader.readLine();
+                    }
+                    while (delineate == 0 && !marketLine.contains("------")) {
+                        String[] product = marketLine.split(","); // Creates an array of the product
+                        products.add(product);
+                        marketLine = bufferedReader.readLine(); // Creates an arraylist of products available
+                    }
+                    while (delineate == 1 && !marketLine.contains("------")) {
+                        marketLine = bufferedReader.readLine();
+                    }
+                    while (delineate == 2 && marketLine != null) {
+                        String[] purchase = marketLine.split(","); // Creates an array of the purchase
+                        purchases.add(purchase);
+                        marketLine = bufferedReader.readLine(); // Creates an arraylist of all the purchases
+                    }
+                }
+                bufferedReader.close();
+                int productsNumber = products.size();
+                String store = String.format("%s has %d products for sale.\n", line, productsNumber);
+                dashboard.append(store);
+                for (int i = 0; i < products.size(); i++) {
+                    String product = String.format("%d: %s\n", i + 1, Arrays.toString(products.get(i)));
+                    dashboard.append(product);
+                } // Adds all the products available for sale to the JTextArea
+                for (String[] currentPurchase : purchases) {
+                    if (customerName.equals(currentPurchase[5])) {
+                        customerPurchases.add(currentPurchase);
+                    }
+                } // Checks if the customer has purchased, then adds to the arraylist of customer purchases
+                String purchase = String.format("From %s, %s has purchased the following products:\n",
+                        line, customerName);
+                dashboard.append(purchase);
+                for (int i = 0; i < customerPurchases.size(); i++) {
+                    String customerPurchase = String.format("%d: %s\n", i + 1,
+                            Arrays.toString(customerPurchases.get(i)));
+                    dashboard.append(customerPurchase);
+                } // Adds the products that the customer has purchased from the store
+                if (customerPurchases.isEmpty()) {
+                    dashboard.append("There have been no purchases from this store.\n");
+                }
+                line = br.readLine();
+            }
+            br.close();
+            JScrollPane scrollable = new JScrollPane(dashboard);
+            jFrame = new JFrame("Customer Dashboard");
+            jFrame.setSize(1000, 500);
+            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            jFrame.getContentPane().add(scrollable);
+            jFrame.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jFrame;
+    }
+
+
+
+
+
+    // Customer Option 8
+    public static Object[] removeShoppingCart(User user) throws IOException { //Returns object array of shopping cart
+        File f = new File(user.getUsername() + "'s File.txt");
+        BufferedReader bfr = new BufferedReader(new FileReader(f));
+        String line;
+        ArrayList<String> shoppingCartArrayList = new ArrayList<String>();
+
+        while ((line = bfr.readLine()) != null) {
+            if (line.contains(",")) {
+                shoppingCartArrayList.add(line);
+            }
+        }
+        bfr.close();
+        Object[] toReturn = (shoppingCartArrayList.toArray());
+        return toReturn;
+    }
+
     // Customer Option 10
-    static String viewShoppingCart(Customer user) {
-        String returnable = "";
+    public static String shoppingCartArray(Customer user) { // Returns string of shopping cart
+        String toReturn = "";
+        String format = "%s,%s,%s,%d,%.2f;";
         try {
             ArrayList<Product> lines = new ArrayList<>();
             BufferedReader bfr = new BufferedReader(new FileReader(user.getUsername() + "'s File.txt"));
             String line = bfr.readLine();
 
             while (line != null) {
-                if (!line.contains("User: ") && !line.contains("Name: ")) {
+                if (line.contains(",")) {
                     Product product = SearchServer.getProduct(line);
-                    returnable = returnable + "Product: %s, Description: %s, " +
-                            "Price: %.2f, Quantity: %d\n";
-                    String.format(returnable, product.getName(),
-                            product.getDescription(), product.getPrice(), product.getQuantity());
+                    toReturn = String.format(format, product.getName(), product.getStore() ,
+                            product.getDescription(), product.getQuantity(), product.getPrice()) + toReturn;
                     lines.add(product);
                 }
                 line = bfr.readLine();
             }
             if (lines.size() == 0) {
-                return "You do not have any products in your shopping cart.";
+                bfr.close();
+                return "None";
             }
+            bfr.close();
 
         } catch (IOException e) {
-            return "There are no stores/products found. Sorry";
+            return "Error";
         }
-        return returnable;
+        toReturn = toReturn.substring(0 , toReturn.length() - 1);
+        return toReturn;
     }
+
 
 }

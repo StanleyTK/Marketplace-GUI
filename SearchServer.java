@@ -75,12 +75,8 @@ public class SearchServer {
 
             }
 
-
-
             // Options for Customer or Seller
-
             String option = br.readLine();
-
             if (option.equals("Customer")) {
                 // Customer Options
                 while (true) {
@@ -92,7 +88,15 @@ public class SearchServer {
                         writer.flush();
 
                     } else if (option.equals("2")) {
-                        //TODO Search for Products
+                        option = br.readLine();
+                        String message = br.readLine();
+                        String toReturn = CustomerServer.searchProducts(option, message);
+                        if (toReturn.equals("")) {
+                            writer.println("None");
+                        } else {
+                            writer.println(toReturn);
+                        }
+                        writer.flush();
                     } else if (option.equals("3")) {
                         String toReturn = CustomerServer.sortPrice();
                         writer.println(toReturn);
@@ -102,7 +106,9 @@ public class SearchServer {
                         writer.println(toReturn);
                         writer.flush();
                     } else if (option.equals("5")) {
-                        //TODO View Dashboard
+                        JFrame toReturn = CustomerServer.viewCustomer();
+//                        writer.println(toReturn);
+//                        writer.flush();
                     } else if (option.equals("6")) {
                         //TODO Export File with Purchase History
                     } else if (option.equals("7")) {
@@ -112,7 +118,7 @@ public class SearchServer {
                     } else if (option.equals("9")) {
                         //TODO Purchase All Items in the Shopping Cart
                     } else if (option.equals("10")) {
-                        String toReturn = CustomerServer.viewShoppingCart((Customer) user);
+                        String toReturn = CustomerServer.shoppingCartArray((Customer) user);
                         writer.println(toReturn);
                         writer.flush();
                     } else if (option.equals("11")) {
@@ -146,14 +152,14 @@ public class SearchServer {
                     } else if (option.equals("2")) {
                         option = br.readLine();
                         if (option.equals("Create")) {
-
+                            SellerServer.createNewItem();
                         } else if (option.equals("Delete")) {
-
+                            SellerServer.deleteItem();
                         } else {
-
+                            SellerServer.editItem();
                         }
                     } else if (option.equals("3")) {
-                        //TODO View Sales by Store
+
 
                     } else if (option.equals("4")) {
                         //TODO View Dashboard
@@ -164,7 +170,38 @@ public class SearchServer {
                     } else if (option.equals("7")) {
                         //TODO View Shopping Carts
                     } else if (option.equals("8")) {
-                        //TODO Create Market
+                        String market = br.readLine();
+                        ArrayList<String> lines = getTextInfo(new File("Markets.txt"));
+                        boolean bol = true;
+                        for (String x : lines) {
+                            if (x.equals(market)) {
+                                writer.println("Market already exists");
+                                writer.flush();
+                                bol = false;
+                            }
+                        }
+                        if (bol) {
+                            try {
+                                PrintWriter pw = new PrintWriter(new FileWriter("Markets.txt", true));
+                                pw.println(market);
+                                pw.flush();
+                                pw.close();
+                                FileWriter fw = new FileWriter(market + " Market.txt");
+                                pw = new PrintWriter(market + " Market.txt");
+                                pw.println("--------");
+                                pw.println("--------");
+                                fw.write("");
+                                fw.flush();
+                                pw.close();
+                                writer.println("Success");
+                                writer.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                writer.println("Fail");
+                                writer.flush();
+                            }
+                        }
+
                     } else if (option.equals("9")) {
                         //TODO Delete Market
                     } else if (option.equals("10")) {
@@ -305,9 +342,6 @@ public class SearchServer {
 
 
     }
-
-
-
 
 
 }

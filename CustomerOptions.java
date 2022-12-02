@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -51,6 +52,28 @@ public class CustomerOptions {
         option2.addActionListener(ev -> {
             writer.println("2");
             writer.flush();
+            String[] info = new String[]{"Name", "Description", "Store"};
+            String item = (String) JOptionPane.showInputDialog(null, "Select an option ", "Option",
+                    JOptionPane.PLAIN_MESSAGE, null, info, null);
+            writer.println(item);
+            writer.flush();
+
+            String message = JOptionPane.showInputDialog(null, "Enter your search text", "Search by " + item,
+                    JOptionPane.INFORMATION_MESSAGE);
+            writer.println(message);
+            writer.flush();
+            String printer = "";
+            try {
+                printer = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (printer.equals("None")) {
+                JOptionPane.showMessageDialog(null, "There are no items found", "Search by " + item,
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                showTable(printer);
+            }
 
 
         });
@@ -123,10 +146,48 @@ public class CustomerOptions {
         JButton option8 = new JButton("8. Remove Item to Shopping Cart");
         option8.setBounds(260, 200, 230, 40);
         option8.addActionListener(ev -> {
-            writer.println("8");
-            writer.flush();
+            JFrame removalFrame = new JFrame("Remove from Cart");
+            removalFrame.setVisible(true);
+            removalFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            removalFrame.setSize(300, 200);
+            removalFrame.setLocation(430, 100);
+
+            JPanel pane = new JPanel();
+            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+
+            removalFrame.add(pane);
+
+            JLabel lbl = new JLabel("Select a product to remove from your shopping cart.");
+            lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+            pane.add(lbl);
+
+            JComboBox cb = null;
+
+            try {
+                cb = new JComboBox(CustomerServer.removeShoppingCart(user));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
+            cb.setMaximumSize(cb.getPreferredSize()); // added code
+            cb.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            pane.add(cb);
+
+            JButton btn = new JButton("REMOVE");
+            btn.setAlignmentX(Component.CENTER_ALIGNMENT); //added code
+            pane.add(btn);
+            JComboBox finalCb = cb;
+            btn.addActionListener(actionEvent -> {
+                removalFrame.dispose();
+                String removal = (String) finalCb.getSelectedItem();
+                try {
+                    removeShoppingCart(removal, user);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         });
         panel.add(option8);
 
@@ -145,12 +206,21 @@ public class CustomerOptions {
         option10.addActionListener(ev -> {
             writer.println("10");
             writer.flush();
+            String data = "";
             try {
-                System.out.println(br.readLine());
+                data = br.readLine();
             } catch (IOException e) {
                 System.out.println("There was an error");
             }
-
+            if (data.equals("None")) {
+                JOptionPane.showMessageDialog(null, "There are no products found in your shopping cart",
+                        "None found", JOptionPane.INFORMATION_MESSAGE);
+            } else if (data.equals("Error")) {
+                JOptionPane.showMessageDialog(null, "There are no products found in your shopping cart",
+                        "None found", JOptionPane.ERROR_MESSAGE);
+            } else {
+                showTable(data);
+            }
         });
         panel.add(option10);
 
@@ -258,5 +328,63 @@ public class CustomerOptions {
         }
         jFrame.setVisible(true); // Creates a JFrame to view the table
     }
+
+    public static void removeShoppingCart(String removal, User user) throws IOException {
+        File inputFile = new File(user.getUsername() + "'s File.txt");
+        File tempFile = new File("myTempFile.txt");
+
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+        String currentLine;
+
+        while((currentLine = reader.readLine()) != null) {
+            // trim newline when comparing with lineToRemove
+            String trimmedLine = currentLine.trim();
+            if(trimmedLine.equals(removal)) continue;
+            writer.write(currentLine + System.getProperty("line.separator"));
+        }
+        writer.close();
+        reader.close();
+        boolean successful = tempFile.renameTo(inputFile);
+        copyFileToFile(tempFile , inputFile);
+    }
+
+    public static void copyFileToFile(final File src, final File dest) throws IOException
+    {
+        copyInputStreamToFile(new FileInputStream(src), dest);
+        dest.setLastModified(src.lastModified());
+    }
+
+    public static void copyInputStreamToFile(final InputStream in, final File dest)
+            throws IOException
+    {
+        copyInputStreamToOutputStream(in, new FileOutputStream(dest));
+    }
+
+
+    public static void copyInputStreamToOutputStream(final InputStream in,
+                                                     final OutputStream out) throws IOException
+    {
+        try
+        {
+            try
+            {
+                final byte[] buffer = new byte[1024];
+                int n;
+                while ((n = in.read(buffer)) != -1)
+                    out.write(buffer, 0, n);
+            }
+            finally
+            {
+                out.close();
+            }
+        }
+        finally
+        {
+            in.close();
+        }
+    }
+
 
 }

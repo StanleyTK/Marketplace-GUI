@@ -125,6 +125,25 @@ public class SellerOptions {
         option8.addActionListener(ev -> {
             writer.println("8");
             writer.flush();
+            String message = JOptionPane.showInputDialog(null, "What is your new Market name?",
+                    "Server", JOptionPane.QUESTION_MESSAGE);
+            writer.println(message);
+            writer.flush();
+            try {
+                String line = br.readLine();
+                if (line.equals("Success")) {
+                    JOptionPane.showMessageDialog(null, message + " Market has been created!",
+                            "Marketplace", JOptionPane.INFORMATION_MESSAGE);
+                } else if (line.equals("Fail")){
+                    JOptionPane.showMessageDialog(null, "There was an error while creating " + message,
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Market already exists! " + message,
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
 
