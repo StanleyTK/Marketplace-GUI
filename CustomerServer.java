@@ -1,9 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.TableColumn;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -345,6 +342,81 @@ public class CustomerServer {
         bfr.close();
         Object[] toReturn = (shoppingCartArrayList.toArray());
         return toReturn;
+    }
+
+
+    // Customer Option 9
+    static String buyShoppingCart(Customer customer) {
+        String printer = "";
+        try {
+            File f = new File(customer.getUsername() + "'s File.txt");
+            BufferedReader bfr = new BufferedReader(new FileReader(f));
+            String name = bfr.readLine();
+            String userType = bfr.readLine();
+            ArrayList<Product> products = new ArrayList<Product>();
+            String line = bfr.readLine();
+            while (line != null) {
+                products.add(SearchServer.getProduct(line));
+                line = bfr.readLine();
+            }
+            bfr.close();
+            PrintWriter pw = new PrintWriter(new FileOutputStream(f));
+            pw.println(name);
+            pw.println(userType);
+            pw.close();
+            double total = 0;
+            for (Product product : products) {
+                String market = product.getStore();
+                f = new File(market + " Market.txt");
+                FileOutputStream fos = new FileOutputStream(f, true);
+                pw = new PrintWriter(fos);
+                pw.println(product.toString() + "," + customer.getUsername());
+                double cost = product.getPrice() * product.getQuantity();
+                total += cost;
+                pw.close();
+                printer += String.format("Purchased %d %s for %.2f total\n",
+                        product.getQuantity(), product.getName(), cost);
+                bfr = new BufferedReader(new FileReader(f));
+                line = bfr.readLine();
+                String before = "";
+                boolean isCustomer = false;
+                while (!line.contains("------")) {
+                    before += line + "\n";
+                    line = bfr.readLine();
+                }
+                before += "--------\n";
+                line = bfr.readLine();
+                ArrayList<String> customers = new ArrayList<String>();
+                while (!line.contains("------")) {
+                    customers.add(line);
+                    if (line.equals(customer.getUsername())) {
+                        isCustomer = true;
+                    }
+                    line = bfr.readLine();
+                }
+                if (!isCustomer) {
+                    customers.add(customer.getUsername());
+                }
+                String after = line;
+                line = bfr.readLine();
+                while (line != null) {
+                    after += "\n" + line;
+                    line = bfr.readLine();
+                }
+                bfr.close();
+                pw = new PrintWriter(new FileOutputStream(f));
+                pw.print(before);
+                for (int i = 0; i < customers.size(); i++) {
+                    pw.println(customers.get(i));
+                }
+                pw.println(after);
+                pw.close();
+            }
+            printer += String.format("\nShopping cart purchased! Total cost: %.2f\n", total);
+        } catch (IOException e) {
+            printer = "An unexpected error occurred while accessing files!" + e.getMessage();
+        }
+        return printer;
     }
 
     // Customer Option 10

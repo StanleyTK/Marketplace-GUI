@@ -231,12 +231,25 @@ public class CustomerOptions {
         });
         panel.add(option8);
 
-        JButton option9 = new JButton("9. Purchase Shopping Cart");
+        JButton option9 = new JButton("9. Purchase Items in Shopping Cart");
         option9.setBounds(10, 250, 230, 40);
         option9.addActionListener(ev -> {
             writer.println("9");
             writer.flush();
-
+            String printer = "";
+            try {
+                String line = br.readLine();
+                while (!line.equals("finished")) {
+                    printer += line + "\n";
+                    line = br.readLine();
+                }
+                JOptionPane.showMessageDialog(null,
+                        printer,
+                        "Marketplace - Purchase Shopping Cart", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "There was an error: " + e.getMessage(),
+                        "Marketplace - Purchase Shopping Cart", JOptionPane.ERROR_MESSAGE);
+            }
 
         });
         panel.add(option9);

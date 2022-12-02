@@ -1,2 +1,8 @@
+t-shirt,Costco,you wear it,30,19.99
+watermelon,Costco,you eat it,12,9.99
+gum,Costco,you chew it,90,9.99
+wallet,Costco,you use it,30,12.99
+apples,Costco,you eat it,45,6.99
+desk,Costco,you use it,13,49.99
 --------
 --------

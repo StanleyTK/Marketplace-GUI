@@ -1,3 +1,4 @@
 Name: Stan
 User: Customer
 water bottle,Target,you drink on it,1,12.99
+apples,Costco,you eat it,2,6.99

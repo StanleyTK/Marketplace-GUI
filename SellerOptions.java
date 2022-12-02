@@ -65,6 +65,59 @@ public class SellerOptions {
                     JOptionPane.PLAIN_MESSAGE, null, info, null);
             writer.println(item);
             writer.flush();
+            String market = "";
+
+            try {
+                String[] markets = br.readLine().split(";");
+                market = (String) JOptionPane.showInputDialog(null, "Which Market would you like to edit in? ", "Option",
+                        JOptionPane.PLAIN_MESSAGE, null, markets, null);
+                writer.println(market);
+                writer.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            if (item.equals("Create")) {
+                int quantity = 0;
+                double price = 0;
+                String name = JOptionPane.showInputDialog(null, "What is the Product's new name?",
+                        "Create new product", JOptionPane.INFORMATION_MESSAGE);
+                String description = JOptionPane.showInputDialog(null, "What is the Product's new description?",
+                        "Create new product", JOptionPane.INFORMATION_MESSAGE);
+                while (true) {
+                    try {
+                        quantity = Integer.parseInt(JOptionPane.showInputDialog(null, "What is the Product's new quantity?",
+                                "Create new product", JOptionPane.INFORMATION_MESSAGE));
+                        break;
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                while (true) {
+                    try {
+                        price = Double.parseDouble(JOptionPane.showInputDialog(null, "What is the Product's new price?",
+                                "Create new product", JOptionPane.INFORMATION_MESSAGE));
+                        break;
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                writer.println(name + ";" + description + ";" + quantity + ";" + price);
+                writer.flush();
+                try {
+                    String bol = br.readLine();
+                    System.out.println(bol);
+
+                    if (bol.equals("true")) {
+                        JOptionPane.showMessageDialog(null, name + " has been created in " + market, "Error", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "The product could not be created due to an error", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
 
         });

@@ -1,9 +1,10 @@
 computer,Target,you use it,13,99.99
 airpods,Target,you hear it,30,129.99
 water bottle,Target,you drink on it,100,12.99
-----------
+--------
 stanleykim902,richard
+stanleykim902
 --------
 airpods,Target,you hear it,2,129.99,stanleykim902
 water bottle,Target,you drink on it,100,12.99,stanleykim902
-computer,Target,you use it,1,99.99,richard
+computer,Target,you use it,1,99.99,richardwater bottle,Target,you drink on it,1,12.99,stanleykim902

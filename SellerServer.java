@@ -6,20 +6,32 @@ public class SellerServer {
 
 
     // Seller Option 2
-    public static void createNewItem() {
+    public static boolean createNewItem(String info, String market) {
+        String[] productInfo = info.split(";");
+        File f = new File(market + " Market.txt");
+        Product product = new Product(productInfo[0], market, productInfo[1], Integer.parseInt(productInfo[2]), Double.parseDouble(productInfo[3]));
         try {
-            ArrayList<String> lines = SearchServer.getTextInfo(new File("Markets.txt"));
-            String[] markets = new String[lines.size()];
-            for (int i = 0; i < markets.length; i++) {
-                markets[i] = lines.get(i);
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            ArrayList<String> lines = new ArrayList<>();
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
             }
+            br.close();
 
+            PrintWriter pw = new PrintWriter(new FileOutputStream(f, false));
+            pw.println(product.toString());
+            for (String x : lines) {
+                pw.println(x);
+            }
+            pw.close();
+            return true;
 
-
-            JFrame jFrame = new JFrame("Create new Product");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
+
     }
 
     public static void deleteItem() {
