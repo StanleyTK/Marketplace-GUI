@@ -1,9 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.TableColumn;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -261,6 +258,53 @@ public class CustomerServer {
         }
         toReturn = toReturn.substring(0 , toReturn.length() - 1);
         return toReturn;
+    }
+
+    static String exportPurchaseHistory(Customer customer) throws IOException {
+        ArrayList<Product> products = new ArrayList<Product>();
+        File marketsFile = new File("Markets.txt");
+        BufferedReader bfr = new BufferedReader(new FileReader(marketsFile));
+        ArrayList<String> markets = new ArrayList<String>();
+        String line = bfr.readLine();
+        while (line != null) {
+            markets.add(line);
+            line = bfr.readLine();
+        }
+        bfr.close();
+        for (int i = 0; i < markets.size(); i++) {
+            File file = new File(markets.get(i) + " Market.txt");
+            bfr = new BufferedReader(new FileReader(file));
+            line = bfr.readLine();
+            while (!line.contains("------")) {
+                line = bfr.readLine();
+            }
+            line = bfr.readLine();
+            while (!line.contains("------")) {
+                line = bfr.readLine();
+            }
+            line = bfr.readLine();
+            while (line != null) {
+                String[] splitLine = line.split(",");
+                if (splitLine[5].equals(customer.getCustomerName())) {
+                    products.add(new Product(splitLine[0], splitLine[1], splitLine[2],
+                            Integer.parseInt(splitLine[3]), Double.parseDouble(splitLine[4])));
+                }
+                line = bfr.readLine();
+            }
+        }
+        bfr.close();
+        String printer = "";
+        printer += customer.getCustomerName() + "'s Purchase History\n";
+        printer += "--------\n";
+        for (int i = 0; i < products.size(); i++) {
+            Product product = products.get(i);
+            printer += "Purchased " + product.getQuantity() + " " + product.getName() + " for\n" +
+                    product.getPrice();
+            printer += String.format(" each ($%.2f) total from %s.\n", (product.getPrice() * (double) product.getQuantity()), product.getStore());
+            printer += "Description: " + product.getDescription() + "\n\n";
+
+        }
+        return printer;
     }
 
 }
