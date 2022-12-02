@@ -3,9 +3,7 @@ import javax.swing.table.TableColumn;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-
-
+import java.util.Objects;
 
 
 public class CustomerOptions {
@@ -96,6 +94,17 @@ public class CustomerOptions {
         option5.addActionListener(ev -> {
             writer.println("5");
             writer.flush();
+            String purchaseHistory = "";
+            try {
+                String line = br.readLine();
+                while (!line.equals("")) {
+                    purchaseHistory = purchaseHistory + line + "\n";
+                    line = br.readLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            showDashboard(purchaseHistory);
 
 
         });
@@ -260,6 +269,17 @@ public class CustomerOptions {
             }
         }
         jFrame.setVisible(true); // Creates a JFrame to view the table
+    }
+
+    protected static void showDashboard(String purchaseHistory) {
+        JTextArea dashboard = new JTextArea();
+        dashboard.append(purchaseHistory);
+        JScrollPane scrollable = new JScrollPane(dashboard);
+        JFrame jFrame = new JFrame("Customer Dashboard");
+        jFrame.setSize(1000, 500);
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrame.getContentPane().add(scrollable);
+        jFrame.setVisible(true);
     }
 
 }
