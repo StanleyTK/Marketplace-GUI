@@ -167,18 +167,16 @@ public class CustomerServer {
     }
 
     // Customer Option 5
-    public static JFrame viewCustomer() {
-        JFrame jFrame = null;
+    public static String viewCustomer(Customer customer) {
+        String customerName = customer.getCustomerName();
+        String purchaseHistory = "";
         try {
-            String customerName = JOptionPane.showInputDialog(null,
-                    "Please enter your username.", "Name", JOptionPane.QUESTION_MESSAGE); // Gets username
             FileReader fr = new FileReader("Markets.txt");
             BufferedReader br = new BufferedReader(fr);
             String line = br.readLine();
             ArrayList<String[]> products = new ArrayList<>(); // ArrayList for each product in the store
             ArrayList<String[]> purchases = new ArrayList<>(); // ArrayList for each purchase in the store
             ArrayList<String[]> customerPurchases = new ArrayList<>(); // ArrayList for each purchase the customer made
-            JTextArea dashboard = new JTextArea();
             while (line != null) {
                 FileReader fileReader = new FileReader(line + " Market.txt");
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -205,41 +203,35 @@ public class CustomerServer {
                 }
                 bufferedReader.close();
                 int productsNumber = products.size();
-                String store = String.format("%s has %d products for sale.\n", line, productsNumber);
-                dashboard.append(store);
+                purchaseHistory = purchaseHistory + String.format("%s has %d products for sale.\n",
+                        line, productsNumber);
                 for (int i = 0; i < products.size(); i++) {
-                    String product = String.format("%d: %s\n", i + 1, Arrays.toString(products.get(i)));
-                    dashboard.append(product);
-                } // Adds all the products available for sale to the JTextArea
+                    purchaseHistory = purchaseHistory + String.format("%d: %s\n",
+                            i + 1, Arrays.toString(products.get(i)));
+                } // Adds all the products available for sale to the purchaseHistory string
                 for (String[] currentPurchase : purchases) {
                     if (customerName.equals(currentPurchase[5])) {
                         customerPurchases.add(currentPurchase);
                     }
                 } // Checks if the customer has purchased, then adds to the arraylist of customer purchases
-                String purchase = String.format("From %s, %s has purchased the following products:\n",
-                        line, customerName);
-                dashboard.append(purchase);
+                purchaseHistory = purchaseHistory +
+                        String.format("From %s, %s has purchased the following products:\n", line, customerName);
                 for (int i = 0; i < customerPurchases.size(); i++) {
-                    String customerPurchase = String.format("%d: %s\n", i + 1,
+                    purchaseHistory = purchaseHistory + String.format("%d: %s\n", i + 1,
                             Arrays.toString(customerPurchases.get(i)));
-                    dashboard.append(customerPurchase);
                 } // Adds the products that the customer has purchased from the store
                 if (customerPurchases.isEmpty()) {
-                    dashboard.append("There have been no purchases from this store.\n");
+                    purchaseHistory = purchaseHistory + "There have been no purchases from this store.\n";
                 }
+                products.clear();
+                purchases.clear();
                 line = br.readLine();
             }
             br.close();
-            JScrollPane scrollable = new JScrollPane(dashboard);
-            jFrame = new JFrame("Customer Dashboard");
-            jFrame.setSize(1000, 500);
-            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            jFrame.getContentPane().add(scrollable);
-            jFrame.setVisible(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return jFrame;
+        return purchaseHistory;
     }
 
     // Customer Option 10

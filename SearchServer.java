@@ -102,7 +102,7 @@ public class SearchServer {
                         writer.println(toReturn);
                         writer.flush();
                     } else if (option.equals("5")) {
-                        JFrame toReturn = CustomerServer.viewCustomer();
+                        String toReturn = CustomerServer.viewCustomer((Customer) user);
                         writer.println(toReturn);
                         writer.flush();
                     } else if (option.equals("6")) {
