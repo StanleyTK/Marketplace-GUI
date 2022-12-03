@@ -1,5 +1,5 @@
-computer,Target,you use it,13,99.99
-airpods,Target,you hear it,30,129.99
+computer,Target,you use it,8,99.99
+airpods,Target,you hear it,50,129.99
 water bottle,Target,you drink on it,100,12.99
 ----------
 --------

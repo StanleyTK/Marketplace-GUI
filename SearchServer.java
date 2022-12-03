@@ -106,9 +106,13 @@ public class SearchServer {
                     } else if (option.equals("6")) {
                         //TODO Export File with Purchase History
                     } else if (option.equals("7")) {
-                        //TODO Add Items to the Shopping Cart
+                        String toReturn = CustomerServer.viewMarket();
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("8")) {
-                        //TODO Remove Items to the Shopping Cart
+                        String toReturn = CustomerServer.shoppingCartArray((Customer) user);
+                        writer.println(toReturn);
+                        writer.flush();
                     } else if (option.equals("9")) {
                         //TODO Purchase All Items in the Shopping Cart
                     } else if (option.equals("10")) {

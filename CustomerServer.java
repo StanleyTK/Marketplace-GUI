@@ -1,9 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.TableColumn;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Array;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 public class CustomerServer {
@@ -165,8 +164,45 @@ public class CustomerServer {
         return toReturn;
     }
 
+    // Customer Option 7
+    public static Object[] addShoppingCartItem(User user) throws IOException { // Customer Option 7
+        String line;
+
+        ArrayList<Object> toReturnArrayList = new ArrayList<>();
+
+        ArrayList<Product> products = new ArrayList<>();
+
+        ArrayList<String> storeNames = new ArrayList<>();
+        try {
+            storeNames = SearchServer.getTextInfo(new File("Markets.txt"));
+            for (String storeName : storeNames) {
+                File f = new File(storeName + " Market.txt");
+                BufferedReader productReader = new BufferedReader(new FileReader(f));
+                line = productReader.readLine();
+                while (line != null) { //iterates through lines of files and adds them to string
+                    if (!line.contains("-----")) {
+                        products.add(SearchServer.getProduct(line));
+                        line = productReader.readLine();
+                    } else {
+                        break;
+                    }
+                }
+                productReader.close();
+
+            }
+        } catch (IOException e) {
+            System.out.println("There are no stores/products found. Sorry");
+        }
+        for (Product product : products) {
+            toReturnArrayList.add(product.toString());
+        }
+        Object[] toReturn = (toReturnArrayList.toArray());
+
+        return toReturn;
+     }
+
     // Customer Option 8
-    public static Object[] removeShoppingCart(User user) throws IOException {
+    public static Object[] removeShoppingCart(User user) throws IOException { //Returns object array of shopping cart
         File f = new File(user.getUsername() + "'s File.txt");
         BufferedReader bfr = new BufferedReader(new FileReader(f));
         String line;
@@ -183,7 +219,7 @@ public class CustomerServer {
     }
 
     // Customer Option 10
-    public static String shoppingCartArray(Customer user) {
+    public static String shoppingCartArray(Customer user) { // Returns string of shopping cart
         String toReturn = "";
         String format = "%s,%s,%s,%d,%.2f;";
         try {
@@ -212,5 +248,4 @@ public class CustomerServer {
         toReturn = toReturn.substring(0 , toReturn.length() - 1);
         return toReturn;
     }
-
 }
