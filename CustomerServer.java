@@ -8,21 +8,21 @@ public class CustomerServer {
 
 
     // Customer Option 1 and Seller Option 1
-    public static String viewMarket() {
+    public synchronized static String viewMarket() {
         String line;
         String printer = "";
         ArrayList<Product> products = new ArrayList<>();
 
         ArrayList<String> storeNames = new ArrayList<>();
         try {
-            storeNames = SearchServer.getTextInfo(new File("Markets.txt"));
+            storeNames = ThreadedMarketPlaceServer.getTextInfo(new File("Markets.txt"));
             for (String storeName : storeNames) {
                 File f = new File(storeName + " Market.txt");
                 BufferedReader productReader = new BufferedReader(new FileReader(f));
                 line = productReader.readLine();
                 while (line != null) { //iterates through lines of files and adds them to string
                     if (!line.contains("-----")) {
-                        products.add(SearchServer.getProduct(line));
+                        products.add(ThreadedMarketPlaceServer.getProduct(line));
                         line = productReader.readLine();
                     } else {
                         break;
@@ -44,7 +44,7 @@ public class CustomerServer {
 
 
     // Customer Option 2
-    public static String searchProducts(String option, String search) {
+    public synchronized static String searchProducts(String option, String search) {
         String results = "";
         try {
             ArrayList<String> markets = Login.getTextInfo(new File("Markets.txt"));
@@ -64,7 +64,7 @@ public class CustomerServer {
                 }
 
                 for (String productInfo : lines) {
-                    Product product = SearchServer.getProduct(productInfo);
+                    Product product = ThreadedMarketPlaceServer.getProduct(productInfo);
                     if (product.getName().contains(search) && option.equals("Name")) {
                         results += productInfo + ";";
                     } else if (product.getDescription().contains(search) && option.equals("Description")) {
@@ -84,7 +84,7 @@ public class CustomerServer {
 
 
     // Customer Option 3
-    static String sortPrice() {
+    public synchronized static String sortPrice() {
         String line;
         ArrayList<Product> products = new ArrayList<>();
         ArrayList<String> storeNames = new ArrayList<>();
@@ -102,7 +102,7 @@ public class CustomerServer {
                 line = productReader.readLine();
                 while (line != null) { //iterates through lines of files and adds them to string
                     if (!line.contains("------")) {
-                        products.add(SearchServer.getProduct(line));
+                        products.add(ThreadedMarketPlaceServer.getProduct(line));
                         line = productReader.readLine();
                     } else {
                         break;
@@ -147,7 +147,7 @@ public class CustomerServer {
 
     // Customer Option 4
 
-    static String sortQuantity() {
+    public static synchronized String sortQuantity() {
         String line;
         ArrayList<Product> products = new ArrayList<>();
         ArrayList<String> storeNames = new ArrayList<>();
@@ -165,7 +165,7 @@ public class CustomerServer {
                 line = productReader.readLine();
                 while (line != null) { //iterates through lines of files and adds them to string
                     if (!line.contains("----")) {
-                        products.add(SearchServer.getProduct(line));
+                        products.add(ThreadedMarketPlaceServer.getProduct(line));
                         line = productReader.readLine();
                     } else {
                         break;
@@ -204,7 +204,7 @@ public class CustomerServer {
 
 
     // Customer Option 5
-    public static String viewCustomer(Customer customer) {
+    public synchronized static String viewCustomer(Customer customer) {
         String customerName = customer.getCustomerName();
         String purchaseHistory = "";
         try {
@@ -392,7 +392,7 @@ public class CustomerServer {
             ArrayList<Product> products = new ArrayList<Product>();
             String line = bfr.readLine();
             while (line != null) {
-                products.add(SearchServer.getProduct(line));
+                products.add(ThreadedMarketPlaceServer.getProduct(line));
                 line = bfr.readLine();
             }
             bfr.close();
@@ -466,7 +466,7 @@ public class CustomerServer {
 
             while (line != null) {
                 if (line.contains(",")) {
-                    Product product = SearchServer.getProduct(line);
+                    Product product = ThreadedMarketPlaceServer.getProduct(line);
                     toReturn = String.format(format, product.getName(), product.getStore() ,
                             product.getDescription(), product.getQuantity(), product.getPrice()) + toReturn;
                     lines.add(product);

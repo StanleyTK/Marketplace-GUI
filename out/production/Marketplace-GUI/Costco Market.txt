@@ -1,5 +1,5 @@
+jacket,Costco,you wear it,39,39.99
 purdue,Costco,you get fucked by math department,10,2.99
 math,Costco,it sucks ass,6,1.99
-jacket,Costco,you wear it,39,39.99
 --------
 --------

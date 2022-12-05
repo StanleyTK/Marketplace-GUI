@@ -7,11 +7,13 @@ import java.net.*;
 
 
 public class GUI {
+    final static int PORT = 8888;
 
 
     public static void main(String[] args) {
+        Socket socket;
         try {
-            Socket socket = new Socket("localhost", 1234);
+            socket = new Socket("localhost", PORT);
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             Login.login(br, writer);

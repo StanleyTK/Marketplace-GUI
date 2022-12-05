@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 
 public class CustomerOptions {
+    final static Object obj = new Object();
 
     public static void options(User user, BufferedReader br, PrintWriter writer) {
         try {
@@ -35,45 +36,52 @@ public class CustomerOptions {
         JButton option1 = new JButton("1. View Market");
         option1.setBounds(10, 50, 230, 40);
         option1.addActionListener(ev -> {
-            writer.println("1");
-            writer.flush();
-            String printer = "";
-            try {
-                printer = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            showTable(printer);
+            Thread t = new Thread(() -> {
+                writer.println("1");
+                writer.flush();
+                String printer = "";
+                try {
+                    printer = br.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                showTable(printer);
+            });
+            t.start();
         });
         panel.add(option1);
+
 
         JButton option2 = new JButton("2. Search for Product");
         option2.setBounds(260, 50, 230, 40);
         option2.addActionListener(ev -> {
-            writer.println("2");
-            writer.flush();
-            String[] info = new String[]{"Name", "Description", "Store"};
-            String item = (String) JOptionPane.showInputDialog(null, "Select an option ", "Option",
-                    JOptionPane.PLAIN_MESSAGE, null, info, null);
-            writer.println(item);
-            writer.flush();
+            Thread t = new Thread(() -> {
+                writer.println("2");
+                writer.flush();
+                String[] info = new String[]{"Name", "Description", "Store"};
+                String item = (String) JOptionPane.showInputDialog(null, "Select an option ", "Option",
+                        JOptionPane.PLAIN_MESSAGE, null, info, null);
+                writer.println(item);
+                writer.flush();
 
-            String message = JOptionPane.showInputDialog(null, "Enter your search text", "Search by " + item,
-                    JOptionPane.INFORMATION_MESSAGE);
-            writer.println(message);
-            writer.flush();
-            String printer = "";
-            try {
-                printer = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (printer.equals("None")) {
-                JOptionPane.showMessageDialog(null, "There are no items found", "Search by " + item,
+                String message = JOptionPane.showInputDialog(null, "Enter your search text", "Search by " + item,
                         JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                showTable(printer);
-            }
+                writer.println(message);
+                writer.flush();
+                String printer = "";
+                try {
+                    printer = br.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (printer.equals("None")) {
+                    JOptionPane.showMessageDialog(null, "There are no items found", "Search by " + item,
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    showTable(printer);
+                }
+            });
+            t.start();
 
 
         });
@@ -82,15 +90,18 @@ public class CustomerOptions {
         JButton option3 = new JButton("3. Sort by Price");
         option3.setBounds(10, 100, 230, 40);
         option3.addActionListener(ev -> {
-            writer.println("3");
-            writer.flush();
-            String DATA = "";
-            try {
-                DATA = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            showTable(DATA);
+            Thread t = new Thread(() -> {
+                writer.println("3");
+                writer.flush();
+                String DATA = "";
+                try {
+                    DATA = br.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                showTable(DATA);
+            });
+            t.start();
 
 
         });
@@ -99,15 +110,18 @@ public class CustomerOptions {
         JButton option4 = new JButton("4. Sort by Quantity");
         option4.setBounds(260, 100, 230, 40);
         option4.addActionListener(ev -> {
-            writer.println("4");
-            writer.flush();
-            String DATA = "";
-            try {
-                DATA = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            showTable(DATA);
+            Thread t = new Thread(() -> {
+                writer.println("4");
+                writer.flush();
+                String DATA = "";
+                try {
+                    DATA = br.readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                showTable(DATA);
+            });
+            t.start();
 
 
         });
@@ -116,19 +130,22 @@ public class CustomerOptions {
         JButton option5 = new JButton("5. View Dashboard");
         option5.setBounds(10, 150, 230, 40);
         option5.addActionListener(ev -> {
-            writer.println("5");
-            writer.flush();
-            String purchaseHistory = "";
-            try {
-                String line = br.readLine();
-                while (!line.equals("")) {
-                    purchaseHistory = purchaseHistory + line + "\n";
-                    line = br.readLine();
+            Thread t = new Thread(() -> {
+                writer.println("5");
+                writer.flush();
+                String purchaseHistory = "";
+                try {
+                    String line = br.readLine();
+                    while (!line.equals("")) {
+                        purchaseHistory = purchaseHistory + line + "\n";
+                        line = br.readLine();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            showDashboard(purchaseHistory);
+                showDashboard(purchaseHistory);
+            });
+            t.start();
 
 
         });
@@ -137,39 +154,42 @@ public class CustomerOptions {
         JButton option6 = new JButton("6. Export Purchase History");
         option6.setBounds(260, 150, 230, 40);
         option6.addActionListener(ev -> {
-            writer.println("6");
-            writer.flush();
-            String fileLocation = (String) JOptionPane.showInputDialog(null,
-                    "What is the file name you wish to export your purchase history to?",
-                    "Marketplace - Export Purchase History", JOptionPane.QUESTION_MESSAGE);
-            try {
-                String line = br.readLine();
-                if (line.equals("Failed")) {
-                    JOptionPane.showMessageDialog(null, "There was an error accessing the market place.",
-                            "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    try {
-                        String printer = "";
-                        while (!line.equals("finished")) {
-                            printer += line + "\n";
-                            line = br.readLine();
-                        }
-                        File f = new File(fileLocation);
-                        PrintWriter pw = new PrintWriter(new FileOutputStream(f));
-                        pw.println(printer);
-                        pw.close();
-                        JOptionPane.showMessageDialog(null,
-                                "Your purchase history was successfully exported to " + fileLocation,
-                                "Marketplace - Export Purchase History", JOptionPane.INFORMATION_MESSAGE);
-                    } catch (IOException e) {
-                        JOptionPane.showMessageDialog(null, "The provided file location is invalid.",
+            Thread t = new Thread(() -> {
+                writer.println("6");
+                writer.flush();
+                String fileLocation = (String) JOptionPane.showInputDialog(null,
+                        "What is the file name you wish to export your purchase history to?",
+                        "Marketplace - Export Purchase History", JOptionPane.QUESTION_MESSAGE);
+                try {
+                    String line = br.readLine();
+                    if (line.equals("Failed")) {
+                        JOptionPane.showMessageDialog(null, "There was an error accessing the market place.",
                                 "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        try {
+                            String printer = "";
+                            while (!line.equals("finished")) {
+                                printer += line + "\n";
+                                line = br.readLine();
+                            }
+                            File f = new File(fileLocation);
+                            PrintWriter pw = new PrintWriter(new FileOutputStream(f));
+                            pw.println(printer);
+                            pw.close();
+                            JOptionPane.showMessageDialog(null,
+                                    "Your purchase history was successfully exported to " + fileLocation,
+                                    "Marketplace - Export Purchase History", JOptionPane.INFORMATION_MESSAGE);
+                        } catch (IOException e) {
+                            JOptionPane.showMessageDialog(null, "The provided file location is invalid.",
+                                    "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "There was an error: " + e.getMessage(),
+                            "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "There was an error: " + e.getMessage(),
-                        "Marketplace - Export Purchase History", JOptionPane.ERROR_MESSAGE);
-            }
+            });
+            t.start();
         });
         panel.add(option6);
 
@@ -209,11 +229,6 @@ public class CustomerOptions {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-
-
-
 
 
 //            JFrame addFrame = new JFrame("Add to Cart");
@@ -386,7 +401,6 @@ public class CustomerOptions {
 //            });
 
 
-
         });
         panel.add(option7);
 
@@ -428,10 +442,6 @@ public class CustomerOptions {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-
-
 
 
 //            JFrame removalFrame = new JFrame("Remove from Cart");
@@ -622,7 +632,6 @@ public class CustomerOptions {
             jFrame.setVisible(true);
 
 
-
         });
         panel.add(option11);
 
@@ -647,7 +656,7 @@ public class CustomerOptions {
 
     }
 
-    protected static void showDashboard(String purchaseHistory) {
+    protected synchronized static void showDashboard(String purchaseHistory) {
         JTextArea dashboard = new JTextArea();
         dashboard.append(purchaseHistory);
         JScrollPane scrollable = new JScrollPane(dashboard);
@@ -658,7 +667,7 @@ public class CustomerOptions {
         jFrame.setVisible(true);
     }
 
-    static void showTable(String printer) {
+    protected synchronized static void showTable(String printer) {
         String[] printerSplit = printer.split(";"); // Splits the list into an array of individual products
         ArrayList<String[]> toReturnArrayList = new ArrayList<>();
         for (String s : printerSplit) {
@@ -698,63 +707,64 @@ public class CustomerOptions {
         }
         jFrame.setVisible(true); // Creates a JFrame to view the table
     }
-
-    public static void removeShoppingCart(String removal, User user) throws IOException {
-        File inputFile = new File(user.getUsername() + "'s File.txt");
-        File tempFile = new File("myTempFile.txt");
-
-        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-
-        String currentLine;
-
-        while((currentLine = reader.readLine()) != null) {
-            // trim newline when comparing with lineToRemove
-            String trimmedLine = currentLine.trim();
-            if(trimmedLine.equals(removal)) continue;
-            writer.write(currentLine + System.getProperty("line.separator"));
-        }
-        writer.close();
-        reader.close();
-        boolean successful = tempFile.renameTo(inputFile);
-        copyFileToFile(tempFile , inputFile);
-    }
-
-    public static void copyFileToFile(final File src, final File dest) throws IOException
-    {
-        copyInputStreamToFile(new FileInputStream(src), dest);
-        dest.setLastModified(src.lastModified());
-    }
-
-    public static void copyInputStreamToFile(final InputStream in, final File dest)
-            throws IOException
-    {
-        copyInputStreamToOutputStream(in, new FileOutputStream(dest));
-    }
-
-
-    public static void copyInputStreamToOutputStream(final InputStream in,
-                                                     final OutputStream out) throws IOException
-    {
-        try
-        {
-            try
-            {
-                final byte[] buffer = new byte[1024];
-                int n;
-                while ((n = in.read(buffer)) != -1)
-                    out.write(buffer, 0, n);
-            }
-            finally
-            {
-                out.close();
-            }
-        }
-        finally
-        {
-            in.close();
-        }
-    }
-
-
 }
+
+//    public static void removeShoppingCart(String removal, User user) throws IOException {
+//        File inputFile = new File(user.getUsername() + "'s File.txt");
+//        File tempFile = new File("myTempFile.txt");
+//
+//        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+//        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+//
+//        String currentLine;
+//
+//        while((currentLine = reader.readLine()) != null) {
+//            // trim newline when comparing with lineToRemove
+//            String trimmedLine = currentLine.trim();
+//            if(trimmedLine.equals(removal)) continue;
+//            writer.write(currentLine + System.getProperty("line.separator"));
+//        }
+//        writer.close();
+//        reader.close();
+//        boolean successful = tempFile.renameTo(inputFile);
+//        copyFileToFile(tempFile , inputFile);
+//    }
+//
+//    public static void copyFileToFile(final File src, final File dest) throws IOException
+//    {
+//        copyInputStreamToFile(new FileInputStream(src), dest);
+//        dest.setLastModified(src.lastModified());
+//    }
+//
+//    public static void copyInputStreamToFile(final InputStream in, final File dest)
+//            throws IOException
+//    {
+//        copyInputStreamToOutputStream(in, new FileOutputStream(dest));
+//    }
+//
+//
+//    public static void copyInputStreamToOutputStream(final InputStream in,
+//                                                     final OutputStream out) throws IOException
+//    {
+//        try
+//        {
+//            try
+//            {
+//                final byte[] buffer = new byte[1024];
+//                int n;
+//                while ((n = in.read(buffer)) != -1)
+//                    out.write(buffer, 0, n);
+//            }
+//            finally
+//            {
+//                out.close();
+//            }
+//        }
+//        finally
+//        {
+//            in.close();
+//        }
+//    }
+//
+//
+//}

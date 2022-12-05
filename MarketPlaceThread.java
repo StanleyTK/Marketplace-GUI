@@ -1,38 +1,26 @@
-import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * A GUI Server for Marketplace
- *
- * <p>Purdue University -- CS18000 -- Fall 2022 -- Homework 11 -- Challenge</p>
- *
- * @author Stanley Kim
- * @version November 19, 2022
- */
+public class MarketPlaceThread extends Thread {
+    protected Socket socket;
+    protected AtomicInteger clients;
 
+    public MarketPlaceThread(Socket clientSocket) {
+        this.socket = clientSocket;
+        clients = new AtomicInteger(0);
+    }
 
-
-
-public class SearchServer {
-
-
-    public static void main(String[] args) {
+    public void run() {
         boolean createNewAccount = false;
         BufferedReader br;
         PrintWriter writer;
         User user = null;
 
         try {
-            ServerSocket serverSocket = new ServerSocket(1234);
-            System.out.println("Waiting for the client to connect...");
-            Socket socket = serverSocket.accept();
-            System.out.println("Client connected!");
+
+            System.out.printf("Client %d connected!", clients.get());
             br = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
             writer = new
@@ -55,7 +43,7 @@ public class SearchServer {
                     writer.println("Incorrect Username or Password, try again");
                     writer.flush();
                 } else {
-                    user = getUser(line);
+                    user = ThreadedMarketPlaceServer.getUser(line);
                     writer.println(user);
                     writer.flush();
                 }
@@ -136,7 +124,7 @@ public class SearchServer {
                             writer.println(toReturn);
                             writer.flush();
                             toReturn = br.readLine();
-                            Product product = getProduct(toReturn);
+                            Product product = ThreadedMarketPlaceServer.getProduct(toReturn);
                             File f = new File(product.getStore() + " Market.txt");
                             String quan = br.readLine();
                             int quantity = Integer.parseInt(quan);
@@ -176,7 +164,7 @@ public class SearchServer {
                                 printWriter.close();
                                 assert user != null;
                                 f = new File(user.getUsername() + "'s File.txt");
-                                lines = getTextInfo(f);
+                                lines = ThreadedMarketPlaceServer.getTextInfo(f);
                                 boolean bol = false;
                                 index = -1;
                                 for (int i = 0; i < lines.size(); i++) {
@@ -214,14 +202,14 @@ public class SearchServer {
                             writer.println(toReturn);
                             writer.flush();
                             toReturn = br.readLine();
-                            Product product = getProduct(toReturn);
+                            Product product = ThreadedMarketPlaceServer.getProduct(toReturn);
                             File f = new File(user.getUsername() + "'s File.txt");
                             String quan = br.readLine();
                             int quantity = Integer.parseInt(quan);
                             if (quantity <= 0) {
                                 writer.println("false");
                             } else {
-                                ArrayList<String> lines = getTextInfo(f);
+                                ArrayList<String> lines = ThreadedMarketPlaceServer.getTextInfo(f);
                                 int index = -1;
                                 for (int i = 0; i < lines.size(); i++) {
                                     if (lines.get(i).contains(product.getName())) {
@@ -339,7 +327,7 @@ public class SearchServer {
                         case "2": {
 
                             option = br.readLine();
-                            ArrayList<String> lines = getTextInfo(new File("Markets.txt"));
+                            ArrayList<String> lines = ThreadedMarketPlaceServer.getTextInfo(new File("Markets.txt"));
                             String toReturn = "";
                             for (String x : lines) {
                                 toReturn = toReturn + x + ";";
@@ -351,7 +339,7 @@ public class SearchServer {
                                 String info = br.readLine();
                                 SellerServer.createNewItem(info, market);
                             } else if (option.equals("Delete")) {
-                                ArrayList<String> info = getTextInfo(new File(market + " Market.txt"));
+                                ArrayList<String> info = ThreadedMarketPlaceServer.getTextInfo(new File(market + " Market.txt"));
                                 toReturn = "";
                                 boolean bol = true;
                                 for (String x : info) {
@@ -366,7 +354,7 @@ public class SearchServer {
                                 String item = br.readLine();
                                 SellerServer.deleteItem(item, market);
                             } else {
-                                ArrayList<String> info = getTextInfo(new File(market + " Market.txt"));
+                                ArrayList<String> info = ThreadedMarketPlaceServer.getTextInfo(new File(market + " Market.txt"));
                                 toReturn = "";
                                 boolean bol = true;
                                 for (String x : info) {
@@ -412,7 +400,7 @@ public class SearchServer {
                             break;
                         case "8": {
                             String market = br.readLine();
-                            ArrayList<String> lines = getTextInfo(new File("Markets.txt"));
+                            ArrayList<String> lines = ThreadedMarketPlaceServer.getTextInfo(new File("Markets.txt"));
                             boolean bol = true;
                             for (String x : lines) {
                                 if (x.equals(market)) {
@@ -482,7 +470,7 @@ public class SearchServer {
 
     // Checks the login information, and checks if the info matches the login
     public static String verifyLogin(String username, String password) throws IOException {
-        ArrayList<String> lines = getTextInfo(new File("login.txt"));
+        ArrayList<String> lines = ThreadedMarketPlaceServer.getTextInfo(new File("login.txt"));
         for (String line : lines) {
             String[] contents = line.split(";");
             if (contents[0].equals(username) && contents[1].equals(password)) {
@@ -512,7 +500,7 @@ public class SearchServer {
                 f = new File("Customers.txt");
                 pw = new PrintWriter(new FileOutputStream(f, true));
                 if (f.createNewFile()) {
-                    ArrayList<String> lines = getTextInfo(f);
+                    ArrayList<String> lines = ThreadedMarketPlaceServer.getTextInfo(f);
                     for (String x : lines) {
                         pw.println(x);
                     }
@@ -532,62 +520,4 @@ public class SearchServer {
         return null;
 
     }
-
-
-    // Returns the product from the market
-    public static Product getProduct(String line) {
-        String[] contents = line.split(",");
-        return new Product(contents[0], contents[1], contents[2],
-                Integer.parseInt(contents[3]), Double.parseDouble(contents[4]));
-    }
-
-
-
-    // Easier implementation to access a txt file
-    public static ArrayList<String> getTextInfo(File f) throws IOException {
-        ArrayList<String> toReturn = new ArrayList<>();
-
-        BufferedReader br = new BufferedReader(new FileReader(f));
-        String line = br.readLine();
-        while (line != null) {
-            toReturn.add(line);
-            line = br.readLine();
-        }
-        return toReturn;
-
-    }
-
-
-
-    public static User getUser(String info) throws IOException {
-        String[] contents = info.split(";");
-        ArrayList<Product> products = new ArrayList<>();
-        String user = "Customer";
-
-        String fileName = contents[0] + "'s File.txt";
-        ArrayList<String> lines = getTextInfo(new File(fileName));
-
-        for (String productInfo : lines) {
-            if (!productInfo.contains("Name:") && !productInfo.contains("User:") && productInfo.contains("User: Seller")) {
-                products.add(getProduct(productInfo));
-            } else if (productInfo.contains("User: Seller")) {
-                user = "Seller";
-            }
-        }
-
-
-        ShoppingCart shoppingCart = new ShoppingCart(products);
-
-        if (user.equals("Customer")) {
-            return new Customer(contents[2], contents[0], contents[1], shoppingCart.getCartItems());
-        } else {
-            return new Seller(contents[2], contents[0], contents[1]);
-        }
-
-
-
-    }
-
-
 }
-
