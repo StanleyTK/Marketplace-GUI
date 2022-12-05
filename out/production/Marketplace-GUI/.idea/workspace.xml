@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c8806991-01de-43e5-8eeb-4dcabbaebd3f" name="Changes" comment="Finished and updated every customer options except for 7-9.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="c8806991-01de-43e5-8eeb-4dcabbaebd3f" name="Changes" comment="Almost finished the GUI">
+      <change beforePath="$PROJECT_DIR$/Costco Market.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Costco Market.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CustomerOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/CustomerOptions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CustomerServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/CustomerServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RICH's File.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SearchServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/SearchServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SellerOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/SellerOptions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SellerServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/SellerServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Target Market.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Target Market.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Walmart Market.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Walmart Market.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.txt" beforeDir="false" afterPath="$PROJECT_DIR$/login.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myTempFile.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/CustomerOptions.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/CustomerOptions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/CustomerServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/CustomerServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/SearchServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/SearchServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/Target Market.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/Target Market.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/login.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Marketplace-GUI/login.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marketplace-GUI/myTempFile.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +60,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.GUI">
+  <component name="RunManager">
     <configuration name="GUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI" />
       <module name="Marketplace-GUI" />
@@ -242,7 +259,21 @@
       <option name="project" value="LOCAL" />
       <updated>1670011954953</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Almost finished the GUI">
+      <created>1670014259030</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1670014259030</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Almost finished the GUI">
+      <created>1670014340309</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1670014340309</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -266,6 +297,7 @@
     <MESSAGE value="Fixed Vid's Code" />
     <MESSAGE value="Finished Option 3, 4, 11 for Customer Options&#10;&#10;Finished Option 1 and 10 for Seller Options" />
     <MESSAGE value="Finished and updated every customer options except for 7-9." />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished and updated every customer options except for 7-9." />
+    <MESSAGE value="Almost finished the GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Almost finished the GUI" />
   </component>
 </project>

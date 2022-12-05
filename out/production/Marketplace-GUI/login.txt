@@ -1,10 +1,6 @@
 stanleykim902;stanley;Stan
 vid123;vid;Vid
-
 vid.g;vid.g;vid.g
-
 vidyaratnam.g;vidyaratnam.g;vidyaratnam.g
-
 vidyaratnam.g;vidyaratnam.g;vidyaratnam.g
-
 richard;richard;Rich

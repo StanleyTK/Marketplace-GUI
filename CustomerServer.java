@@ -324,6 +324,45 @@ public class CustomerServer {
     }
 
 
+    // Customer Option 7
+    public static Object[] addShoppingCartItem(User user) throws IOException { // Customer Option 7
+        String line;
+
+        ArrayList<Object> toReturnArrayList = new ArrayList<>();
+
+        ArrayList<Product> products = new ArrayList<>();
+
+        ArrayList<String> storeNames = new ArrayList<>();
+        try {
+            storeNames = SearchServer.getTextInfo(new File("Markets.txt"));
+            for (String storeName : storeNames) {
+                File f = new File(storeName + " Market.txt");
+                BufferedReader productReader = new BufferedReader(new FileReader(f));
+                line = productReader.readLine();
+                while (line != null) { //iterates through lines of files and adds them to string
+                    if (!line.contains("-----")) {
+                        products.add(SearchServer.getProduct(line));
+                        line = productReader.readLine();
+                    } else {
+                        break;
+                    }
+                }
+                productReader.close();
+
+            }
+        } catch (IOException e) {
+            System.out.println("There are no stores/products found. Sorry");
+        }
+        for (Product product : products) {
+            toReturnArrayList.add(product.toString());
+        }
+        Object[] toReturn = (toReturnArrayList.toArray());
+        System.out.println(toReturn);
+
+        return toReturn;
+    }
+
+
 
 
 

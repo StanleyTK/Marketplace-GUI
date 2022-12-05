@@ -54,11 +54,8 @@ public class SearchServer {
                     writer.println("Incorrect Username or Password, try again");
                     writer.flush();
                 } else {
-                    String[] info = line.split(";");
-                    JOptionPane.showMessageDialog(null, "Welcome " + info[2],
-                            "Welcome!", JOptionPane.INFORMATION_MESSAGE);
                     user = getUser(line);
-                    writer.println(user.toString());
+                    writer.println(user);
                     writer.flush();
                 }
 
@@ -121,7 +118,7 @@ public class SearchServer {
                             writer.flush();
                             break;
                         }
-                        case "6":
+                        case "6": {
                             try {
                                 String toReturn = CustomerServer.exportPurchaseHistory((Customer) user);
                                 writer.println(toReturn);
@@ -132,12 +129,19 @@ public class SearchServer {
                                 writer.flush();
                             }
                             break;
-                        case "7":
-                            //TODO Add Items to the Shopping Cart
+                        }
+                        case "7": {
+                            String toReturn = CustomerServer.viewMarket();
+                            writer.println(toReturn);
+                            writer.flush();
                             break;
-                        case "8":
-                            //TODO Remove Items to the Shopping Cart
+                        }
+                        case "8": {
+                            String toReturn = CustomerServer.shoppingCartArray((Customer) user);
+                            writer.println(toReturn);
+                            writer.flush();
                             break;
+                        }
                         case "9": {
                             String toReturn = CustomerServer.buyShoppingCart((Customer) user);
                             writer.println(toReturn);
@@ -187,6 +191,7 @@ public class SearchServer {
                             break;
                         }
                         case "2": {
+
                             option = br.readLine();
                             ArrayList<String> lines = getTextInfo(new File("Markets.txt"));
                             String toReturn = "";
@@ -198,16 +203,38 @@ public class SearchServer {
                             String market = br.readLine();
                             if (option.equals("Create")) {
                                 String info = br.readLine();
-                                if (SellerServer.createNewItem(info, market)) {
-                                    System.out.println("asedfasdfasdfasd");
-                                    writer.println("true");
-                                } else {
-                                    writer.println("false");
-                                }
+                                SellerServer.createNewItem(info, market);
                             } else if (option.equals("Delete")) {
-                                SellerServer.deleteItem();
+                                ArrayList<String> info = getTextInfo(new File(market + " Market.txt"));
+                                toReturn = "";
+                                boolean bol = true;
+                                for (String x : info) {
+                                    if (!x.contains("-----") && bol) {
+                                        toReturn = toReturn + x + ";";
+                                    } else {
+                                        bol = false;
+                                    }
+                                }
+                                writer.println(toReturn);
+                                writer.flush();
+                                String item = br.readLine();
+                                SellerServer.deleteItem(item, market);
                             } else {
-                                SellerServer.editItem();
+                                ArrayList<String> info = getTextInfo(new File(market + " Market.txt"));
+                                toReturn = "";
+                                boolean bol = true;
+                                for (String x : info) {
+                                    if (!x.contains("-----") && bol) {
+                                        toReturn = toReturn + x + ";";
+                                    } else {
+                                        bol = false;
+                                    }
+                                }
+                                writer.println(toReturn);
+                                writer.flush();
+                                String item = br.readLine();
+                                String newInfo = br.readLine();
+                                SellerServer.editItem(item, newInfo, market);
                             }
 
 

@@ -57,6 +57,9 @@ public class Login {
                                 "Incorrect Login!", JOptionPane.ERROR_MESSAGE);
                     } else {
                         User user = convertUser(line);
+                        assert user != null;
+                        JOptionPane.showMessageDialog(null, "Welcome " + user.getCustomerName(),
+                                "Welcome!", JOptionPane.INFORMATION_MESSAGE);
 
                         if (user instanceof Customer) {
                             frame.dispose();

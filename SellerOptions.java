@@ -58,15 +58,16 @@ public class SellerOptions {
                 e.printStackTrace();
             }
 
+
             writer.println("2");
             writer.flush();
+
             String[] info = new String[]{"Create", "Delete", "Edit"};
             String item = (String) JOptionPane.showInputDialog(null, "Select an option ", "Option",
                     JOptionPane.PLAIN_MESSAGE, null, info, null);
             writer.println(item);
             writer.flush();
             String market = "";
-
             try {
                 String[] markets = br.readLine().split(";");
                 market = (String) JOptionPane.showInputDialog(null, "Which Market would you like to edit in? ", "Option",
@@ -76,7 +77,6 @@ public class SellerOptions {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
 
             if (item.equals("Create")) {
                 int quantity = 0;
@@ -103,19 +103,69 @@ public class SellerOptions {
                         JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
+
+
                 writer.println(name + ";" + description + ";" + quantity + ";" + price);
                 writer.flush();
-                try {
-                    String bol = br.readLine();
-                    System.out.println(bol);
+                JOptionPane.showMessageDialog(null, name + " has been created in " + market, "Error", JOptionPane.INFORMATION_MESSAGE);
+//
 
-                    if (bol.equals("true")) {
-                        JOptionPane.showMessageDialog(null, name + " has been created in " + market, "Error", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "The product could not be created due to an error", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+
+            } else if (item.equals("Delete")) {
+                try {
+                    String deleteInfo = br.readLine();
+                    String[] deleteInformation = deleteInfo.split(";");
+                    String product = (String) JOptionPane.showInputDialog(null, "Which product would you like to delete? ", "Option",
+                            JOptionPane.PLAIN_MESSAGE, null, deleteInformation, null);
+                    writer.println(product);
+                    writer.flush();
+                    String[] productInfo = product.split(",");
+                    JOptionPane.showMessageDialog(null, productInfo[0] + " has been deleted in " + market, "MarketPlace", JOptionPane.INFORMATION_MESSAGE);
+
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
+                }
+            } else {
+                // Edit
+                try {
+                    String editInfo = br.readLine();
+                    String[] editInformation = editInfo.split(";");
+                    String product = (String) JOptionPane.showInputDialog(null, "Which product would you like to edit? ", "Option",
+                            JOptionPane.PLAIN_MESSAGE, null, editInformation, null);
+                    writer.println(product);
+                    writer.flush();
+                    String[] productInfo = product.split(",");
+                    int quantity = 0;
+                    double price = 0;
+                    String name = JOptionPane.showInputDialog(null, "What is the Product's new name?",
+                            "Create new product", JOptionPane.INFORMATION_MESSAGE);
+                    String description = JOptionPane.showInputDialog(null, "What is the Product's new description?",
+                            "Create new product", JOptionPane.INFORMATION_MESSAGE);
+                    while (true) {
+                        try {
+                            quantity = Integer.parseInt(JOptionPane.showInputDialog(null, "What is the Product's new quantity?",
+                                    "Create new product", JOptionPane.INFORMATION_MESSAGE));
+                            break;
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                    while (true) {
+                        try {
+                            price = Double.parseDouble(JOptionPane.showInputDialog(null, "What is the Product's new price?",
+                                    "Create new product", JOptionPane.INFORMATION_MESSAGE));
+                            break;
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+
+
+                    writer.println(name + ";" + description + ";" + quantity + ";" + price);
+                    writer.flush();
+                    JOptionPane.showMessageDialog(null, productInfo[0] + " has been edited in " + market, "MarketPlace", JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 

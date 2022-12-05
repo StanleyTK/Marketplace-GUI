@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 class CustomerPurchases { // Class used in the viewSeller method
@@ -103,6 +104,7 @@ public class SellerServer {
 
     // Seller Option 2
     public static boolean createNewItem(String info, String market) {
+
         String[] productInfo = info.split(";");
         File f = new File(market + " Market.txt");
         Product product = new Product(productInfo[0], market, productInfo[1], Integer.parseInt(productInfo[2]), Double.parseDouble(productInfo[3]));
@@ -130,10 +132,89 @@ public class SellerServer {
 
     }
 
-    public static void deleteItem() {
+    public static boolean deleteItem(String item, String market) {
+        String[] productInfo = item.split(",");
+        File f = new File(market + " Market.txt");
+        Product product = new Product(productInfo[0], productInfo[1], productInfo[2], Integer.parseInt(productInfo[3]), Double.parseDouble(productInfo[4]));
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            ArrayList<String> lines = new ArrayList<>();
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+            br.close();
+            int index = -1;
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).contains(product.toString())) {
+                    index = i;
+                }
+            }
+            if (index != -1) {
+                lines.remove(index);
+            } else {
+                return false;
+            }
+
+            PrintWriter pw = new PrintWriter(new FileOutputStream(f, false));
+            for (String x : lines) {
+                pw.println(x);
+            }
+            pw.close();
+            return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    public static void editItem() {
+    public static boolean editItem(String item, String newInfo, String market) {
+        String[] productInfo = item.split(",");
+        File f = new File(market + " Market.txt");
+        Product product = new Product(productInfo[0], productInfo[1], productInfo[2],
+                Integer.parseInt(productInfo[3]), Double.parseDouble(productInfo[4]));
+//
+//        System.out.println(newInfo);
+        String[] newProductInfo = newInfo.split(";");
+//        System.out.println(Arrays.toString(newProductInfo));
+//        System.out.println(newProductInfo.length);
+//        System.out.println(newProductInfo[2]);
+//        System.out.println(newProductInfo[3]);
+
+        Product newProduct = new Product(newProductInfo[0], market,
+                newProductInfo[1], Integer.parseInt(newProductInfo[2]), Double.parseDouble(newProductInfo[3]));
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            ArrayList<String> lines = new ArrayList<>();
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+            br.close();
+            int index = -1;
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).contains(product.toString())) {
+                    index = i;
+                }
+            }
+            if (index != -1) {
+                lines.remove(index);
+            } else {
+                return false;
+            }
+            PrintWriter pw = new PrintWriter(new FileOutputStream(f, false));
+            pw.println(newProduct);
+            for (String x : lines) {
+                pw.println(x);
+            }
+            pw.close();
+            return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
@@ -295,4 +376,6 @@ public class SellerServer {
         }
         return marketInformation;
     }
+
+
 }
