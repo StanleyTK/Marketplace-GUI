@@ -183,7 +183,6 @@ public class CustomerServer {
         for (int i = 0; i < temp.length; i++) {
             for (int j = temp.length - 1; j > i; j--) {
                 if (temp[i].getQuantity() > temp[j].getQuantity()) {
-
                     int tempI = temp[i].getQuantity();
                     int tempJ = temp[j].getQuantity();
                     if (tempI > tempJ) {
@@ -191,9 +190,7 @@ public class CustomerServer {
                         temp[i] = temp[j];
                         temp[j] = yolo;
                     }
-
                 }
-
             }
         }
         String toReturn = "";
@@ -325,63 +322,63 @@ public class CustomerServer {
 
 
     // Customer Option 7
-    public static Object[] addShoppingCartItem(User user) throws IOException { // Customer Option 7
-        String line;
-
-        ArrayList<Object> toReturnArrayList = new ArrayList<>();
-
-        ArrayList<Product> products = new ArrayList<>();
-
-        ArrayList<String> storeNames = new ArrayList<>();
-        try {
-            storeNames = SearchServer.getTextInfo(new File("Markets.txt"));
-            for (String storeName : storeNames) {
-                File f = new File(storeName + " Market.txt");
-                BufferedReader productReader = new BufferedReader(new FileReader(f));
-                line = productReader.readLine();
-                while (line != null) { //iterates through lines of files and adds them to string
-                    if (!line.contains("-----")) {
-                        products.add(SearchServer.getProduct(line));
-                        line = productReader.readLine();
-                    } else {
-                        break;
-                    }
-                }
-                productReader.close();
-
-            }
-        } catch (IOException e) {
-            System.out.println("There are no stores/products found. Sorry");
-        }
-        for (Product product : products) {
-            toReturnArrayList.add(product.toString());
-        }
-        Object[] toReturn = (toReturnArrayList.toArray());
-        System.out.println(toReturn);
-
-        return toReturn;
-    }
+//    public static Object[] addShoppingCartItem(User user) throws IOException { // Customer Option 7
+//        String line;
+//
+//        ArrayList<Object> toReturnArrayList = new ArrayList<>();
+//
+//        ArrayList<Product> products = new ArrayList<>();
+//
+//        ArrayList<String> storeNames = new ArrayList<>();
+//        try {
+//            storeNames = SearchServer.getTextInfo(new File("Markets.txt"));
+//            for (String storeName : storeNames) {
+//                File f = new File(storeName + " Market.txt");
+//                BufferedReader productReader = new BufferedReader(new FileReader(f));
+//                line = productReader.readLine();
+//                while (line != null) { //iterates through lines of files and adds them to string
+//                    if (!line.contains("-----")) {
+//                        products.add(SearchServer.getProduct(line));
+//                        line = productReader.readLine();
+//                    } else {
+//                        break;
+//                    }
+//                }
+//                productReader.close();
+//
+//            }
+//        } catch (IOException e) {
+//            System.out.println("There are no stores/products found. Sorry");
+//        }
+//        for (Product product : products) {
+//            toReturnArrayList.add(product.toString());
+//        }
+//        Object[] toReturn = (toReturnArrayList.toArray());
+//        System.out.println(toReturn);
+//
+//        return toReturn;
+//    }
 
 
 
 
 
     // Customer Option 8
-    public static Object[] removeShoppingCart(User user) throws IOException { //Returns object array of shopping cart
-        File f = new File(user.getUsername() + "'s File.txt");
-        BufferedReader bfr = new BufferedReader(new FileReader(f));
-        String line;
-        ArrayList<String> shoppingCartArrayList = new ArrayList<String>();
-
-        while ((line = bfr.readLine()) != null) {
-            if (line.contains(",")) {
-                shoppingCartArrayList.add(line);
-            }
-        }
-        bfr.close();
-        Object[] toReturn = (shoppingCartArrayList.toArray());
-        return toReturn;
-    }
+//    public static Object[] removeShoppingCart(User user) throws IOException { //Returns object array of shopping cart
+//        File f = new File(user.getUsername() + "'s File.txt");
+//        BufferedReader bfr = new BufferedReader(new FileReader(f));
+//        String line;
+//        ArrayList<String> shoppingCartArrayList = new ArrayList<String>();
+//
+//        while ((line = bfr.readLine()) != null) {
+//            if (line.contains(",")) {
+//                shoppingCartArrayList.add(line);
+//            }
+//        }
+//        bfr.close();
+//        Object[] toReturn = (shoppingCartArrayList.toArray());
+//        return toReturn;
+//    }
 
 
     // Customer Option 9
@@ -459,7 +456,7 @@ public class CustomerServer {
     }
 
     // Customer Option 10
-    public static String shoppingCartArray(Customer user) { // Returns string of shopping cart
+    public static String viewShoppingCart(Customer user) { // Returns string of shopping cart
         String toReturn = "";
         String format = "%s,%s,%s,%d,%.2f;";
         try {

@@ -4,6 +4,7 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -134,11 +135,156 @@ public class SearchServer {
                             String toReturn = CustomerServer.viewMarket();
                             writer.println(toReturn);
                             writer.flush();
+                            toReturn = br.readLine();
+                            Product product = getProduct(toReturn);
+                            File f = new File(product.getStore() + " Market.txt");
+                            String quan = br.readLine();
+                            int quantity = Integer.parseInt(quan);
+                            if (quantity <= 0) {
+                                writer.println("false");
+                            } else {
+                                BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+                                ArrayList<String> lines = new ArrayList<>();
+                                ArrayList<String> otherLines = new ArrayList<>();
+                                String x = "";
+                                while ((x = bufferedReader.readLine()) != null) {
+                                    if (x.contains("------")) break;
+                                    lines.add(x);
+                                }
+                                while (x != null) {
+                                    otherLines.add(x);
+                                    x = bufferedReader.readLine();
+                                }
+                                int index = -1;
+                                for (int i = 0; i < lines.size(); i++) {
+                                    if (lines.get(i).contains(product.getName())) {
+                                        index = i;
+                                    }
+                                }
+                                PrintWriter printWriter = new PrintWriter(new FileOutputStream(f, false));
+                                String temp = lines.get(index);
+                                lines.remove(index);
+                                if (quantity > product.getQuantity()) quantity = product.getQuantity();
+                                String[] productInfo = temp.split(",");
+                                productInfo[3] = String.valueOf(Integer.parseInt(productInfo[3]) - quantity);
+                                if (Integer.parseInt(productInfo[3]) > 0) {
+                                    printWriter.println(productInfo[0] + "," + productInfo[1] + "," + productInfo[2] + ","
+                                            + productInfo[3] + "," + productInfo[4]);
+                                }
+                                for (String lin : lines) printWriter.println(lin);
+                                for (String lin : otherLines) printWriter.println(lin);
+                                printWriter.close();
+                                assert user != null;
+                                f = new File(user.getUsername() + "'s File.txt");
+                                lines = getTextInfo(f);
+                                boolean bol = false;
+                                index = -1;
+                                for (int i = 0; i < lines.size(); i++) {
+                                    if (lines.get(i).contains(product.getName()) && lines.get(i).contains(product.getDescription()) && lines.get(i).contains(product.getStore())) {
+                                        bol = true;
+                                        index = i;
+                                    }
+                                }
+                                if (bol) {
+                                    printWriter = new PrintWriter(new FileOutputStream(f, false));
+                                    temp = lines.get(index);
+                                    lines.remove(index);
+                                    for (String lin : lines) printWriter.println(lin);
+                                    productInfo = temp.split(",");
+                                    productInfo[3] = String.valueOf(Integer.parseInt(productInfo[3]) + quantity);
+                                    printWriter.println(productInfo[0] + "," + productInfo[1] + "," + productInfo[2] + ","
+                                            + productInfo[3] + "," + productInfo[4]);
+                                    printWriter.close();
+                                } else {
+                                    printWriter = new PrintWriter(new FileOutputStream(f, true));
+                                    printWriter.println(product.getName() + "," + product.getStore() + "," + product.getDescription() + ","
+                                            + quantity + "," + product.getPrice());
+                                    printWriter.close();
+
+                                }
+                            }
+                            writer.println("success");
+                            writer.flush();
                             break;
+
                         }
                         case "8": {
-                            String toReturn = CustomerServer.shoppingCartArray((Customer) user);
+                            assert user != null;
+                            String toReturn = CustomerServer.viewShoppingCart((Customer) user);
                             writer.println(toReturn);
+                            writer.flush();
+                            toReturn = br.readLine();
+                            Product product = getProduct(toReturn);
+                            File f = new File(user.getUsername() + "'s File.txt");
+                            String quan = br.readLine();
+                            int quantity = Integer.parseInt(quan);
+                            if (quantity <= 0) {
+                                writer.println("false");
+                            } else {
+                                ArrayList<String> lines = getTextInfo(f);
+                                int index = -1;
+                                for (int i = 0; i < lines.size(); i++) {
+                                    if (lines.get(i).contains(product.getName())) {
+                                        index = i;
+                                    }
+                                }
+                                PrintWriter printWriter = new PrintWriter(new FileOutputStream(f, false));
+                                String temp = lines.get(index);
+                                lines.remove(index);
+                                if (quantity > product.getQuantity()) {
+                                    quantity = product.getQuantity();
+                                }
+                                String[] productInfo = temp.split(",");
+
+                                productInfo[3] = String.valueOf(Integer.parseInt(productInfo[3]) - quantity);
+                                for (String x : lines) printWriter.println(x);
+                                if (Integer.parseInt(productInfo[3]) > 0) {
+                                    printWriter.println(productInfo[0] + "," + productInfo[1] + "," + productInfo[2] + ","
+                                            + productInfo[3] + "," + productInfo[4]);
+                                }
+                                printWriter.close();
+                                f = new File(product.getStore() + " Market.txt");
+                                BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+                                lines = new ArrayList<>();
+                                String x = "";
+                                while ((x = bufferedReader.readLine()) != null) {
+                                    if (x.contains("------")) break;
+                                    lines.add(x);
+                                }
+                                ArrayList<String> otherLines = new ArrayList<>();
+                                while (x != null) {
+                                    otherLines.add(x);
+                                    x = bufferedReader.readLine();
+                                }
+                                boolean bol = false;
+                                index = -1;
+                                for (int i = 0; i < lines.size(); i++) {
+                                    if (lines.get(i).contains(product.getName()) && lines.get(i).contains(product.getDescription()) && lines.get(i).contains(product.getStore())) {
+                                        bol = true;
+                                        index = i;
+                                    }
+                                }
+                                if (bol) {
+                                    printWriter = new PrintWriter(new FileOutputStream(f, false));
+                                    temp = lines.get(index);
+                                    lines.remove(index);
+
+                                    productInfo = temp.split(",");
+
+                                    productInfo[3] = String.valueOf(Integer.parseInt(productInfo[3]) + quantity);
+                                    printWriter.println(productInfo[0] + "," + productInfo[1] + "," + productInfo[2] + ","
+                                            + productInfo[3] + "," + productInfo[4]);
+                                    for (String lin : lines) printWriter.println(lin);
+                                    for (String lin : otherLines) printWriter.println(lin);
+                                    printWriter.close();
+                                } else {
+                                    printWriter = new PrintWriter(new FileOutputStream(f, true));
+                                    printWriter.println(product.getName() + "," + product.getStore() + "," + product.getDescription() + ","
+                                            + quantity + "," + product.getPrice());
+                                    printWriter.close();
+                                }
+                            }
+                            writer.println("success");
                             writer.flush();
                             break;
                         }
@@ -150,7 +296,7 @@ public class SearchServer {
                             break;
                         }
                         case "10": {
-                            String toReturn = CustomerServer.shoppingCartArray((Customer) user);
+                            String toReturn = CustomerServer.viewShoppingCart((Customer) user);
                             writer.println(toReturn);
                             writer.flush();
                             break;

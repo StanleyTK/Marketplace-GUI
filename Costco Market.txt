@@ -1,7 +1,5 @@
 jacket,Costco,you wear it,39,39.99
-i feel invincible,Costco,pop smoke,30,30.99
-water,Costco,it's wet,1,19.99
-math,Costco,it sucks ass,1,1.99
-purdue,Costco,you get fucked by math department,13,2.99
+purdue,Costco,you get fucked by math department,10,2.99
+math,Costco,it sucks ass,6,1.99
 --------
 --------
