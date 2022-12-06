@@ -5,26 +5,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MarketPlaceThread extends Thread {
     protected Socket socket;
-    protected AtomicInteger clients;
+    protected PrintWriter writer;
+    protected BufferedReader br;
 
-    public MarketPlaceThread(Socket clientSocket) {
+    public MarketPlaceThread(Socket clientSocket, PrintWriter pw, BufferedReader br) {
         this.socket = clientSocket;
-        clients = new AtomicInteger(0);
+        this.writer = pw;
+        this.br = br;
     }
 
     public void run() {
         boolean createNewAccount = false;
-        BufferedReader br;
-        PrintWriter writer;
+
         User user = null;
 
         try {
 
-            System.out.printf("Client %d connected!", clients.get());
-            br = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
-            writer = new
-                    PrintWriter(socket.getOutputStream());
             String line;
 
             // Receives the Login Credentials, and returns the information
@@ -188,13 +184,11 @@ public class MarketPlaceThread extends Thread {
                                     printWriter.println(product.getName() + "," + product.getStore() + "," + product.getDescription() + ","
                                             + quantity + "," + product.getPrice());
                                     printWriter.close();
-
                                 }
                             }
                             writer.println("success");
                             writer.flush();
                             break;
-
                         }
                         case "8": {
                             assert user != null;
@@ -320,12 +314,9 @@ public class MarketPlaceThread extends Thread {
                             String toReturn = CustomerServer.viewMarket();
                             writer.println(toReturn);
                             writer.flush();
-
-
                             break;
                         }
                         case "2": {
-
                             option = br.readLine();
                             ArrayList<String> lines = ThreadedMarketPlaceServer.getTextInfo(new File("Markets.txt"));
                             String toReturn = "";
@@ -370,8 +361,6 @@ public class MarketPlaceThread extends Thread {
                                 String newInfo = br.readLine();
                                 SellerServer.editItem(item, newInfo, market);
                             }
-
-
                             break;
                         }
                         case "3": {
@@ -379,7 +368,6 @@ public class MarketPlaceThread extends Thread {
                             String toReturn = SellerServer.viewSales(market);
                             writer.println(toReturn);
                             writer.flush();
-
                             break;
                         }
                         case "4": {

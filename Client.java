@@ -6,7 +6,7 @@ import java.io.*;
 import java.net.*;
 
 
-public class GUI {
+public class Client {
     final static int PORT = 8888;
 
 
@@ -20,7 +20,6 @@ public class GUI {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "The Server is down. Please try again later",
                     "Cannot connect to the server", JOptionPane.ERROR_MESSAGE);
-
         }
     }
 }

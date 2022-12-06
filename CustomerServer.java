@@ -273,7 +273,7 @@ public class CustomerServer {
 
     // Customer Option 6
 
-    static String exportPurchaseHistory(Customer customer) throws IOException {
+    public static synchronized String exportPurchaseHistory(Customer customer) throws IOException {
         ArrayList<Product> products = new ArrayList<Product>();
         File marketsFile = new File("Markets.txt");
         BufferedReader bfr = new BufferedReader(new FileReader(marketsFile));
@@ -382,7 +382,7 @@ public class CustomerServer {
 
 
     // Customer Option 9
-    static String buyShoppingCart(Customer customer) {
+    public synchronized static String buyShoppingCart(Customer customer) {
         String printer = "";
         try {
             File f = new File(customer.getUsername() + "'s File.txt");
@@ -456,7 +456,7 @@ public class CustomerServer {
     }
 
     // Customer Option 10
-    public static String viewShoppingCart(Customer user) { // Returns string of shopping cart
+    public synchronized static String viewShoppingCart(Customer user) { // Returns string of shopping cart
         String toReturn = "";
         String format = "%s,%s,%s,%d,%.2f;";
         try {

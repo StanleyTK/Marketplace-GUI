@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A GUI Server for Marketplace
@@ -12,27 +13,86 @@ import java.util.ArrayList;
  */
 
 
-
-
 public class ThreadedMarketPlaceServer {
     static final int PORT = 8888;
+    static final Object object = new Object();
 
     public static void main(String[] args) {
 
+//        Socket socket = null;
+//        try {
+//            ServerSocket server = new ServerSocket(PORT);
+//
+//            System.out.println("Waiting for the client to connect...");
+//            socket = server.accept();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//
+//        }
+//        new Thread(new MarketPlaceThread(socket)).start();
+
         Socket socket = null;
         try {
-            ServerSocket serverSocket = new ServerSocket(PORT);
+            ServerSocket server = new ServerSocket(PORT);
+            server.setReuseAddress(true);
+
             System.out.println("Waiting for the client to connect...");
-            socket = serverSocket.accept();
+            while (true) {
+                Socket client = server.accept();
+                System.out.println("New Client connected!" + client.getInetAddress().getHostAddress());
+                ClientHandler clientSock = new ClientHandler(client);
+                new Thread(clientSock).start();
+
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
 
         }
-        new Thread(new MarketPlaceThread(socket)).start();
-
 
     }
+
+
+    private static class ClientHandler implements Runnable {
+        private final Socket clientSocket;
+        AtomicInteger users = new AtomicInteger(0);
+
+
+        // Constructor
+        public ClientHandler(Socket socket)
+        {
+
+            this.clientSocket = socket;
+
+        }
+        public void run()
+        {
+            PrintWriter pw = null;
+            BufferedReader br = null;
+
+            Socket socket = null;
+            try {
+                pw = new PrintWriter(
+                        clientSocket.getOutputStream(), true);
+                br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                System.out.printf("Client %d connected!", users.incrementAndGet());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+            new Thread(new MarketPlaceThread(clientSocket, pw, br)).start();
+        }
+    }
+
+
+
+
+
+
+
+
 
 
 
@@ -92,4 +152,8 @@ public class ThreadedMarketPlaceServer {
 
 
 }
+
+
+
+
 

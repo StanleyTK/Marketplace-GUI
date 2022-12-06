@@ -1,5 +1,2 @@
 Name: Stan
 User: Customer
-water,Costco,it's wet,1,19.99
-keyboard,Walmart,you type on it,26,49.99
-purdue,Costco,you get fucked by math department,2,2.99

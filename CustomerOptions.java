@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 
 public class CustomerOptions {
-    final static Object obj = new Object();
-
     public static void options(User user, BufferedReader br, PrintWriter writer) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -196,39 +194,40 @@ public class CustomerOptions {
         JButton option7 = new JButton("7. Add item to Shopping Cart");
         option7.setBounds(10, 200, 230, 40);
         option7.addActionListener(ev -> {
-            writer.println("7");
-            writer.flush();
-            String returned = "";
-            try {
-                returned = br.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            String[] productList = returned.split(";");
-            String item = (String) JOptionPane.showInputDialog(null, "Which product would you like to add to shopping cart?", "Option",
-                    JOptionPane.PLAIN_MESSAGE, null, productList, null);
-            writer.println(item);
-            writer.flush();
-            int quantity;
-            try {
-                quantity = Integer.parseInt(JOptionPane.showInputDialog(null, "How much would you like to buy?",
-                        "MarketPlace", JOptionPane.INFORMATION_MESSAGE));
-                String amount = String.valueOf(quantity);
-                writer.println(amount);
+            Thread t = new Thread(() -> {
+                writer.println("7");
                 writer.flush();
-                String bol = br.readLine();
-                System.out.println(bol);
-                if (bol.equals("false")) {
-                    JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "The product has been added to the shopping cart",
-                            "MarketPlace", JOptionPane.INFORMATION_MESSAGE);
+                String returned = "";
+                try {
+                    returned = br.readLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                String[] productList = returned.split(";");
+                String item = (String) JOptionPane.showInputDialog(null, "Which product would you like to add to shopping cart?", "Option",
+                        JOptionPane.PLAIN_MESSAGE, null, productList, null);
+                writer.println(item);
+                writer.flush();
+                int quantity;
+                try {
+                    quantity = Integer.parseInt(JOptionPane.showInputDialog(null, "How much would you like to buy?",
+                            "MarketPlace", JOptionPane.INFORMATION_MESSAGE));
+                    String amount = String.valueOf(quantity);
+                    writer.println(amount);
+                    writer.flush();
+                    String bol = br.readLine();
+                    System.out.println(bol);
+                    if (bol.equals("false")) {
+                        JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "The product has been added to the shopping cart",
+                                "MarketPlace", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
 //            JFrame addFrame = new JFrame("Add to Cart");
@@ -399,7 +398,8 @@ public class CustomerOptions {
 //                        "Success!",JOptionPane.INFORMATION_MESSAGE);
 //
 //            });
-
+            });
+            t.start();
 
         });
         panel.add(option7);
@@ -407,41 +407,43 @@ public class CustomerOptions {
         JButton option8 = new JButton("8. Remove Item to Shopping Cart");
         option8.setBounds(260, 200, 230, 40);
         option8.addActionListener(ev -> {
+            Thread t = new Thread(() -> {
 
-            writer.println("8");
-            writer.flush();
 
-            String returned = "";
-            try {
-                returned = br.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            String[] productList = returned.split(";");
-            String item = (String) JOptionPane.showInputDialog(null, "Which product would you like to remove from shopping cart?", "Option",
-                    JOptionPane.PLAIN_MESSAGE, null, productList, null);
-            writer.println(item);
-            writer.flush();
-            int quantity;
-            try {
-                quantity = Integer.parseInt(JOptionPane.showInputDialog(null, "How much would you like to remove?",
-                        "MarketPlace", JOptionPane.INFORMATION_MESSAGE));
-                String amount = String.valueOf(quantity);
-                writer.println(amount);
+                writer.println("8");
                 writer.flush();
-                String bol = br.readLine();
-                System.out.println(bol);
-                if (bol.equals("false")) {
-                    JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "The product has been removed to the shopping cart",
-                            "MarketPlace", JOptionPane.INFORMATION_MESSAGE);
+
+                String returned = "";
+                try {
+                    returned = br.readLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                String[] productList = returned.split(";");
+                String item = (String) JOptionPane.showInputDialog(null, "Which product would you like to remove from shopping cart?", "Option",
+                        JOptionPane.PLAIN_MESSAGE, null, productList, null);
+                writer.println(item);
+                writer.flush();
+                int quantity;
+                try {
+                    quantity = Integer.parseInt(JOptionPane.showInputDialog(null, "How much would you like to remove?",
+                            "MarketPlace", JOptionPane.INFORMATION_MESSAGE));
+                    String amount = String.valueOf(quantity);
+                    writer.println(amount);
+                    writer.flush();
+                    String bol = br.readLine();
+                    System.out.println(bol);
+                    if (bol.equals("false")) {
+                        JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "The product has been removed to the shopping cart",
+                                "MarketPlace", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
 //            JFrame removalFrame = new JFrame("Remove from Cart");
@@ -544,28 +546,34 @@ public class CustomerOptions {
 //                reWriter.add(removal);
 //
 //            });
+            });
+            t.start();
         });
         panel.add(option8);
 
         JButton option9 = new JButton("9. Purchase Items in Shopping Cart");
         option9.setBounds(10, 250, 230, 40);
         option9.addActionListener(ev -> {
-            writer.println("9");
-            writer.flush();
-            String printer = "";
-            try {
-                String line = br.readLine();
-                while (!line.equals("finished")) {
-                    printer += line + "\n";
-                    line = br.readLine();
+            Thread t = new Thread(() -> {
+
+                writer.println("9");
+                writer.flush();
+                String printer = "";
+                try {
+                    String line = br.readLine();
+                    while (!line.equals("finished")) {
+                        printer += line + "\n";
+                        line = br.readLine();
+                    }
+                    JOptionPane.showMessageDialog(null,
+                            printer,
+                            "Marketplace - Purchase Shopping Cart", JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "There was an error: " + e.getMessage(),
+                            "Marketplace - Purchase Shopping Cart", JOptionPane.ERROR_MESSAGE);
                 }
-                JOptionPane.showMessageDialog(null,
-                        printer,
-                        "Marketplace - Purchase Shopping Cart", JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "There was an error: " + e.getMessage(),
-                        "Marketplace - Purchase Shopping Cart", JOptionPane.ERROR_MESSAGE);
-            }
+            });
+            t.start();
 
         });
         panel.add(option9);
@@ -573,63 +581,71 @@ public class CustomerOptions {
         JButton option10 = new JButton("10. View Shopping Cart");
         option10.setBounds(260, 250, 230, 40);
         option10.addActionListener(ev -> {
-            writer.println("10");
-            writer.flush();
-            String data = "";
-            try {
-                data = br.readLine();
-            } catch (IOException e) {
-                System.out.println("There was an error");
-            }
-            if (data.equals("None")) {
-                JOptionPane.showMessageDialog(null, "There are no products found in your shopping cart",
-                        "None found", JOptionPane.INFORMATION_MESSAGE);
-            } else if (data.equals("Error")) {
-                JOptionPane.showMessageDialog(null, "There are no products found in your shopping cart",
-                        "None found", JOptionPane.ERROR_MESSAGE);
-            } else {
-                showTable(data);
-            }
+            Thread t = new Thread(() -> {
+
+                writer.println("10");
+                writer.flush();
+                String data = "";
+                try {
+                    data = br.readLine();
+                } catch (IOException e) {
+                    System.out.println("There was an error");
+                }
+                if (data.equals("None")) {
+                    JOptionPane.showMessageDialog(null, "There are no products found in your shopping cart",
+                            "None found", JOptionPane.INFORMATION_MESSAGE);
+                } else if (data.equals("Error")) {
+                    JOptionPane.showMessageDialog(null, "There are no products found in your shopping cart",
+                            "None found", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    showTable(data);
+                }
+            });
+            t.start();
         });
         panel.add(option10);
 
         JButton option11 = new JButton("11. More Information");
         option11.setBounds(10, 300, 230, 40);
         option11.addActionListener(ev -> {
-            writer.println("11");
-            writer.flush();
-            String line = "";
-            try {
-                line = br.readLine();
-            } catch (IOException e) {
-                System.out.println("There was an error");
-            }
+            Thread t = new Thread(() -> {
+
+                writer.println("11");
+                writer.flush();
+                String line = "";
+                try {
+                    line = br.readLine();
+                } catch (IOException e) {
+                    System.out.println("There was an error");
+                }
 
 
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
-                     IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            final JFrame jFrame = new JFrame("More Information");
-            jFrame.setSize(400, 500);
-            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            jFrame.getContentPane();
-            String[] lines = line.split(";");
-            JPanel panel2 = new JPanel();
-            panel2.setLayout(null);
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException |
+                         IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                final JFrame jFrame = new JFrame("More Information");
+                jFrame.setSize(400, 500);
+                jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                jFrame.getContentPane();
+                String[] lines = line.split(";");
+                JPanel panel2 = new JPanel();
+                panel2.setLayout(null);
 
-            int x = 10;
-            int y = 20;
-            for (String a : lines) {
-                JLabel label = new JLabel(a);
-                label.setBounds(x, y, 400, 30);
-                panel2.add(label);
-                y += 40;
-            }
-            jFrame.add(panel2);
-            jFrame.setVisible(true);
+                int x = 10;
+                int y = 20;
+                for (String a : lines) {
+                    JLabel label = new JLabel(a);
+                    label.setBounds(x, y, 400, 30);
+                    panel2.add(label);
+                    y += 40;
+                }
+                jFrame.add(panel2);
+                jFrame.setVisible(true);
+            });
+            t.start();
 
 
         });
@@ -638,25 +654,25 @@ public class CustomerOptions {
         JButton option12 = new JButton("Exit");
         option12.setBounds(260, 300, 230, 40);
         option12.addActionListener(ev -> {
+            Thread t = new Thread(() -> {
 
-            // Exit the program
-            if (JOptionPane.showConfirmDialog(frame, "Confirm if you Want to Exit", "Confirmation",
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                writer.println("12");
-                writer.flush();
-                System.exit(0);
-            }
+
+                // Exit the program
+                if (JOptionPane.showConfirmDialog(frame, "Confirm if you Want to Exit", "Confirmation",
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    writer.println("12");
+                    writer.flush();
+                    System.exit(0);
+                }
+            });
+            t.start();
         });
         panel.add(option12);
-
-
         frame.add(panel);
         frame.setVisible(true);
-
-
     }
 
-    protected synchronized static void showDashboard(String purchaseHistory) {
+    protected static void showDashboard(String purchaseHistory) {
         JTextArea dashboard = new JTextArea();
         dashboard.append(purchaseHistory);
         JScrollPane scrollable = new JScrollPane(dashboard);
@@ -667,7 +683,7 @@ public class CustomerOptions {
         jFrame.setVisible(true);
     }
 
-    protected synchronized static void showTable(String printer) {
+    protected static void showTable(String printer) {
         String[] printerSplit = printer.split(";"); // Splits the list into an array of individual products
         ArrayList<String[]> toReturnArrayList = new ArrayList<>();
         for (String s : printerSplit) {
