@@ -6,7 +6,14 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
-
+/**
+ * A GUI for Customer users, displays the GUI of the buttons, with the options available
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
 
 
 public class CustomerOptions {
@@ -216,7 +223,6 @@ public class CustomerOptions {
                     writer.println(amount);
                     writer.flush();
                     String bol = br.readLine();
-                    System.out.println(bol);
                     if (bol.equals("false")) {
                         JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
@@ -408,11 +414,8 @@ public class CustomerOptions {
         option8.setBounds(260, 200, 230, 40);
         option8.addActionListener(ev -> {
             Thread t = new Thread(() -> {
-
-
                 writer.println("8");
                 writer.flush();
-
                 String returned = "";
                 try {
                     returned = br.readLine();
@@ -432,7 +435,6 @@ public class CustomerOptions {
                     writer.println(amount);
                     writer.flush();
                     String bol = br.readLine();
-                    System.out.println(bol);
                     if (bol.equals("false")) {
                         JOptionPane.showMessageDialog(null, "Invalid input, try again", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
@@ -589,7 +591,7 @@ public class CustomerOptions {
                 try {
                     data = br.readLine();
                 } catch (IOException e) {
-                    System.out.println("There was an error");
+                    e.printStackTrace();
                 }
                 if (data.equals("None")) {
                     JOptionPane.showMessageDialog(null, "There are no products found in your shopping cart",
@@ -616,7 +618,7 @@ public class CustomerOptions {
                 try {
                     line = br.readLine();
                 } catch (IOException e) {
-                    System.out.println("There was an error");
+                    e.printStackTrace();
                 }
 
 
@@ -723,64 +725,30 @@ public class CustomerOptions {
         }
         jFrame.setVisible(true); // Creates a JFrame to view the table
     }
-}
 
-//    public static void removeShoppingCart(String removal, User user) throws IOException {
-//        File inputFile = new File(user.getUsername() + "'s File.txt");
-//        File tempFile = new File("myTempFile.txt");
-//
-//        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-//        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-//
-//        String currentLine;
-//
-//        while((currentLine = reader.readLine()) != null) {
-//            // trim newline when comparing with lineToRemove
-//            String trimmedLine = currentLine.trim();
-//            if(trimmedLine.equals(removal)) continue;
-//            writer.write(currentLine + System.getProperty("line.separator"));
-//        }
-//        writer.close();
-//        reader.close();
-//        boolean successful = tempFile.renameTo(inputFile);
-//        copyFileToFile(tempFile , inputFile);
-//    }
-//
-//    public static void copyFileToFile(final File src, final File dest) throws IOException
-//    {
-//        copyInputStreamToFile(new FileInputStream(src), dest);
-//        dest.setLastModified(src.lastModified());
-//    }
-//
-//    public static void copyInputStreamToFile(final InputStream in, final File dest)
-//            throws IOException
-//    {
-//        copyInputStreamToOutputStream(in, new FileOutputStream(dest));
-//    }
-//
-//
-//    public static void copyInputStreamToOutputStream(final InputStream in,
-//                                                     final OutputStream out) throws IOException
-//    {
-//        try
-//        {
-//            try
-//            {
-//                final byte[] buffer = new byte[1024];
-//                int n;
-//                while ((n = in.read(buffer)) != -1)
-//                    out.write(buffer, 0, n);
-//            }
-//            finally
-//            {
-//                out.close();
-//            }
-//        }
-//        finally
-//        {
-//            in.close();
-//        }
-//    }
-//
-//
-//}
+
+    public static void removeShoppingCart(String removal, User user) throws IOException {
+        File inputFile = new File(user.getUsername() + "'s File.txt");
+        File tempFile = new File("myTempFile.txt");
+
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+        String currentLine;
+
+        while((currentLine = reader.readLine()) != null) {
+            // trim newline when comparing with lineToRemove
+            String trimmedLine = currentLine.trim();
+            if(trimmedLine.equals(removal)) continue;
+            writer.write(currentLine + System.getProperty("line.separator"));
+        }
+        writer.close();
+        reader.close();
+        boolean successful = tempFile.renameTo(inputFile);
+        MarketPlaceThread.copyFileToFile(tempFile , inputFile);
+    }
+
+
+
+
+}

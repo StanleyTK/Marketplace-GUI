@@ -5,9 +5,19 @@ import java.io.InputStreamReader;
 import java.io.*;
 import java.net.*;
 
+/**
+ * A Clients class that gets the information from the server, and displays on the GUI
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
+
+
 
 public class Client {
-    final static int PORT = 8888;
+    final static int PORT = 7777;
 
 
     public static void main(String[] args) {

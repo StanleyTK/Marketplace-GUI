@@ -1,3 +1,13 @@
+
+/**
+ * A User class that is extendable to Customers and Sellers
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
+
 public class User {
     private String customerName;
     private String password;

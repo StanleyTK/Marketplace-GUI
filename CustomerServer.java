@@ -4,6 +4,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A class that contains the methods that are used for the server
+ * Returns information that should be sent to the clients
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
+
 public class CustomerServer {
 
 
@@ -15,14 +25,14 @@ public class CustomerServer {
 
         ArrayList<String> storeNames = new ArrayList<>();
         try {
-            storeNames = ThreadedMarketPlaceServer.getTextInfo(new File("Markets.txt"));
+            storeNames = Server.getTextInfo(new File("Markets.txt"));
             for (String storeName : storeNames) {
                 File f = new File(storeName + " Market.txt");
                 BufferedReader productReader = new BufferedReader(new FileReader(f));
                 line = productReader.readLine();
                 while (line != null) { //iterates through lines of files and adds them to string
                     if (!line.contains("-----")) {
-                        products.add(ThreadedMarketPlaceServer.getProduct(line));
+                        products.add(Server.getProduct(line));
                         line = productReader.readLine();
                     } else {
                         break;
@@ -31,12 +41,11 @@ public class CustomerServer {
 
             }
         } catch (IOException e) {
-            System.out.println("There are no stores/products found. Sorry");
+            e.printStackTrace();
         }
         for (Product product : products) {
             printer = printer + product.toString() + ";";
         }
-        System.out.println(printer);
         return printer;
 
     }
@@ -64,7 +73,7 @@ public class CustomerServer {
                 }
 
                 for (String productInfo : lines) {
-                    Product product = ThreadedMarketPlaceServer.getProduct(productInfo);
+                    Product product = Server.getProduct(productInfo);
                     if (product.getName().contains(search) && option.equals("Name")) {
                         results += productInfo + ";";
                     } else if (product.getDescription().contains(search) && option.equals("Description")) {
@@ -102,7 +111,7 @@ public class CustomerServer {
                 line = productReader.readLine();
                 while (line != null) { //iterates through lines of files and adds them to string
                     if (!line.contains("------")) {
-                        products.add(ThreadedMarketPlaceServer.getProduct(line));
+                        products.add(Server.getProduct(line));
                         line = productReader.readLine();
                     } else {
                         break;
@@ -110,8 +119,7 @@ public class CustomerServer {
                 }
             }
         } catch (IOException e) {
-            System.out.println("There are no stores/products found. Sorry");
-
+            e.printStackTrace();
         }
 
         Product[] temp = new Product[products.size()];
@@ -140,7 +148,6 @@ public class CustomerServer {
             toReturn = toReturn + product.toString() + ";";
 
         }
-        System.out.println(toReturn);
         return toReturn;
     }
 
@@ -165,7 +172,7 @@ public class CustomerServer {
                 line = productReader.readLine();
                 while (line != null) { //iterates through lines of files and adds them to string
                     if (!line.contains("----")) {
-                        products.add(ThreadedMarketPlaceServer.getProduct(line));
+                        products.add(Server.getProduct(line));
                         line = productReader.readLine();
                     } else {
                         break;
@@ -173,7 +180,7 @@ public class CustomerServer {
                 }
             }
         } catch (IOException e) {
-            System.out.println("There are no stores/products found. Sorry");
+            e.printStackTrace();
         }
 
         Product[] temp = new Product[products.size()];
@@ -198,14 +205,13 @@ public class CustomerServer {
             toReturn = toReturn + product.toString() + ";";
 
         }
-        System.out.println(toReturn);
         return toReturn;
     }
 
 
     // Customer Option 5
     public synchronized static String viewCustomer(Customer customer) {
-        String customerName = customer.getCustomerName();
+        String customerName = customer.getUsername();
         String purchaseHistory = "";
         try {
             FileReader fr = new FileReader("Markets.txt");
@@ -213,8 +219,8 @@ public class CustomerServer {
             String line = br.readLine();
             ArrayList<String[]> products = new ArrayList<>(); // ArrayList for each product in the store
             ArrayList<String[]> purchases = new ArrayList<>(); // ArrayList for each purchase in the store
-            ArrayList<String[]> customerPurchases = new ArrayList<>(); // ArrayList for each purchase the customer made
             while (line != null) {
+                ArrayList<String[]> customerPurchases = new ArrayList<>(); // ArrayList for each purchase the customer made
                 FileReader fileReader = new FileReader(line + " Market.txt");
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
                 int delineate = 0; // Checks to see where in the market store bufferedReader is
@@ -252,7 +258,7 @@ public class CustomerServer {
                     }
                 } // Checks if the customer has purchased, then adds to the arraylist of customer purchases
                 purchaseHistory = purchaseHistory +
-                        String.format("From %s, %s has purchased the following products:\n", line, customerName);
+                        String.format("From %s, %s has purchased the following products:\n", line, customer.getCustomerName());
                 for (int i = 0; i < customerPurchases.size(); i++) {
                     purchaseHistory = purchaseHistory + String.format("%d: %s\n", i + 1,
                             Arrays.toString(customerPurchases.get(i)));
@@ -262,6 +268,7 @@ public class CustomerServer {
                 }
                 products.clear();
                 purchases.clear();
+                customerPurchases.clear();
                 line = br.readLine();
             }
             br.close();
@@ -392,7 +399,7 @@ public class CustomerServer {
             ArrayList<Product> products = new ArrayList<Product>();
             String line = bfr.readLine();
             while (line != null) {
-                products.add(ThreadedMarketPlaceServer.getProduct(line));
+                products.add(Server.getProduct(line));
                 line = bfr.readLine();
             }
             bfr.close();
@@ -466,7 +473,7 @@ public class CustomerServer {
 
             while (line != null) {
                 if (line.contains(",")) {
-                    Product product = ThreadedMarketPlaceServer.getProduct(line);
+                    Product product = Server.getProduct(line);
                     toReturn = String.format(format, product.getName(), product.getStore() ,
                             product.getDescription(), product.getQuantity(), product.getPrice()) + toReturn;
                     lines.add(product);

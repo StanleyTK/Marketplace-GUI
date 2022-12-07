@@ -5,6 +5,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
+/**
+ * A Login class that displays the GUI of the login credentials
+ * Used for Customers, Sellers, and also has an option to create new account
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
+
 public class Login {
     public static void login(BufferedReader br, PrintWriter writer) {
         try {

@@ -1,5 +1,15 @@
 import java.util.ArrayList;
 
+
+/**
+ * A Shopping cart class, just an arraylist for the products in each of the customers' file
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
+
 public class ShoppingCart {
     ArrayList<Product> cartItems;
 
@@ -22,43 +32,4 @@ public class ShoppingCart {
                 '}';
     }
 
-    //Method to find the total cost of items in a shopping cart.
-    public double totalCost() {
-        double totalCost = 0;
-        for (Product cartItem : cartItems) {
-            double itemCost = cartItem.getQuantity() * cartItem.getPrice(); //Cost of each item.
-            totalCost += itemCost;
-        }
-        return totalCost; //Cost of all the items in the cart
-    }
-
-    //Method to add an Item to the cart
-    public void addItem(Product product) {
-        cartItems.add(product); //Adds the product to the cartItems list
-        this.setCartItems(cartItems); //Changes the shopping cart
-    }
-
-    //Method to remove an item from the cart
-    public void removeItem(Product product) {
-        for (int i = 0; i < cartItems.size(); i++) { //Iterates through each item in cartItems
-            if (cartItems.get(i).equals(product)) { //Checks if it equals product
-                cartItems.remove(i); //Removes the required item
-            }
-        }
-        this.setCartItems(cartItems); //Changes the shopping cart
-    }
-
-    //Method to remove an item from the cart
-    public void removeItem(Product product, int amount) {
-        int amountremoved = 0;
-        while (amountremoved < amount) {
-            for (int i = 0; i < cartItems.size(); i++) { //Iterates through each item in cartItems
-                if (cartItems.get(i).equals(product)) { //Checks if it equals product
-                    cartItems.remove(i); //Removes the required item
-                    amountremoved++;
-                }
-            }
-        }
-        this.setCartItems(cartItems); //Changes the shopping cart
-    }
 }

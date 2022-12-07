@@ -3,7 +3,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+/**
+ * A Customer purchase class that is used for the view sellers method
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
 class CustomerPurchases { // Class used in the viewSeller method
     public String customer;
     public ArrayList<String> purchases;
@@ -29,6 +36,15 @@ class CustomerPurchases { // Class used in the viewSeller method
     }
 }
 
+
+/**
+ * A Product Purchases class is used in the viewSellers method
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
 class ProductPurchases { // Class used in the viewSeller method
     public String product;
     public int purchaseNumber;
@@ -54,6 +70,15 @@ class ProductPurchases { // Class used in the viewSeller method
     }
 }
 
+
+/**
+ * A PurchaseInformation class is used for the viewSales method
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
 class PurchaseInformation { //Class used in the viewSales method.
     public String customer;
     public ArrayList<String> purchases;
@@ -99,6 +124,17 @@ class PurchaseInformation { //Class used in the viewSales method.
         this.price = price;
     }
 }
+
+
+/**
+ * A SellerServer class, returns information to the clients
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+ *
+ * @author Stanley Kim
+ * @version December 7, 2022
+ */
+
 public class SellerServer {
 
 
@@ -376,6 +412,29 @@ public class SellerServer {
         }
         return marketInformation;
     }
+
+
+    public static String customerShoppingCarts() {
+        try {
+            File customerFile = new File("Customers.txt");
+            BufferedReader bfr = new BufferedReader(new FileReader(customerFile));
+            String line = "";
+            String concat = "";
+
+            while ((line = bfr.readLine()) != null) {
+                concat = concat + ";" + line;
+            }
+            concat = concat.substring(1);
+            return concat;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+
 
 
 }

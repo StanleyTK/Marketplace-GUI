@@ -1,98 +1,82 @@
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A GUI Server for Marketplace
+ * A GUI Server for MarketPlace, accepts any Clients
+ * Before starting any clients java class, start this module first
  *
- * <p>Purdue University -- CS18000 -- Fall 2022 -- Homework 11 -- Challenge</p>
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
  *
  * @author Stanley Kim
- * @version November 19, 2022
+ * @version December 7, 2022
  */
 
 
-public class ThreadedMarketPlaceServer {
-    static final int PORT = 8888;
-    static final Object object = new Object();
+public class Server {
+    static final int PORT = 7777;
 
     public static void main(String[] args) {
 
-//        Socket socket = null;
-//        try {
-//            ServerSocket server = new ServerSocket(PORT);
-//
-//            System.out.println("Waiting for the client to connect...");
-//            socket = server.accept();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//
-//        }
-//        new Thread(new MarketPlaceThread(socket)).start();
-
-        Socket socket = null;
+        // Server should be running without any breaks or errors
+        ServerSocket server;
         try {
-            ServerSocket server = new ServerSocket(PORT);
+            server = new ServerSocket(PORT);
             server.setReuseAddress(true);
-
+            System.out.println("Server is now active!");
             System.out.println("Waiting for the client to connect...");
             while (true) {
-                Socket client = server.accept();
-                System.out.println("New Client connected!" + client.getInetAddress().getHostAddress());
-                ClientHandler clientSock = new ClientHandler(client);
-                new Thread(clientSock).start();
-
+                try {
+                    Socket client = server.accept();
+                    System.out.println("Client connected!");
+                    ClientHandler clientHandler = new ClientHandler(client);
+                    new Thread(clientHandler).start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-
         }
-
     }
+
+
+    /**
+     * A Client Handler class that gets the information for the Clients
+     *
+     * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
+     *
+     * @author Stanley Kim
+     * @version December 7, 2022
+     */
+
 
 
     private static class ClientHandler implements Runnable {
         private final Socket clientSocket;
-        AtomicInteger users = new AtomicInteger(0);
-
 
         // Constructor
         public ClientHandler(Socket socket)
         {
-
             this.clientSocket = socket;
-
         }
         public void run()
         {
-            PrintWriter pw = null;
-            BufferedReader br = null;
-
-            Socket socket = null;
+            PrintWriter pw;
+            BufferedReader br;
             try {
                 pw = new PrintWriter(
                         clientSocket.getOutputStream(), true);
                 br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                System.out.printf("Client %d connected!", users.incrementAndGet());
-
+                new Thread(new MarketPlaceThread(clientSocket, pw, br)).start();
             } catch (IOException e) {
                 e.printStackTrace();
-
             }
-            new Thread(new MarketPlaceThread(clientSocket, pw, br)).start();
+
         }
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -121,6 +105,7 @@ public class ThreadedMarketPlaceServer {
 
 
 
+    // Gets the user using the login information
     public static User getUser(String info) throws IOException {
         String[] contents = info.split(";");
         ArrayList<Product> products = new ArrayList<>();

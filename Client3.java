@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.*;
 import java.net.*;
 
+
 /**
  * A Clients class that gets the information from the server, and displays on the GUI
  * There are multiple Clients classes so that we can test the concurrency
@@ -15,7 +16,8 @@ import java.net.*;
  * @version December 7, 2022
  */
 
-public class Client2 {
+
+public class Client3 {
     final static int PORT = 7777;
 
 
