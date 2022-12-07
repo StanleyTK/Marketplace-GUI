@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.io.*;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 
 
@@ -115,6 +117,66 @@ public class SellerOptions {
         option7.addActionListener(ev -> {
             writer.println("7");
             writer.flush();
+            String DATA = "";
+            try {
+                DATA = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            JFrame jFrame = new JFrame("View Shopping Carts");
+            Object[] dataArray = DATA.split(";");
+
+
+            jFrame.setVisible(true);
+            jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            jFrame.setSize(275,150);
+            jFrame.setLocation(430,100);
+
+            JPanel pane = new JPanel();
+            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+            jFrame.setResizable(false);
+            jFrame.add(pane);
+
+            JLabel lbl = new JLabel("Select a Customer to view their Shopping Cart");
+            lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+            pane.add(lbl);
+
+            JComboBox cb;
+
+            cb = new JComboBox(dataArray);
+
+            cb.setMaximumSize(cb.getPreferredSize()); // added code
+            cb.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            pane.add(cb);
+
+            JButton confirm = new JButton("VIEW");
+            confirm.setAlignmentX(Component.CENTER_ALIGNMENT);
+            confirm.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+            pane.add(confirm);
+            confirm.addActionListener(e -> {
+                jFrame.dispose();
+                writer.println("Customer Selected");
+                writer.flush();
+                String selectedItem = (String) cb.getSelectedItem();
+                System.out.println(selectedItem);
+                writer.println(selectedItem);
+                writer.flush();
+                String DATA2 = "";
+
+                try {
+                    if (br.readLine().equals("Done!")) {
+                        DATA2 = br.readLine();
+                        CustomerOptions.showTable(DATA2);
+                    }
+                } catch (IOException ex) {
+
+                }
+
+
+            });
+
 
 
         });
@@ -128,6 +190,7 @@ public class SellerOptions {
 
 
 
+
         });
         panel.add(option8);
 
@@ -136,7 +199,143 @@ public class SellerOptions {
         option9.addActionListener(ev -> {
             writer.println("9");
             writer.flush();
+            String DATA = "";
 
+            try {
+                DATA = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Object[] dataArray = DATA.split(";");
+
+            JFrame deleteAMarket = new JFrame("Delete a market");
+
+            deleteAMarket.setVisible(true);
+            deleteAMarket.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            deleteAMarket.setSize(275,150);
+            deleteAMarket.setLocation(430,100);
+
+            JPanel pane = new JPanel();
+            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+            deleteAMarket.setResizable(false);
+            deleteAMarket.add(pane);
+
+            JLabel lbl = new JLabel("Select a market to delete");
+            lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+            pane.add(lbl);
+
+            JComboBox cb = null;
+
+            cb = new JComboBox(dataArray);
+
+            cb.setMaximumSize(cb.getPreferredSize()); // added code
+            cb.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            pane.add(cb);
+
+            JButton confirm = new JButton("REMOVE");
+            confirm.setAlignmentX(Component.CENTER_ALIGNMENT);
+            confirm.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+            pane.add(confirm);
+
+            JComboBox finalCb = cb;
+            confirm.addActionListener(e -> {
+                deleteAMarket.dispose();
+                writer.println("Remove marketplace");
+                writer.flush();
+                String marketToRemove = (String) finalCb.getSelectedItem();
+                writer.println(marketToRemove);
+                /*
+                ArrayList<String> linesToAdd = new ArrayList<>();
+
+                File markets = new File("Markets.txt");
+                try {
+                    BufferedReader bfr = new BufferedReader(new FileReader(markets));
+                    String line = "";
+
+                    while ((line = bfr.readLine()) != null) {
+                        if (!line.contains(marketToRemove)) {
+                            linesToAdd.add(line);
+                        }
+                    }
+                    bfr.close();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    File tempFile = new File("myTempFile.txt");
+                    BufferedWriter bfw = new BufferedWriter(new FileWriter(tempFile));
+
+                    for (int i = 0; i < linesToAdd.size(); i++) {
+                        bfw.write(linesToAdd.get(i) + "\n");
+                    }
+                    bfw.flush();
+                    bfw.close();
+
+                    CustomerOptions.copyFileToFile(tempFile, markets);
+                    tempFile.delete();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+                try {
+                    File f = new File("DeletedMarkets.txt");
+                    BufferedWriter bfw2 = new BufferedWriter(new FileWriter(f, true));
+                    bfw2.append("\n" + marketToRemove);
+                    bfw2.flush();
+                    bfw2.close();
+
+                    File customers = new File("Customers.txt");
+                    BufferedReader bfr = new BufferedReader(new FileReader(customers));
+                    String line = "";
+                    ArrayList<String> customerArray = new ArrayList<>();
+                    while ((line = bfr.readLine()) != null) {
+                        customerArray.add(line);
+                    }
+                    bfr.close();
+
+                    ArrayList<File> customerFileArray = new ArrayList<>();
+
+                    for (String s : customerArray) {
+                        File customersFile = new File(s + "'s File.txt");
+                        customerFileArray.add(customersFile);
+                    }
+
+                    for (File file :  customerFileArray) {
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                        ArrayList<String> linesInFile = new ArrayList<>();
+                        while ((line = bufferedReader.readLine()) != null) {
+                            if (!line.contains("," + marketToRemove + ",")) {
+                                linesInFile.add(line);
+                            }
+                        }
+                        bufferedReader.close();
+
+                        File tempFile = new File("myTempFile.txt");
+                        BufferedWriter bfw = new BufferedWriter(new FileWriter(tempFile));
+
+                        for (String s : linesInFile) {
+                            bfw.write(s + "\n");
+                        }
+
+                        bfw.flush();
+                        bfw.close();
+                        linesInFile.clear();
+                        CustomerOptions.copyFileToFile(tempFile , file);
+                    }
+                    File deletedFile = new File(marketToRemove + " Market.txt");
+                    deletedFile.delete();
+
+
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+
+             */
+                JOptionPane.showMessageDialog(null,"Success!","Market Deleted",
+                        JOptionPane.INFORMATION_MESSAGE,null);
+            });
 
         });
         panel.add(option9);

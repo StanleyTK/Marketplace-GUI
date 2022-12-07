@@ -166,11 +166,133 @@ public class SearchServer {
                     } else if (option.equals("6")) {
                         //TODO Export Products CSV File
                     } else if (option.equals("7")) {
-                        //TODO View Shopping Carts
+                        String toReturn = SellerServer.customerShoppingCarts();
+                        writer.println(toReturn);
+                        writer.flush();
+                        String selectedCustomer = "";
+
+                        if (br.readLine().equals("Customer Selected")) {
+                            selectedCustomer = br.readLine();
+
+                            System.out.println(selectedCustomer);
+
+                            File selectedCustomerFile = new File(selectedCustomer + "'s File.txt");
+                            System.out.println("u at least getting to here?");
+
+                            ArrayList<String> fileInfo = getTextInfo(selectedCustomerFile);
+                            String concat = "";
+
+                            System.out.println("1");
+
+                            fileInfo.remove(0);
+                            fileInfo.remove(0);
+
+                            for (String str : fileInfo) {
+                                concat = concat + ";" + str;
+                            }
+                            System.out.println("2");
+
+                            concat = concat.substring(1);
+                            writer.println("Done!");
+                            writer.flush();
+                            writer.println(concat);
+                            writer.flush();
+                        }
+
                     } else if (option.equals("8")) {
                         //TODO Create Market
                     } else if (option.equals("9")) {
-                        //TODO Delete Market
+                        String toReturn = SellerServer.deleteMarketplace();
+                        writer.println(toReturn);
+                        writer.flush();
+                        JComboBox finalCb = null;
+
+                        if (br.readLine().equals("Remove marketplace")) {
+                            String marketToRemove = br.readLine();
+                            ArrayList<String> linesToAdd = new ArrayList<>();
+
+                            File markets = new File("Markets.txt");
+                            try {
+                                BufferedReader bfr = new BufferedReader(new FileReader(markets));
+                                String lin = "";
+                                while ((lin = bfr.readLine()) != null) {
+                                    if (!lin.contains(marketToRemove)) {
+                                        linesToAdd.add(lin);
+                                    }
+                                }
+                                bfr.close();
+
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                File tempFile = new File("myTempFile.txt");
+                                BufferedWriter bfw = new BufferedWriter(new FileWriter(tempFile));
+
+                                for (int i = 0; i < linesToAdd.size(); i++) {
+                                    bfw.write(linesToAdd.get(i) + "\n");
+                                }
+                                bfw.flush();
+                                bfw.close();
+
+                                CustomerOptions.copyFileToFile(tempFile, markets);
+                                tempFile.delete();
+                            } catch (IOException exception) {
+                                exception.printStackTrace();
+                            }
+                            try {
+                                File f = new File("DeletedMarkets.txt");
+                                BufferedWriter bfw2 = new BufferedWriter(new FileWriter(f, true));
+                                bfw2.append("\n" + marketToRemove);
+                                bfw2.flush();
+                                bfw2.close();
+
+                                File customers = new File("Customers.txt");
+                                BufferedReader bfr = new BufferedReader(new FileReader(customers));
+                                String lin = "";
+                                ArrayList<String> customerArray = new ArrayList<>();
+                                while ((lin = bfr.readLine()) != null) {
+                                    customerArray.add(lin);
+                                }
+                                bfr.close();
+
+                                ArrayList<File> customerFileArray = new ArrayList<>();
+
+                                for (String s : customerArray) {
+                                    File customersFile = new File(s + "'s File.txt");
+                                    customerFileArray.add(customersFile);
+                                }
+
+                                for (File file :  customerFileArray) {
+                                    BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                                    ArrayList<String> linesInFile = new ArrayList<>();
+                                    while ((lin = bufferedReader.readLine()) != null) {
+                                        if (!lin.contains("," + marketToRemove + ",")) {
+                                            linesInFile.add(lin);
+                                        }
+                                    }
+                                    bufferedReader.close();
+
+                                    File tempFile = new File("myTempFile.txt");
+                                    BufferedWriter bfw = new BufferedWriter(new FileWriter(tempFile));
+
+                                    for (String s : linesInFile) {
+                                        bfw.write(s + "\n");
+                                    }
+
+                                    bfw.flush();
+                                    bfw.close();
+                                    linesInFile.clear();
+                                    CustomerOptions.copyFileToFile(tempFile , file);
+                                }
+                                File deletedFile = new File(marketToRemove + " Market.txt");
+                                deletedFile.delete();
+
+
+                            } catch (IOException exception) {
+                                exception.printStackTrace();
+                            }
+                        }
                     } else if (option.equals("10")) {
                         String info = "Option 1 - You can view what products are for sale in each market;" +
                                 "Option 2 - You can create, delete, or edit a product from a store;" +

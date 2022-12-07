@@ -566,30 +566,52 @@ public class CustomerOptions {
         tempFile.delete();
     }
 
-    public static void copyFileToFile(final File src, final File dest) throws IOException
-    {
-        copyInputStreamToFile(new FileInputStream(src), dest);
-        dest.setLastModified(src.lastModified());
-    }
+//    public static void copyFileToFile(final File src, final File dest) throws IOException
+//    {
+//        copyInputStreamToFile(new FileInputStream(src), dest);
+//        dest.setLastModified(src.lastModified());
+//    }
+//
+//    public static void copyInputStreamToFile(final InputStream in, final File dest) throws IOException {
+//        copyInputStreamToOutputStream(in, new FileOutputStream(dest));
+//    }
+//
+//
+//    public static void copyInputStreamToOutputStream(final InputStream in, final OutputStream out) throws IOException {
+//        try {
+//            try {
+//                final byte[] buffer = new byte[1024];
+//                int n;
+//                while ((n = in.read(buffer)) != -1)
+//                    out.write(buffer, 0, n);
+//            } finally {
+//                out.close();
+//            }
+//        } finally {
+//            in.close();
+//        }
+  public static void copyFileToFile(File src, File dest) {
+      try {
+          BufferedReader bfr = new BufferedReader(new FileReader(src));
+          String line;
+          ArrayList<String> lines = new ArrayList<>();
 
-    public static void copyInputStreamToFile(final InputStream in, final File dest) throws IOException {
-        copyInputStreamToOutputStream(in, new FileOutputStream(dest));
-    }
+          while ((line = bfr.readLine()) != null) {
+              lines.add(line);
+          }
+          bfr.close();
 
+          BufferedWriter bfw = new BufferedWriter(new FileWriter(dest));
 
-    public static void copyInputStreamToOutputStream(final InputStream in, final OutputStream out) throws IOException {
-        try {
-            try {
-                final byte[] buffer = new byte[1024];
-                int n;
-                while ((n = in.read(buffer)) != -1)
-                    out.write(buffer, 0, n);
-            } finally {
-                out.close();
-            }
-        } finally {
-            in.close();
-        }
-    }
+          for (String str : lines) {
+              bfw.write(str + "\n");
+          }
+          bfw.flush();
+          bfw.close();
+
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
 
 }
