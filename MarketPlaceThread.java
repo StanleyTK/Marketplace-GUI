@@ -488,13 +488,17 @@ public class MarketPlaceThread extends Thread {
 
                                 fileInfo.remove(0);
                                 fileInfo.remove(0);
-
+                                boolean isInfo = false;
                                 for (String str : fileInfo) {
                                     concat = concat + ";" + str;
+                                    isInfo = true;
                                 }
                                 System.out.println("2");
-
-                                concat = concat.substring(1);
+                                if (isInfo) {
+                                    concat = concat.substring(1);
+                                } else {
+                                    concat = "There are no items in this user's shopping cart.";
+                                }
                                 writer.println("Done!");
                                 writer.flush();
                                 writer.println(concat);

@@ -30,7 +30,7 @@ public class CustomerServer {
                 File f = new File(storeName + " Market.txt");
                 BufferedReader productReader = new BufferedReader(new FileReader(f));
                 line = productReader.readLine();
-                while (line != null) { //iterates through lines of files and adds them to string
+                while (!line.equals("")) { //iterates through lines of files and adds them to string
                     if (!line.contains("-----")) {
                         products.add(Server.getProduct(line));
                         line = productReader.readLine();

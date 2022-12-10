@@ -1,2 +1,3 @@
 Name: Rich
 User: Customer
+jacket,Costco,you wear it,10,39.99

@@ -124,12 +124,16 @@ public class SellerOptions {
                 try {
                     String deleteInfo = br.readLine();
                     String[] deleteInformation = deleteInfo.split(";");
+                    String[] deleteNames = new String[deleteInformation.length];
+                    for (int i = 0; i < deleteInformation.length; i++) {
+                        String[] productInfo = deleteInformation[i].split(",");
+                        deleteNames[i] = productInfo[0];
+                    }
                     String product = (String) JOptionPane.showInputDialog(null, "Which product would you like to delete? ", "Option",
-                            JOptionPane.PLAIN_MESSAGE, null, deleteInformation, null);
+                            JOptionPane.PLAIN_MESSAGE, null, deleteNames, null);
                     writer.println(product);
                     writer.flush();
-                    String[] productInfo = product.split(",");
-                    JOptionPane.showMessageDialog(null, productInfo[0] + " has been deleted in " + market, "MarketPlace", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, product + " has been deleted in " + market, "MarketPlace", JOptionPane.INFORMATION_MESSAGE);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -357,7 +361,12 @@ public class SellerOptions {
                 try {
                     if (br.readLine().equals("Done!")) {
                         DATA2 = br.readLine();
-                        CustomerOptions.showTable(DATA2);
+                        if (DATA2.equals("There are no items in this user's shopping cart.")) {
+                            JOptionPane.showMessageDialog(null, "There are no items in this user's shopping cart.",
+                                    "Marketplace - View Shopping Carts", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            CustomerOptions.showTable(DATA2);
+                        }
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
