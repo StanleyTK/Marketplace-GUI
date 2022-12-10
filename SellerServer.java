@@ -68,6 +68,11 @@ class ProductPurchases { // Class used in the viewSeller method
     public void setPurchaseNumber(int purchaseNumber) {
         this.purchaseNumber = purchaseNumber;
     }
+
+    public String getProductName() {
+        String[] productAttributes = product.split(",");
+        return productAttributes[0];
+    }
 }
 
 
@@ -365,8 +370,9 @@ public class SellerServer {
             br.close();
 
             for (CustomerPurchases currentCustomer : customerPurchases) {
+                String customerName = currentCustomer.getCustomer();
                 for (String[] currentPurchase : purchases) {
-                    if (currentCustomer.getCustomer().equals(currentPurchase[5])) {
+                    if (customerName.equals(currentPurchase[5])) {
                         ArrayList<String> currentCustomerPurchases = currentCustomer.getPurchases();
                         currentCustomerPurchases.add(currentPurchase[0]);
                         currentCustomer.setPurchases(currentCustomerPurchases);
@@ -375,10 +381,12 @@ public class SellerServer {
             } // Assigns each purchase in the store to a customer
 
             for (ProductPurchases currentProduct : productPurchases) {
+                String productName = currentProduct.getProductName();
                 for (String[] currentPurchase : purchases) {
-                    if (currentProduct.getProduct().equals(currentPurchase[0])) {
-                        int purchaseNumber = Integer.parseInt
-                                (currentProduct.getPurchaseNumber() + currentPurchase[3]);
+                    if (productName.equals(currentPurchase[0])) {
+                        int number = currentProduct.getPurchaseNumber();
+                        int purchaseNumber =
+                                number + Integer.parseInt(currentPurchase[3]);
                         currentProduct.setPurchaseNumber(purchaseNumber);
                     }
                 }
@@ -389,8 +397,10 @@ public class SellerServer {
             for (int i = 0; i < productPurchases.size(); i++) {
                 ProductPurchases currentProduct = productPurchases.get(i);
                 marketInformation = marketInformation + String.format("%d. ", i + 1);
-                marketInformation = marketInformation + String.format("%s: %d\n",
-                        currentProduct.getProduct(), currentProduct.getPurchaseNumber());
+                marketInformation = marketInformation + currentProduct.getProduct() + "\n";
+                marketInformation = marketInformation + String.format("This product has been purchased %d times.\n",
+                        currentProduct.getPurchaseNumber());
+                System.out.println(3);
                 totalMarketPurchases += currentProduct.getPurchaseNumber();
             } // Prints the list of products in the store and the amount of times they have been purchased
 
@@ -403,7 +413,7 @@ public class SellerServer {
                     marketInformation = marketInformation + String.format("%d. ", i + 1);
                     marketInformation = marketInformation + String.format("%s:\n", currentCustomer.getCustomer());
                     for (int j = 0; j < currentCustomer.getPurchases().size(); j++) {
-                        marketInformation = marketInformation + (currentCustomer.getPurchases().get(j));
+                        marketInformation = marketInformation + (currentCustomer.getPurchases().get(j) + "\n");
                     }
                 } // Prints the list of customers who have made purchases and their products
             }
@@ -412,6 +422,7 @@ public class SellerServer {
         }
         return marketInformation;
     }
+
 
 
     public static String customerShoppingCarts() {

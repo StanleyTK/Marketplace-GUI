@@ -1,7 +1,0 @@
-
---------
-stanleykim902
-richard
---------
-keyboard,Walmart,you type on it,26,49.99,stanleykim902
-keyboard,Walmart,you type on it,13,49.99,richard

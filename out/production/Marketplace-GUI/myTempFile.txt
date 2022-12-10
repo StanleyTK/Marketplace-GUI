@@ -1,3 +1,0 @@
-Name: Stan
-User: Customer
-book,barnes and nobles,100,1,12.99

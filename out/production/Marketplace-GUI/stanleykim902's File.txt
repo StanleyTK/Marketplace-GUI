@@ -1,4 +1,0 @@
-Name: Stan
-User: Customer
-book,barnes and nobles,100,1,12.99
-Apples,Farmer's Market,You eat it,1,12.99
