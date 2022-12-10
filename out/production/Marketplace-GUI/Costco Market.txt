@@ -1,8 +1,0 @@
-math,Costco,it sucks ass,5,1.99
-jacket,Costco,you wear it,39,39.99
---------
-stanleykim902
-rich
---------
-water,Costco,it's wet,1,19.99,stanleykim902
-math,Costco,it sucks ass,1,1.99,rich

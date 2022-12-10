@@ -419,17 +419,17 @@ public class CustomerServer {
             for (Product product : products) {
                 String market = product.getStore();
                 f = new File(market + " Market.txt");
-                FileOutputStream fos = new FileOutputStream(f, true);
-                pw = new PrintWriter(fos);
-                pw.println(product.toString() + "," + customer.getUsername());
-                double cost = product.getPrice() * product.getQuantity();
-                total += cost;
-                pw.close();
-                printer += String.format("Purchased %d %s for %.2f total\n",
-                        product.getQuantity(), product.getName(), cost);
                 bfr = new BufferedReader(new FileReader(f));
                 line = bfr.readLine();
                 String before = "";
+                while (line != "") {
+                    before += line + "\n";
+                    line = bfr.readLine();
+                }
+                bfr.close();
+                bfr = new BufferedReader(new FileReader(f));
+                line = bfr.readLine();
+                before = "";
                 boolean isCustomer = false;
                 while (!line.contains("------")) {
                     before += line + "\n";
@@ -455,6 +455,15 @@ public class CustomerServer {
                     line = bfr.readLine();
                 }
                 bfr.close();
+                FileOutputStream fos = new FileOutputStream(f);
+                pw = new PrintWriter(fos);
+                pw.print(before);
+                pw.println(product.toString() + "," + customer.getUsername());
+                double cost = product.getPrice() * product.getQuantity();
+                total += cost;
+                pw.close();
+                printer += String.format("Purchased %d %s for %.2f total\n",
+                        product.getQuantity(), product.getName(), cost);
                 pw = new PrintWriter(new FileOutputStream(f));
                 pw.print(before);
                 for (int i = 0; i < customers.size(); i++) {
@@ -465,7 +474,7 @@ public class CustomerServer {
             }
             printer += String.format("\nShopping cart purchased! Total cost: %.2f\n", total);
         } catch (IOException e) {
-            printer = "An unexpected error occurred while accessing files!" + e.getMessage();
+            printer = "An unexpected error occurred while accessing files!" + e.getMessage() + "\n";
         }
         return printer;
     }

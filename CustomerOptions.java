@@ -410,7 +410,7 @@ public class CustomerOptions {
         });
         panel.add(option7);
 
-        JButton option8 = new JButton("8. Remove Item to Shopping Cart");
+        JButton option8 = new JButton("8. Remove Item from Shopping Cart");
         option8.setBounds(260, 200, 230, 40);
         option8.addActionListener(ev -> {
             Thread t = new Thread(() -> {

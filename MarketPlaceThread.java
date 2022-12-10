@@ -610,7 +610,7 @@ public class MarketPlaceThread extends Thread {
                                         customerFileArray.add(customersFile);
                                     }
 
-                                    for (File fi :  customerFileArray) {
+                                    for (File fi : customerFileArray) {
                                         BufferedReader bufferedReader = new BufferedReader(new FileReader(fi));
                                         ArrayList<String> linesInFile = new ArrayList<>();
                                         while ((lin = bufferedReader.readLine()) != null) {
@@ -621,20 +621,15 @@ public class MarketPlaceThread extends Thread {
                                         bufferedReader.close();
 
                                         File tempFile = new File("myTempFile.txt");
-                                        BufferedWriter bfw = new BufferedWriter(new FileWriter(tempFile));
+                                        PrintWriter pw = new PrintWriter(new FileOutputStream(tempFile));
 
                                         for (String s : linesInFile) {
-                                            bfw.write(s + "\n");
+                                            pw.write(s + "\n");
                                         }
 
-                                        bfw.flush();
-                                        bfw.close();
-                                        linesInFile.clear();
-                                        MarketPlaceThread.copyFileToFile(tempFile , fi);
+                                        pw.close();
+                                        MarketPlaceThread.copyFileToFile(tempFile, fi);
                                     }
-                                    File deletedFile = new File(marketToRemove + " Market.txt");
-                                    deletedFile.delete();
-
 
                                 } catch (IOException exception) {
                                     exception.printStackTrace();
@@ -738,6 +733,7 @@ public class MarketPlaceThread extends Thread {
             for (String x : srcLines) {
                 pw.println(x);
             }
+            pw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

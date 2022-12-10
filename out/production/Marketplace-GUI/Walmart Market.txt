@@ -1,7 +1,5 @@
-
+orange,Walmart,you eat it,7,5.55
 --------
 stanleykim902
-richard
 --------
-keyboard,Walmart,you type on it,26,49.99,stanleykim902
-keyboard,Walmart,you type on it,13,49.99,richard
+orange,Walmart,you eat it,3,5.55,stanleykim902

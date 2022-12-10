@@ -54,7 +54,13 @@ class ProductPurchases { // Class used in the viewSeller method
     }
 
     public String getProduct() {
-        return product;
+        String[] toReturn = product.split(",");
+        return String.format("Name: %s, Description: %s, Quantity Available: %s, Price: %s", toReturn[0], toReturn[2], toReturn[3], toReturn[4]);
+    }
+
+    public String getProductName() {
+        String[] toReturn = product.split(",");
+        return toReturn[0];
     }
 
     public void setProduct(String product) {
@@ -67,11 +73,6 @@ class ProductPurchases { // Class used in the viewSeller method
 
     public void setPurchaseNumber(int purchaseNumber) {
         this.purchaseNumber = purchaseNumber;
-    }
-
-    public String getProductName() {
-        String[] productAttributes = product.split(",");
-        return productAttributes[0];
     }
 }
 
@@ -129,16 +130,6 @@ class PurchaseInformation { //Class used in the viewSales method.
         this.price = price;
     }
 }
-
-
-/**
- * A SellerServer class, returns information to the clients
- *
- * <p>Purdue University -- CS18000 -- Fall 2022 -- Project 5</p>
- *
- * @author Stanley Kim
- * @version December 7, 2022
- */
 
 public class SellerServer {
 
