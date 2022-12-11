@@ -17,6 +17,88 @@ Now need to navigate to the Seller menu and Customer menu, start coding from the
 Finished up the Server functions for login and create account, set up Customer Options
 TODO finish all functionalities for Customer Options ASAP
 
+# Class Descriptions:
+
+Server class - 
+Contains the main method for the Server part of the program, and has the ServerSocket.
+Fields: static final int PORT = 7777 (server port)
+Methods: main method (to start the server) getProduct (turns string into a product) getTextInfo (stores all lines in a .txt file into an arraylist)
+getUser (returns a user from a specific type of string).
+This class also contains the ClientHandler class which contains the public void run() method that is called when the server is started to help handle when Clients connect to the server.
+
+--------
+
+User class - 
+Base class for a user.
+Fields: private String customerName (stores the user's actual name) private String password (users password) private String username (stores the actual username of the user)
+Methods: getters and setters for fields, and a toString which simply converts the information into a string.
+
+File format for a user:
+file name: username + "'s File.txt"
+Name: customerName
+User: (Customer or Seller)
+The rest of the lines are the user's shopping cart
+
+--------
+
+Customer class extends User - 
+Base class for a customer.
+Fields - private ShoppingCart shoppingCart (users shopping cart) and all other fields specified in User.
+Methods - shoppingCart getters and setters, toString which converts the information into a string.
+
+--------
+
+Seller class extends User - 
+Base class for a seller.
+Fields - all fields specified in User.
+Methods - toString which converts the sellers info into a string.
+
+--------
+
+Product class - 
+Base template for a Product.
+Fields - private String name (product's name) private String store (product's specific market) private String description (product's description) private int quantity (how much of the product) private double price (product's price).
+Methods - getters and setters for all fields, toString which converts the product's information into a string.
+
+--------
+
+ShoppingCart class - 
+class that handles user's shopping carts.
+Fields - ArrayList<Product> cartItems (stores all user's cart items in to an arraylist).
+Methods - getter and setter for cartItems, toString which converts the shopping cart into a string.
+
+--------
+
+Login class - 
+
+--------
+
+Market class - 
+
+--------
+
+MarketPlaceThread class extends Thread - 
+
+--------
+
+CustomerOptions class - 
+
+--------
+
+CustomerServer class - 
+
+--------
+
+SellerOptions class - 
+
+--------
+
+SellerServer class - 
+
+--------
+
+Client classes - 
+
 
 ## Project 5 Handout:
 
