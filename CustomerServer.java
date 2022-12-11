@@ -418,18 +418,11 @@ public class CustomerServer {
             double total = 0;
             for (Product product : products) {
                 String market = product.getStore();
+                System.out.println(market);
                 f = new File(market + " Market.txt");
                 bfr = new BufferedReader(new FileReader(f));
                 line = bfr.readLine();
                 String before = "";
-                while (line != "") {
-                    before += line + "\n";
-                    line = bfr.readLine();
-                }
-                bfr.close();
-                bfr = new BufferedReader(new FileReader(f));
-                line = bfr.readLine();
-                before = "";
                 boolean isCustomer = false;
                 while (!line.contains("------")) {
                     before += line + "\n";
@@ -458,7 +451,6 @@ public class CustomerServer {
                 FileOutputStream fos = new FileOutputStream(f);
                 pw = new PrintWriter(fos);
                 pw.print(before);
-                pw.println(product.toString() + "," + customer.getUsername());
                 double cost = product.getPrice() * product.getQuantity();
                 total += cost;
                 pw.close();
@@ -470,6 +462,7 @@ public class CustomerServer {
                     pw.println(customers.get(i));
                 }
                 pw.println(after);
+                pw.println(product.toString() + "," + customer.getUsername());
                 pw.close();
             }
             printer += String.format("\nShopping cart purchased! Total cost: %.2f\n", total);

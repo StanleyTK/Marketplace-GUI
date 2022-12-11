@@ -567,6 +567,11 @@ public class MarketPlaceThread extends Thread {
                                         }
                                     }
                                     bfr.close();
+                                    PrintWriter pw = new PrintWriter(new FileOutputStream(markets));
+                                    for (int i = 0; i < linesToAdd.size(); i++) {
+                                        pw.println(linesToAdd.get(i));
+                                    }
+                                    pw.close();
 
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
