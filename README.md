@@ -4,6 +4,12 @@
 Hello, this is the Project 5, Option 3!!
 Authors: Stanley, Richard, Vid, Michael
 
+Vidyaratnam - Submitted report on Brightspace
+
+Stanley - Submitted presentation on Brightspace
+
+Richard - Submitted code on Vocareum
+
 # Instructions:
 
 First, you need to start the server. to do so, run the main method in the Server class. Then, go over to any of the clients and run one of the classes. You must first create an account to use the program. To start off, we recommend to create a seller account and add a market, so that you can add products in the market that you created. You can create a Customer account after the changes. The program will prompt you for input/give instructions. You can simply click on the buttons and the program will tell you what to do.
