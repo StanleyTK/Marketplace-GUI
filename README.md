@@ -17,6 +17,10 @@ Now need to navigate to the Seller menu and Customer menu, start coding from the
 Finished up the Server functions for login and create account, set up Customer Options
 TODO finish all functionalities for Customer Options ASAP
 
+# Instructions:
+
+First, you need to start the server. to do so, run the main method in the Server class. Then, go over to any of the clients and run one of the classes. You must first create an account to use the program. To start off, we recommend to create a seller account and add a market, so that you can add products in the market that you created. You can create a Customer account after the changes. The program will prompt you for input/give instructions. You can simply click on the buttons and the program will tell you what to do.
+
 # Class Descriptions:
 
 Server class - 
