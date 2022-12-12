@@ -291,7 +291,7 @@ public class CustomerServer {
             line = bfr.readLine();
         }
         bfr.close();
-        marketsFile = new File("Deleted Markets.txt");
+        marketsFile = new File("DeletedMarkets.txt");
         bfr = new BufferedReader(new FileReader(marketsFile));
         line = bfr.readLine();
         while (line != null) {

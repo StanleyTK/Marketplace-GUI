@@ -133,6 +133,7 @@ public class MarketPlaceThread extends Thread {
                             } catch (IOException e) {
                                 writer.println("Failed");
                                 writer.flush();
+                                e.printStackTrace();
                             }
                             break;
                         }
@@ -595,7 +596,7 @@ public class MarketPlaceThread extends Thread {
                                 try {
                                     File f = new File("DeletedMarkets.txt");
                                     BufferedWriter bfw2 = new BufferedWriter(new FileWriter(f, true));
-                                    bfw2.append("\n" + marketToRemove);
+                                    bfw2.append(marketToRemove + "\n");
                                     bfw2.flush();
                                     bfw2.close();
 
