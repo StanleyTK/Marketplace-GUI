@@ -1,8 +1,0 @@
-Pears,Testing,You eat it,40,11.99
-Oranges,Testing,You eat it,100,5.99
---------
-stanleykim902,richard
---------
-water bottle,Target,you drink on it,100,12.99,stanleykim902
-computer,Target,you use it,1,99.99,richard
-water bottle,Target,you drink on it,1,12.99,stanleykim902

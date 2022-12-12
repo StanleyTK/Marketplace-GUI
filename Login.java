@@ -189,7 +189,8 @@ public class Login {
                         SellerOptions.options(user, br, writer);
                     }
                 } else {
-                    System.out.println("you scuk and you cant dot eh prject cuz ur stupdi");
+                    System.out.println("TAs please give us 100s we put a lot of effort into this project");
+
                 }
             });
             panel2.add(createAccount2);

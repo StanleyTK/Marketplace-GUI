@@ -130,7 +130,7 @@ public class SellerOptions {
                         deleteNames[i] = productInfo[0];
                     }
                     String product = (String) JOptionPane.showInputDialog(null, "Which product would you like to delete? ", "Option",
-                            JOptionPane.PLAIN_MESSAGE, null, deleteNames, null);
+                            JOptionPane.PLAIN_MESSAGE, null, deleteInformation, null);
                     writer.println(product);
                     writer.flush();
                     JOptionPane.showMessageDialog(null, product + " has been deleted in " + market, "MarketPlace", JOptionPane.INFORMATION_MESSAGE);
@@ -353,7 +353,6 @@ public class SellerOptions {
                 writer.println("Customer Selected");
                 writer.flush();
                 String selectedItem = (String) cb.getSelectedItem();
-                System.out.println(selectedItem);
                 writer.println(selectedItem);
                 writer.flush();
                 String DATA2 = "";
@@ -562,7 +561,7 @@ public class SellerOptions {
             try {
                 line = br.readLine();
             } catch (IOException e) {
-                System.out.println("There was an error");
+                e.printStackTrace();
             }
 
 

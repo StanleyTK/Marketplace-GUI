@@ -1,4 +1,0 @@
-Banana,Farmer's Market,you eat it,30,3.99
-Apples,Farmer's Market,You eat it,30,12.99
---------
---------

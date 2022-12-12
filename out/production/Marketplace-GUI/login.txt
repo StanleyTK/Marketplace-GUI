@@ -1,10 +1,4 @@
-stanleykim902;stanley;Stan
-vid123;vid;Vid
 
-Mickey;mick;michael
+testaccount3;testing;TA
 
-a;b;c
-
-richard;richard;Rich
-
-rich;rich;rich
+customer5;testing;Tester

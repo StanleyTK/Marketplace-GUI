@@ -1,3 +1,0 @@
-Name: stanleykim902
-User: Customer
-Pears,Testing,You eat it,5,11.99

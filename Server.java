@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 public class Server {
-    static final int PORT = 7777;
+    static final int PORT = 7776;
 
     public static void main(String[] args) {
 

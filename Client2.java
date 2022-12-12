@@ -16,7 +16,7 @@ import java.net.*;
  */
 
 public class Client2 {
-    final static int PORT = 7777;
+    final static int PORT = 7776;
 
 
     public static void main(String[] args) {

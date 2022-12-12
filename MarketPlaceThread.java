@@ -477,15 +477,12 @@ public class MarketPlaceThread extends Thread {
                             if (br.readLine().equals("Customer Selected")) {
                                 selectedCustomer = br.readLine();
 
-                                System.out.println(selectedCustomer);
 
                                 File selectedCustomerFile = new File(selectedCustomer + "'s File.txt");
-                                System.out.println("u at least getting to here?");
 
                                 ArrayList<String> fileInfo = Server.getTextInfo(selectedCustomerFile);
                                 String concat = "";
 
-                                System.out.println("1");
 
                                 fileInfo.remove(0);
                                 fileInfo.remove(0);
@@ -494,7 +491,6 @@ public class MarketPlaceThread extends Thread {
                                     concat = concat + ";" + str;
                                     isInfo = true;
                                 }
-                                System.out.println("2");
                                 if (isInfo) {
                                     concat = concat.substring(1);
                                 } else {
@@ -510,8 +506,11 @@ public class MarketPlaceThread extends Thread {
                         // Creates a new market
                         case "8": {
                             String market = br.readLine();
-                            ArrayList<String> lines = Server.getTextInfo(new File("Markets.txt"));
+                            File f = new File("Markets.txt");
+                            FileOutputStream creatingNewFileYolo = new FileOutputStream(f);
+                            ArrayList<String> lines = Server.getTextInfo(f);
                             boolean bol = true;
+
                             for (String x : lines) {
                                 if (x.equals(market)) {
                                     writer.println("Market already exists");
@@ -519,21 +518,25 @@ public class MarketPlaceThread extends Thread {
                                     bol = false;
                                 }
                             }
+
                             if (bol) {
                                 try {
-                                    PrintWriter pw = new PrintWriter(new FileWriter("Markets.txt", true));
+                                    PrintWriter pw = new PrintWriter(new FileWriter(f, true));
                                     pw.println(market);
                                     pw.flush();
                                     pw.close();
                                     FileWriter fw = new FileWriter(market + " Market.txt");
                                     pw = new PrintWriter(market + " Market.txt");
+
                                     pw.println("--------");
                                     pw.println("--------");
                                     fw.write("");
                                     fw.flush();
                                     pw.close();
+
                                     writer.println("Success");
                                     writer.flush();
+
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                     writer.println("Fail");
