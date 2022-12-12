@@ -1,2 +1,0 @@
-Name: Tester
-User: Customer

@@ -1,3 +1,4 @@
+Oranges,Test,You eat it,98,5.99
 --------
 customer5
 --------
