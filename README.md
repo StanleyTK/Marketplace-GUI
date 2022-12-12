@@ -8,7 +8,7 @@ Vidyaratnam - Submitted report on Brightspace
 
 Stanley - Submitted presentation on Brightspace
 
-Richard - Submitted code on Vocareum
+Michael - Submitted code on Vocareum
 
 # Instructions:
 
